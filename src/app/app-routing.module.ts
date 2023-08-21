@@ -1,7 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
 
-const routes: Routes = [];
+
+//cliente components, gerar depois rotas em cada modulo para ficar mais limpo
+import { DepositaComponent } from './cliente/deposita/deposita.component';
+
+const routes: Routes = [
+  {path: '', pathMatch: 'full', component: AppComponent },
+  {path: 'depositar', pathMatch: 'full', component: DepositaComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

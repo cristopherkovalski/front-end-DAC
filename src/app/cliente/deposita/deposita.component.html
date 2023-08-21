@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h4>Depositar - Conta: {{conta.id}}</h4>
+    </div>
+
+    <div>
+        <h4>Saldo:
+            <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
+        </h4>
+    </div>
+
+    <div>
+        <form #formDepositar="ngForm">
+          <div>
+            <label for="valor">Valor:</label>
+            <input type="text" id="valor" name="valor" CurrencyMask required [(ngModel)]="valorDeposito" />
+          </div>
+          <div >
+            <button type="button"  style="margin-right: 10px" (click)="depositar()"
+              [disabled]="!formDepositar.form.valid">
+            Confirmar
+            </button>
+            <a [routerLink]="['']">
+              Voltar
+            </a>
+          </div>
+        </form>
+      </div>
+
+</body>
+</html>
