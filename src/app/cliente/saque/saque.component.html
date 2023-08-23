@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saque</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div>
+      <h4 class="box-title">Saque</h4>
+      <h4> Número da Conta: {{conta.id}}</h4>
+    </div>
+    <div>
+      <h4>Saldo:
+        <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
+      </h4>
+    </div>
+
+    <div>
+      <form #formSacar="ngForm">
+        <div>
+          <label for="valor">Valor:</label>
+          <input name="valor" currencyMask [(ngModel)]="valorSaque"
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" />
+        </div>
+        <div>
+          <button class="btn-confirm" type="button" style="margin-right: 10px" (click)="sacar()" [disabled]="!formSacar.form.valid">
+            Confirmar
+          </button>
+          <button class="btn-back" type="button"><a [routerLink]="['']">
+            Voltar
+          </a>
+        </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>
