@@ -6,17 +6,20 @@ import { RouterModule } from '@angular/router';
 // import { CurrencyMaskDirective } from '../shared/directives/currency-mask.directive';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
 
-import { CurrencyMaskModule } from "ng2-currency-mask";
+import {CurrencyMaskModule } from "ng2-currency-mask";
 
 import { DepositaComponent } from './deposita/deposita.component';
 import { SaqueComponent } from './saque/saque.component';
+import { TransfComponent } from './transf/transf.component';
 
 
 @NgModule({
   declarations: [
     DepositaComponent,
     NumericoDirective,
-    SaqueComponent
+    SaqueComponent,
+  
+    TransfComponent
   ],
   imports: [
     CommonModule,
