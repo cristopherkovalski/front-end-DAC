@@ -13,7 +13,7 @@ export class DepositaComponent implements OnInit {
 
   cliente!: any;
   conta!: any;
-  public valorDeposito!: string;
+  public valorDeposito!: number;
 
   constructor(
     private clienteService: ClienteService
@@ -25,12 +25,9 @@ export class DepositaComponent implements OnInit {
   }
 
   depositar(): void {
-
-    let value = this.convertValue(this.valorDeposito);
-    console.log(value)
     
-    /*if ((this.formDepositar.form.valid) && ( value > 0)) {
-      if(this.clienteService.depositar(value)){
+    if ((this.formDepositar.form.valid) && (this.valorDeposito > 0)) {
+      if(this.clienteService.depositar(this.valorDeposito)){
         alert('Desposito realizado com succeso!');
 
         //pegando  a conta att só para visualizar
@@ -43,23 +40,24 @@ export class DepositaComponent implements OnInit {
       }
 
       
-    } */
+    }
   };
 
-  convertValue(value:string){
-    console.log(value)
-    // Remove o símbolo de moeda e espaços em branco
-    let numericValueString = value.replace(/[^\d,.-]/g, '');
+  // convertValue(value:string){
+  //   console.log(value)
+  //   console.log(typeof value);
+  //   // Remove o símbolo de moeda e espaços em branco
+  //   let numericValueString = value.replace(/[^\d,.-]/g, '');
 
-    // Substitui a vírgula por ponto para formatar como float
-    let numericValueFloat = parseFloat(numericValueString.replace(',', '.'));
+  //   // Substitui a vírgula por ponto para formatar como float
+  //   let numericValueFloat = parseFloat(numericValueString.replace(',', '.'));
 
-    console.log(numericValueFloat); // Saída: 1.23
-    return numericValueFloat
+  //   console.log(numericValueFloat); // Saída: 1.23
+  //   return numericValueFloat
 
-    //console.log(parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.')))
-   // return parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.'));
-  }
+  //   //console.log(parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.')))
+  //  // return parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.'));
+  // }
 
 
 }

@@ -20,7 +20,7 @@
         <form #formDepositar="ngForm">
           <div>
             <label for="valor">Valor:</label>
-            <input type="text" id="valor" name="valor" CurrencyMask required [(ngModel)]="valorDeposito" />
+            <input type="text" id="valor" name="valor" currencyMask  required [(ngModel)]="valorDeposito" />
           </div>
           <div >
             <button type="button"  style="margin-right: 10px" (click)="depositar()"
