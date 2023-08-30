@@ -1,1 +1,19 @@
+<nav>
+    <div *ngIf="usuarioLogado">
+        <div *ngIf="usuarioLogado.type==='ADMIN'">
+
+        </div>
+        <div *ngIf="usuarioLogado.type==='CLIENTE'">
+
+        </div>
+        <div *ngIf="usuarioLogado.type==='GERENTE'">
+        </div>
+        <div>
+            <p>
+                Olá {{usuarioLogado.nome}}   <a href="#" (click)="logout()">Logout</a>
+            </p>
+        </div>        
+    </div>
+</nav>
+
 <router-outlet></router-outlet>

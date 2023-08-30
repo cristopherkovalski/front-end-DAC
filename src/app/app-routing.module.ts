@@ -8,11 +8,16 @@ import { DepositaComponent } from './cliente/deposita/deposita.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
 import { TransfComponent } from './cliente/transf/transf.component';
 
+import { LoginComponent } from './auth/login/login.component';
+import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.component';
+
 const routes: Routes = [
-  {path: '', pathMatch: 'full', component: AppComponent },
+  {path: '', pathMatch: 'full', component: LoginComponent },
+  {path: 'login', pathMatch:'full', component :LoginComponent},
   {path: 'depositar', pathMatch: 'full', component: DepositaComponent },
   {path: 'sacar', pathMatch: 'full', component: SaqueComponent },
   {path: 'transf', pathMatch: 'full', component: TransfComponent },
+  {path: 'home-cliente', pathMatch:'full', component:HomeClienteComponent}
 ];
 
 @NgModule({

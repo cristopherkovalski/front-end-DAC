@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Observable, of } from 'rxjs';
+
+const LS_CHAVE: string = "ususarioLogado";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
   
-  cliente: { nome: string; salario: number; };
+  cliente: { nome: string; salario: number;  email: string, senha: string};
   gerente: {};
   movimentacao: any[] = [];
 
   conta: { id: number; cliente: { nome: string; salario: number; }; gerente: {}; movimentacao: any[]; saldo: number; limite: number; };
 
-  cliente1: { nome: string; salario: number; };
+  cliente1: { nome: string; salario: number; email: string, senha: string };
   gerente1: {};
   movimentacao1: any[] = [];
 
@@ -25,12 +29,11 @@ export class ClienteService {
       return true;
 
     }
-    
     return false;
   }
 
   constructor() {
-    this.cliente = { nome: 'cleitin', salario: 2000 };
+    this.cliente = { nome: 'cleitin', salario: 2000, email: 'cliente@cliente.com', senha: '1234' };
     this.gerente = {};
     this.movimentacao = [];
     this.conta = {
@@ -42,7 +45,7 @@ export class ClienteService {
       limite: 1000
     };
   
-    this.cliente1 = { nome: 'outronom', salario: 2500 };
+    this.cliente1 = { nome: 'outronom', salario: 2500, email: 'cliente2@cliente.com', senha: '1234' };
     this.gerente1 = {};
     this.movimentacao1 = [];
     this.conta1 = {
@@ -54,15 +57,36 @@ export class ClienteService {
       limite: 2000
     };
   }
+
+
+  public clienteLogado(): any {
+    let clienteLogado = localStorage[LS_CHAVE];
+    return clienteLogado ? JSON.parse(clienteLogado) : null;
+  }
   
 
-  depositar(valor: number) {
+  public buscarContaPorClienteId(id:number):Observable<any>{
+    //faz a requisição e volta uma conta por hora só volta o json
+    return of(this.conta);
+  }
+
+  depositar(valor: number, id_cliente:number):Observable<any> {
+    var status:boolean = false;
     if (valor > 0) {
-      this.conta.saldo += valor;
-      this.registrarTransacao('DEPOSITO', valor, undefined, this.conta);
-      return true;
+      
+      this.buscarContaPorClienteId(id_cliente).subscribe(
+        conta =>{
+          if (conta != null){
+            conta.saldo += valor;
+
+            this.registrarTransacao('DEPOSITO', valor, undefined, conta);  //isso aqui não vai mais existir é pra fazer no back spring
+            
+            status = true;
+          }
+        });
     }
-    return false;
+
+    return of(status);
   }
 
   tranfere(valor: number) {

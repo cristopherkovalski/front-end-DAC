@@ -11,6 +11,7 @@ import {CurrencyMaskModule } from "ng2-currency-mask";
 import { DepositaComponent } from './deposita/deposita.component';
 import { SaqueComponent } from './saque/saque.component';
 import { TransfComponent } from './transf/transf.component';
+import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 
 
 @NgModule({
@@ -18,8 +19,8 @@ import { TransfComponent } from './transf/transf.component';
     DepositaComponent,
     NumericoDirective,
     SaqueComponent,
-  
-    TransfComponent
+    TransfComponent,
+    HomeClienteComponent
   ],
   imports: [
     CommonModule,
