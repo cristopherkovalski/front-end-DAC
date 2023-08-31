@@ -7,13 +7,14 @@ import { AppComponent } from './app.component';
 import { DepositaComponent } from './cliente/deposita/deposita.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
 import { TransfComponent } from './cliente/transf/transf.component';
-
+import { CadastroComponent } from './cliente/cadastro/cadastro.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
   {path: 'login', pathMatch:'full', component :LoginComponent},
+  {path: 'registrar', pathMatch: 'full', component: CadastroComponent },
   {path: 'depositar', pathMatch: 'full', component: DepositaComponent },
   {path: 'sacar', pathMatch: 'full', component: SaqueComponent },
   {path: 'transf', pathMatch: 'full', component: TransfComponent },
