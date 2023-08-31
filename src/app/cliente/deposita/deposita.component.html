@@ -6,15 +6,30 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <h4>Depositar - Conta: {{conta.id}}</h4>
-    </div>
-
-    <div>
-        <h4>Saldo:
-            <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
-        </h4>
-    </div>
+  <div>
+    <h4>Depositar - Conta: {{conta.id}}</h4>
+  </div>
+  
+  <div>
+    <h4>Saldo:
+      <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
+    </h4>
+  </div>
+  
+  <div>
+    <form #formDepositar="ngForm">
+      <!-- Seu formulário de depósito -->
+    </form>
+  </div>
+  
+  <div>
+    <h3>Transações:</h3>
+    <ul>
+      <li *ngFor="let transacao of conta.movimentacao">
+        {{ transacao.dataHora | date: 'dd/MM/yyyy HH:mm:ss' }} - Tipo: {{ transacao.type }} - Valor: {{ transacao.value | currency: "BRL" }}
+      </li>
+    </ul>
+  </div>
 
     <div>
         <form #formDepositar="ngForm">

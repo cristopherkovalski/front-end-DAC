@@ -101,10 +101,9 @@ export class ClienteService {
   }
 
 
-  // registra uma transação duvidosa
   registrarTransacao(tipo: string, valor: number, contaOrigem?: any, contaDestino?: any) {
     const transacao = {
-      date: new Date(),
+      dataHora: new Date(), // Adicione esta linha para incluir a data e hora atual
       type: tipo,
       value: valor,
       origin: contaOrigem,
@@ -113,6 +112,7 @@ export class ClienteService {
   
     this.movimentacao.push(transacao);
   }
+  
   
   
 
