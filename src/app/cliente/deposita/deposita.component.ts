@@ -18,48 +18,57 @@ export class DepositaComponent implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
-    private router:Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.cliente = this.clienteService.clienteLogado();
     this.clienteService.buscarContaPorClienteId(this.cliente.id).subscribe(
-      conta =>{
-        if(conta)
+      conta => {
+        if (conta) {
           this.conta = conta; 
-        else{
+        } else {
           alert("Cliente Sem conta, por favor entre em contato");
           this.router.navigate(["/home-cliente"])
         }
-          
-          
       }
     );
     console.log(this.conta);
-    // this.conta = this.clienteService.getConta();
   }
 
-  depositar(): void {
-    
-    if ((this.formDepositar.form.valid) && (this.valorDeposito > 0)) {
-      this.clienteService.depositar(this.valorDeposito, this.cliente.id).subscribe(
-        (status:boolean) =>{
+ // ...
+depositar(): void {
+  if ((this.formDepositar.form.valid) && (this.valorDeposito > 0)) {
+    this.clienteService.depositar(this.valorDeposito, this.cliente.id).subscribe(
+      (status: boolean) => {
+        alert(status ? 'Depósito realizado com sucesso!' : 'Algo deu errado no depósito, tente novamente em alguns instantes!');
 
-          alert( status ? 'Desposito realizado com succeso!':'Algo deu errado no deposito tente mais novamente em alguns instantes!');
+        if (status) {
+          const transacao = {
+            valor: this.valorDeposito,
+            origem: this.conta.id,
+            destino: null,
+            dataHora: new Date().toISOString() // Hora atual em formato ISO
+          };
 
-          // só para att na tela a conta
-          this.clienteService.buscarContaPorClienteId(this.cliente.id).subscribe(
-            conta =>{
-              if(conta)
-                this.conta = conta; 
-              else
-                alert("Cliente Sem conta, por favor entre em contato");
-            }
-          );
-          console.log(this.conta)
+          // Chame a função para registrar a transação
+          this.registrarTransacao(transacao);
+
+          // Restante do código...
         }
-      )
-      
-    }
-  };
+      }
+    );
+  }
+}
+
+registrarTransacao(transacao: any): void {
+  this.clienteService.registrarTransacao(
+    'DEPOSITO', // Tipo da transação
+    transacao.valor,
+    this.conta.id, // Conta de origem
+    null // Não há conta de destino para depósito
+  );
+}
+// ...
+
 }
