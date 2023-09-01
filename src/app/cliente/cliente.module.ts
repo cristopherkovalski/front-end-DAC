@@ -15,6 +15,7 @@ import { TransfComponent } from './transf/transf.component';
 import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { AlteraPerfilComponent } from './altera-perfil/altera-perfil.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -38,6 +39,7 @@ import { AlteraPerfilComponent } from './altera-perfil/altera-perfil.component';
     FormsModule,
     RouterModule,
     CurrencyMaskModule,
+    HttpClientModule
   ]
 })
 export class ClienteModule { }

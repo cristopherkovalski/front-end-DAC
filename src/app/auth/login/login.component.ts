@@ -6,6 +6,7 @@ import { LoginService } from '../services/login.service';
 import { Login } from 'src/app/shared/models/login.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Usuario } from 'src/app/shared/models/usuario.model';
 
 @Component({
   selector: 'app-login',
@@ -41,11 +42,9 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  login() {
-    // Aqui você pode adicionar a lógica para autenticar o usuário com o e-mail e senha fornecidos.
-    // Por enquanto, apenas faremos um log no console com os valores inseridos.
+  login(){
     if(this.formLogin.form.valid){
-      this.loginService.login(this.auth).subscribe((user) =>{
+      this.loginService.logar(this.auth).subscribe((user) =>{
         if(user){
           this.loginService.usuarioLogado = user;
           if(user.type == "CLIENTE"){
@@ -61,6 +60,5 @@ export class LoginComponent implements OnInit {
 
       })
     }
-   
   }
 }

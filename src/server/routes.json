@@ -1,0 +1,3 @@
+{
+    "/contas/:id/movimentacoes": "/movimentacoes?conta_id=:id"
+}
