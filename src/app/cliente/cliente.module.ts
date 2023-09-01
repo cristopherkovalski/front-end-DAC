@@ -14,6 +14,7 @@ import { SaqueComponent } from './saque/saque.component';
 import { TransfComponent } from './transf/transf.component';
 import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
+import { AlteraPerfilComponent } from './altera-perfil/altera-perfil.component';
 
 
 
@@ -28,7 +29,8 @@ import { CadastroComponent } from './cadastro/cadastro.component';
     CadastroComponent,
     CpfFormatDirective,
     TelefoneFormatDirective,
-    CepFormatDirective
+    CepFormatDirective,
+    AlteraPerfilComponent
 
   ],
   imports: [
