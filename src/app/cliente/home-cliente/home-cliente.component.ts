@@ -14,4 +14,11 @@ export class HomeClienteComponent {
   constructor(private router: Router,private loginService: LoginService){
   }
 
+
+  userLogado(){
+    console.log(this.loginService.usuarioLogado instanceof Usuario)
+    console.log(this.loginService.usuarioLogado)
+    
+  }
+
 }
