@@ -10,11 +10,13 @@ import { TransfComponent } from './cliente/transf/transf.component';
 import { CadastroComponent } from './cliente/cadastro/cadastro.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.component';
+import { AlteraPerfilComponent } from './cliente/altera-perfil/altera-perfil.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
   {path: 'login', pathMatch:'full', component :LoginComponent},
   {path: 'registrar', pathMatch: 'full', component: CadastroComponent },
+  {path: 'alterarperfil', pathMatch: 'full', component: AlteraPerfilComponent },
   {path: 'depositar', pathMatch: 'full', component: DepositaComponent },
   {path: 'sacar', pathMatch: 'full', component: SaqueComponent },
   {path: 'transf', pathMatch: 'full', component: TransfComponent },
