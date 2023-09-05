@@ -128,5 +128,79 @@
       "senha": "1234",
       "type": "CLIENTE"
     }
+  ],
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "cleitin",
+      "email": "cliente@cliente.com",
+      "cpf": "72726892183",
+      "endereco": {
+        "tipo": "Avenida",
+        "logradouro": "Principal",
+        "numero": "1234",
+        "complemento": "casebre",
+        "cep": "81280340",
+        "cidade": "Cidade c",
+        "estado": "Parana"
+      },
+      "telefone": "51222222222",
+      "salario": 4500,
+      "situacao": "APROVADO"
+    },
+    {
+      "id": 2,
+      "nome": "joao",
+      "email": "cliente2@cliente.com",
+      "cpf": "03214864807",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Secundaria",
+        "numero": "450",
+        "complemento": "casa",
+        "cep": "82280380",
+        "cidade": "Cidade B",
+        "estado": "Parana"
+      },
+      "telefone": "41999123456",
+      "salario": 3000,
+      "situacao": "APROVADO"
+    },
+    {
+      "id": 3,
+      "nome": "teste",
+      "email": "teste@gmail.com",
+      "cpf": "09161477974",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Frederico Carlos Bobbins",
+        "numero": "111",
+        "complemento": "casa",
+        "cep": "81240530",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444444",
+      "salario": 5000,
+      "situacao": "PENDENTE"
+    },
+    {
+      "id": 4,
+      "nome": "teste2",
+      "email": "teste2@gmail.com",
+      "cpf": "38185469598",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Lello Marchine",
+        "numero": "500",
+        "complemento": "prédio",
+        "cep": "81240420",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444444",
+      "salario": 50000,
+      "situacao": "PENDENTE"
+    }
   ]
 }

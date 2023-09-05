@@ -4,10 +4,13 @@ import { Endereco } from 'src/app/shared/models/endereco.model';
 import { Observable, of, map, catchError, throwError, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cliente } from 'src/app/shared/models/cliente.model';
+import { LoginService } from 'src/app/auth/services/login.service';
 
 const LS_CHAVE: string = "ususarioLogado";
 
 const url_conta = "http://localhost:3000/contas/";
+
+const apiUrl = "http://localhost:3000/clientes"
 
 const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
 
@@ -15,7 +18,6 @@ const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
   providedIn: 'root'
 })
 export class ClienteService {
-  private apiUrl = 'URL';
   cliente: { nome: string; salario: number;  email: string, senha: string};
   gerente: {};
   movimentacao: any[] = [];
@@ -36,17 +38,8 @@ export class ClienteService {
     })
   }
 
-  saque(valor: number): boolean {
-    if (valor > 0) {
-      this.conta.saldo -= valor;
-      this.registrarTransacao('SAQUE', valor, undefined, this.conta);
-      return true;
-
-    }
-    return false;
-  }
-
-  constructor(private http: HttpClient) {
+  
+  constructor(private http: HttpClient, private loginService: LoginService) {
     this.cliente = { nome: 'cleitin', salario: 2000, email: 'cliente@cliente.com', senha: '1234' };
     this.gerente = {};
     this.movimentacao = [];
@@ -70,7 +63,7 @@ export class ClienteService {
       saldo: 10,
       limite: 2000
     };
-    this.cliente2 = new Cliente(1, "Teste", "testegmail.com", "09161477974", new Endereco("rua", "do saci", "300", "casa", "81240510", "curitiba", "Paraná"), "4232458124", 3000);
+    //this.cliente2 = new Cliente(1, "Teste", "testegmail.com", "09161477974", new Endereco("rua", "do saci", "300", "casa", "81240510", "curitiba", "Paraná"), "4232458124", 3000);
     
   }
 
@@ -79,24 +72,28 @@ export class ClienteService {
     let clienteLogado = localStorage[LS_CHAVE];
     return clienteLogado ? JSON.parse(clienteLogado) : null;
   }
+
+  public getUsuarioLogado(): Usuario {
+      console.log(this.loginService.usuarioLogado)
+      let user = this.loginService.usuarioLogado;
+      return user;
+  }
   
   
-  public buscarCliente(id: number): Observable<Cliente> {
-   /* teste if (this.cliente2.id === id) {
-      return this.cliente2;
-    } else {
-      return null; 
-    }*/ 
-  const url = `${this.apiUrl}/clientes/${id}`; 
+  public buscarCliente(id: number | undefined): Observable<Cliente> {
+  const url = `${apiUrl}/${id}`; 
     return this.http.get<Cliente>(url);
   }
 
   
 
-  public atualizarCliente(cliente: Cliente): Observable<Cliente>{
-   // teste this.cliente2 = cliente;
-   const url = `${this.apiUrl}/clientes/${cliente.id}`; 
-    return this.http.put<Cliente>(url, cliente);
+  public atualizarCliente(cliente: Cliente): Observable<string> {
+    const url = `${apiUrl}/${cliente.id}`; 
+    return this.http.patch<Cliente>(url, cliente)
+      .pipe(
+        map(() => 'Cliente atualizado com sucesso'), 
+        catchError(() => 'Erro ao atualizar o cliente') 
+      );
   }
 
   public buscarContaPorClienteId(id:number):Observable<any>{
@@ -117,6 +114,29 @@ export class ClienteService {
         })
       );
   }
+
+  sacar(valor: number, conta:any):Observable<any> {
+    if (valor > 0) {
+      const data = {
+        saldo: conta.saldo + valor
+      }
+
+      return this.http.patch<any>(url_conta + conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
+              .pipe(
+                  tap((response) => {
+                    this.registrarTransacaoJson('SAQUE', valor, conta.id).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
+                  }),
+                  catchError((error) => {
+                    return throwError(() => new Error('Falha ao sacar. Por favor, tente novamente mais tarde.'));
+                  })
+      );
+
+    }else{
+      return of(null);
+    }
+  }
+
+
 
   depositar(valor: number, conta:any):Observable<any> {
     //essa logica vai mudar tbm, só vai fazer o deposito no back, aqui só trata o valor e pronto

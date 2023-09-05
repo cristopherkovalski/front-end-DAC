@@ -9,6 +9,10 @@ export class CepFormatDirective {
   @HostListener('input', ['$event'])
   onInputChange(event: any) {
     const input = event.target.value;
+    this.formatCep(input);
+  }
+
+  formatCep(input:any){
     let numbersOnly = input.replace(/\D/g, '');
     const maxDigits = 8; // Máximo de dígitos permitidos para um CEP
 

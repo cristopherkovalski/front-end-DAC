@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cliente } from 'src/app/shared/models/cliente.model';
-import { Observable } from 'rxjs';
+import { Observable, map, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CadastroService {
-  private apiUrl = "http:caminho/"
+  private apiUrl = "http://localhost:3000/clientes"
 
-  private cpfAlready = "09161477974"
-
-  clientes: Array<Cliente> = [];
-
+ 
   constructor(private http: HttpClient) { }
 
-  insereCliente(cliente: Cliente)/*: Observable<any> */ {
-    this.clientes.push(cliente);
-    /*return this.http.post(`${this.apiUrl}/insereCliente`, cliente);*/
+  insereCliente(cliente: Cliente): Observable<any>  {
+    return this.http.post(this.apiUrl, cliente).pipe(
+      catchError((error) => {
+        // Aqui você pode tratar o erro da forma que desejar
+        console.error('Ocorreu um erro na solicitação HTTP:', error);
+        return throwError(error); // Reenvia o erro para quem chamou a função
+      })
+    );
   }
 
   isValidCPF(cpf: string): boolean {
@@ -49,15 +52,9 @@ export class CadastroService {
   }
 
   checkCpf(cpf: string): Observable<boolean> {
-    /*return new Observable<boolean>((observer) => {
-      if (cpf === this.cpfAlready) {
-        observer.next(true);
-      } else {
-        observer.next(false);
-      }
-      observer.complete();
-    });*/
-    return this.http.post<boolean>(`${this.apiUrl}/checkcpf`, { cpf });
+    return this.http.get<any[]>(`${this.apiUrl}?cpf=${cpf}`).pipe(
+      map(clientes => clientes.length > 0) 
+    );
   }
 
 }

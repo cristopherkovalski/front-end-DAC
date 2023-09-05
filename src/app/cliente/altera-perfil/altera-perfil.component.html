@@ -56,7 +56,7 @@
             <input type="text" id="salario" currencyMask name="salario" [(ngModel)]="cliente.salario"
                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required>
             <br>
-            <button type="submit" [disabled]="!formCadastrar.valid">Cadastrar</button>
+            <button type="submit" [disabled]="!formCadastrar.valid">Alterar perfil</button>
             <button routerLink="/">Voltar para a Home</button>
         </form>
         <p>{{ mensagem }}</p>

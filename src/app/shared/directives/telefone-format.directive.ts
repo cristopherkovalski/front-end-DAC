@@ -4,13 +4,17 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[appTelefoneFormat]'
 })
 export class TelefoneFormatDirective {
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   @HostListener('input', ['$event'])
   onInputChange(event: any) {
     const input = event.target.value;
-    let numbersOnly = input.replace(/\D/g, ''); 
-    const maxDigits = 11; 
+    this.formatPhone(input);
+
+  }
+  formatPhone(input:any) {
+    let numbersOnly = input.replace(/\D/g, '');
+    const maxDigits = 11;
 
     if (numbersOnly.length > maxDigits) {
       numbersOnly = numbersOnly.slice(0, maxDigits);

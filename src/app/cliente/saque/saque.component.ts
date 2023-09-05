@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ClienteService } from '../services/cliente.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-saque',
@@ -14,26 +14,37 @@ export class SaqueComponent implements OnInit {
 
   cliente!: any;
   conta!: any;
-  public valorSaque!: string;
+  public valorSaque!: number;
 
   constructor(
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.cliente = this.clienteService.getCliente();
-    this.conta = this.clienteService.getConta();
+    this.cliente = this.clienteService.clienteLogado();
+    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+      conta => {
+        if (conta) {
+          this.conta = conta;
+        } else {
+          alert("Cliente Sem conta, por favor entre em contato");
+          this.router.navigate(["/home-cliente"])
+        }
+      }
+    );
   }
 
   sacar(): void {
-    if (this.clienteService.saque(+this.valorSaque)) {
-      alert('Saque realizado com succeso!');
-
-    } else {
-      alert('Algo deu errado durante o saque, tente mais novamente em alguns instantes!');
-    }
-
-
-
+    this.clienteService.sacar(+this.valorSaque, this.conta).subscribe({
+      next: (response) => {
+        alert('Depósito realizado com sucesso!');
+        this.conta = response;
+      },
+      error: (e) => alert(e)
+    })
   }
+
+
 }
+

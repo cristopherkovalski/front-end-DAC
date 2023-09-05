@@ -133,9 +133,18 @@ export class CadastroComponent {
     this.cliente.cpf = this.removeMascara(this.cliente.cpf);
     this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
     this.cliente.telefone = this.removeMascara(this.cliente.telefone);
-    this.cadastroService.insereCliente(this.cliente)
-    alert('Solicitação enviada. Aguardando aprovação.');
-    this.router.navigate(['/home']);
+    this.cliente.situacao = "PENDENTE";
+    this.cadastroService.insereCliente(this.cliente);
+    this.cadastroService.insereCliente(this.cliente).subscribe(
+      (response) => {
+        alert('Solicitação enviada. Aguardando aprovação.');
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.error('Ocorreu um erro ao cadastrar o cliente:', error);
+      }
+    );
+    this.router.navigate(['/']);
   }
 
 

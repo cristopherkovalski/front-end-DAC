@@ -9,6 +9,11 @@ export class CpfFormatDirective {
   @HostListener('input', ['$event'])
   onInputChange(event: any) {
     const input = event.target.value;
+    this.formatCPF(input);
+  
+  }
+
+  formatCPF(input: any){
     let numbersOnly = input.replace(/\D/g, '');
   
     if (numbersOnly.length > 11) {
