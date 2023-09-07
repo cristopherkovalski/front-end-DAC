@@ -5,8 +5,9 @@ import { Observable, of, map, catchError, throwError, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { LoginService } from 'src/app/auth/services/login.service';
+import { Conta } from 'src/app/shared/models/conta.model';
 
-const LS_CHAVE: string = "ususarioLogado";
+const LS_CHAVE: string = "usuarioLogado";
 
 const url_conta = "http://localhost:3000/contas/";
 
@@ -73,7 +74,7 @@ export class ClienteService {
     return clienteLogado ? JSON.parse(clienteLogado) : null;
   }
 
-  public getUsuarioLogado(): Usuario {
+  public getUsuarioLogado(): Usuario {   //usar esse para buscar usuario logado
       console.log(this.loginService.usuarioLogado)
       let user = this.loginService.usuarioLogado;
       return user;
@@ -102,15 +103,11 @@ export class ClienteService {
   }
 
 
-  public getAccontByClientId(id:number):Observable<Cliente | null>{
+  public getAccontByClientId(id:number):Observable<Conta>{
     const params = new HttpParams().set('id_cliente', id)
-    return this.http.get<Cliente[]>(url_conta, {params}).pipe(
-        map((resposta: Cliente[]) => {
-          if (resposta && resposta.length > 0) {
+    return this.http.get<Conta[]>(url_conta, {params}).pipe(
+        map((resposta: Conta[]) => {
             return resposta[0]; // Retorna o primeiro objeto da resposta
-          } else {
-            return null;
-          }
         })
       );
   }

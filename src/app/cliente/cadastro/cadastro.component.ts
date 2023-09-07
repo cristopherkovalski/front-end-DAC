@@ -133,7 +133,7 @@ export class CadastroComponent {
     this.cliente.cpf = this.removeMascara(this.cliente.cpf);
     this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
     this.cliente.telefone = this.removeMascara(this.cliente.telefone);
-    this.cliente.situacao = "PENDENTE";
+    // this.cliente.situacao = "PENDENTE";
     this.cadastroService.insereCliente(this.cliente);
     this.cadastroService.insereCliente(this.cliente).subscribe(
       (response) => {

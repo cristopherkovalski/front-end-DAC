@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ClienteModule } from './cliente/cliente.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
+import { GerenteModule } from './gerente/gerente.module';
 
 
 
@@ -20,6 +21,7 @@ import { AdminModule } from './admin/admin.module';
     AppRoutingModule,
     ClienteModule,
     AdminModule,
+    GerenteModule,
     AuthModule
   ],
   providers: [],

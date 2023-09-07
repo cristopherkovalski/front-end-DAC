@@ -30,11 +30,11 @@
         <form #formDepositar="ngForm">
           <div>
             <label for="valor">Valor:</label>
-            <input type="text" id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorDeposito"  />
+            <input type="text" #valor id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorDeposito"  />
           </div>
           <div >
             <button type="button"  style="margin-right: 10px" (click)="depositar()"
-              [disabled]="!formDepositar.form.valid">
+              [disabled]="!formDepositar.form.valid || valorDeposito <= 0 ">
             Confirmar
             </button>
             <button (click)="getConta()">pega conta</button>

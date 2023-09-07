@@ -9,6 +9,8 @@ export class Cliente {
       public endereco: Endereco = new Endereco(),
       public telefone: string = '',
       public salario: number = 0,
-      public situacao: string = '' 
+      // public situacao: string = '',
+      public id_gerente?: number,
     ) {}
-  }
+    //falar com cristopher depois sobre isso
+}
