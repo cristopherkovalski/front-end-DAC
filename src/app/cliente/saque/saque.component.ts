@@ -22,23 +22,22 @@ export class SaqueComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.cliente = this.clienteService.clienteLogado();
-    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
-      conta => {
-        if (conta) {
-          this.conta = conta;
-        } else {
-          alert("Cliente Sem conta, por favor entre em contato");
-          this.router.navigate(["/home-cliente"])
-        }
+    this.cliente = this.clienteService.getUsuarioLogado();
+    this.clienteService.getAccontByClientId(this.cliente.id).subscribe({
+      next: (response) => {
+        this.conta = response;
+      },
+      error: (e) => {
+        alert("Cliente Sem conta, por favor entre em contato");
+        this.router.navigate(["/home-cliente"]);
       }
-    );
+    });
   }
 
   sacar(): void {
     this.clienteService.sacar(+this.valorSaque, this.conta).subscribe({
       next: (response) => {
-        alert('Depósito realizado com sucesso!');
+        alert('Saque realizado com sucesso!');
         this.conta = response;
       },
       error: (e) => alert(e)

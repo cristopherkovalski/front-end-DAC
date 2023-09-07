@@ -3,16 +3,37 @@
     {
       "id": 1,
       "id_cliente": 1,
-      "id_gerente": null,
-      "saldo": 303.50000000000006,
+      "gerenteId": 3,
+      "saldo": 288.50000000000006,
       "limite": 1000
     },
     {
       "id": 2,
       "id_cliente": 2,
-      "id_gerente": null,
+      "gerenteId": 1,
       "saldo": 1000,
       "limite": 0
+    },
+    {
+      "id": 3,
+      "id_cliente": 3,
+      "gerenteId": 3,
+      "saldo": 100,
+      "limite": 1000
+    },
+    {
+      "id": 4,
+      "id_cliente": 4,
+      "gerenteId": 3,
+      "saldo": -1000,
+      "limite": 1000
+    },
+    {
+      "id": 5,
+      "id_cliente": 5,
+      "gerenteId": 3,
+      "saldo": -5000,
+      "limite": 1000
     }
   ],
   "movimentacoes": [
@@ -111,6 +132,15 @@
       "conta_id": 1,
       "conta_destiny": null,
       "id": 12
+    },
+    {
+      "dataHora": "2023-09-07T07:33:46.690Z",
+      "type": "SAQUE",
+      "value": 15,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "contaId": "1",
+      "id": 13
     }
   ],
   "auth": [
@@ -127,6 +157,13 @@
       "email": "cliente2@cliente.com",
       "senha": "1234",
       "type": "CLIENTE"
+    },
+    {
+      "id": 3,
+      "nome": "ademir",
+      "email": "admin@admin",
+      "senha": "admin",
+      "type": "ADMIN"
     }
   ],
   "clientes": [
@@ -201,6 +238,20 @@
       "telefone": "44444444444",
       "salario": 50000,
       "situacao": "PENDENTE"
+    }
+  ],
+  "gerentes": [
+    {
+      "id": 1,
+      "nome": "gerente1",
+      "email": "gerente@gerente",
+      "telefone": "41999180417"
+    },
+    {
+      "id": 3,
+      "nome": "gerente3",
+      "email": "gerente@gerente",
+      "telefone": "41999180417"
     }
   ]
 }

@@ -1,0 +1,29 @@
+<p>home-admin works!</p>
+<div *ngIf="verifyLogin(); else erro">
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Total de Clientes</th>
+                    <th>Saldo positivo totalizado</th>
+                    <th>Saldo negativo totalizado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let gerente of gerentes">
+                    <td>{{ gerente.nome }}</td>
+                    <td >{{ getTotalClientes(gerente.id) }}</td>
+                    <td >{{ formatCurrency(getTotalPositivo(gerente.id)) }}</td>
+                    <td >{{ formatCurrency(getTotalNegativo(gerente.id)) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #erro>
+    <span>
+        Erro: Você não tem permissão para acessar esta página.
+    </span>
+</ng-template>

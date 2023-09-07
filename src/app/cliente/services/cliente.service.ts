@@ -118,7 +118,7 @@ export class ClienteService {
   sacar(valor: number, conta:any):Observable<any> {
     if (valor > 0) {
       const data = {
-        saldo: conta.saldo + valor
+        saldo: conta.saldo - valor
       }
 
       return this.http.patch<any>(url_conta + conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
