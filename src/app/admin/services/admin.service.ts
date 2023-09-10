@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/auth/services/login.service';
+import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
-import { Observable } from 'rxjs';
+import { Observable, map, catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   gerenteUrl = 'http://localhost:3000/gerentes';
-  contaUrl = 'http://localhost:3000/contas'
+  contaUrl = 'http://localhost:3000/contas';
+  clienteUrl = 'http://localhost:3000/clientes';
 
 
   constructor(private http: HttpClient, private loginService: LoginService) {
@@ -27,42 +29,25 @@ export class AdminService {
   }
 
 
-
-
-  calcularSaldoTotalPositivo(contas: Conta[], gerenteId: number): number {
-
-    const contasDoGerente = contas.filter((conta) => conta.gerenteId === gerenteId);
-    
-    let saldoTotalPositivo = 0;
-    for (const conta of contasDoGerente) {
-      if (conta.saldo && conta.saldo > 0) {
-        saldoTotalPositivo += conta.saldo;
-      }
-    }
-
-    return saldoTotalPositivo;
+  getClientesList(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.clienteUrl);
   }
 
-  calcularSaldoTotalNegativo(contas: Conta[], gerenteId: number): number {
-
-    const contasDoGerente = contas.filter((conta) => conta.gerenteId === gerenteId);
-
-    let saldoTotalNegativo = 0;
-    for (const conta of contasDoGerente) {
-      if (conta.saldo && conta.saldo < 0) {
-        saldoTotalNegativo += conta.saldo;
-      }
-    }
-
-    return saldoTotalNegativo;
+  adicionarGerente(gerente: Gerente): Observable<Gerente> {
+    return this.http.post(this.gerenteUrl, gerente);
   }
 
-  getTotalClientesPorGerente(contas: Conta[], gerenteId: number): number {
-    const contasDoGerente = contas.filter((conta) => conta.gerenteId === gerenteId);
-    return contasDoGerente.length;
+  atualizarConta(conta: Conta): Observable<Conta> {
+    const url = `${this.contaUrl}/${conta.id}`;
+    return this.http.patch<Conta>(url, conta)
+      .pipe(
+        map((contaAtualizada: Conta) => contaAtualizada), 
+        catchError((error: any) => {
+          console.error('Erro ao atualizar a conta', error);
+          throw error; 
+        })
+      );
   }
-
-
 
 
 }

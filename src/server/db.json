@@ -17,22 +17,29 @@
     {
       "id": 3,
       "id_cliente": 3,
-      "gerenteId": 3,
+      "gerenteId": 5,
       "saldo": 100,
       "limite": 1000
     },
     {
       "id": 4,
       "id_cliente": 4,
-      "gerenteId": 3,
+      "gerenteId": 2,
       "saldo": -1000,
       "limite": 1000
     },
     {
       "id": 5,
       "id_cliente": 5,
-      "gerenteId": 3,
+      "gerenteId": 4,
       "saldo": -5000,
+      "limite": 1000
+    },
+    {
+      "id": 6,
+      "id_cliente": 6,
+      "gerenteId": 4,
+      "saldo": 2000,
       "limite": 1000
     }
   ],
@@ -238,6 +245,42 @@
       "telefone": "44444444444",
       "salario": 50000,
       "situacao": "PENDENTE"
+    },
+    {
+      "id": 5,
+      "nome": "teste3",
+      "email": "teste3@gmail.com",
+      "cpf": "38185469578",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Lello Marchinu",
+        "numero": "700",
+        "complemento": "prédio",
+        "cep": "81240421",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444444",
+      "salario": 50000,
+      "situacao": "PENDENTE"
+    },
+    {
+      "id": 6,
+      "nome": "teste4",
+      "email": "teste4@gmail.com",
+      "cpf": "38185469577",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Lello Marchinu",
+        "numero": "800",
+        "complemento": "prédio1",
+        "cep": "81240421",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444433",
+      "salario": 4000,
+      "situacao": "PENDENTE"
     }
   ],
   "gerentes": [
@@ -248,10 +291,30 @@
       "telefone": "41999180417"
     },
     {
+      "id": 2,
+      "nome": "gerente2",
+      "email": "gerente@gerente2",
+      "telefone": "41999180417"
+    },
+    {
       "id": 3,
       "nome": "gerente3",
       "email": "gerente@gerente",
       "telefone": "41999180417"
+    },
+    {
+      "nome": "aloha",
+      "email": "testegmail2.com",
+      "cpf": "000.000.000-00",
+      "telefone": "(99) 99999-9999",
+      "id": 4
+    },
+    {
+      "nome": "aaa",
+      "email": "aaaawewaeaw@aeaew",
+      "cpf": "091.614.779-74",
+      "telefone": "(41) 20214-1111",
+      "id": 5
     }
   ]
 }

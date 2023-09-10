@@ -48,55 +48,7 @@ export class CadastroComponent {
 
       });
   }
-  /* applyCPFFormat(event: any): void {
-     const input = event.target.value;
-     let numbersOnly = input.replace(/\D/g, ''); 
-   
-     if (numbersOnly.length > 11) {
-       numbersOnly = numbersOnly.slice(0, 11);
-     }
-   
-     if (numbersOnly.length <= 3) {
-       this.cliente.cpf = numbersOnly;
-     } else if (numbersOnly.length <= 6) {
-       this.cliente.cpf = `${numbersOnly.slice(0, 3)}.${numbersOnly.slice(3)}`;
-     } else if (numbersOnly.length <= 9) {
-       this.cliente.cpf = `${numbersOnly.slice(0, 3)}.${numbersOnly.slice(3, 6)}.${numbersOnly.slice(6)}`;
-     } else {
-       this.cliente.cpf = `${numbersOnly.slice(0, 3)}.${numbersOnly.slice(3, 6)}.${numbersOnly.slice(6, 9)}-${numbersOnly.slice(9)}`;
-     }
-   }
-   
-   applyTelefoneFormat(event: any): void {
-     const input = event.target.value;
-     let numbersOnly = input.replace(/\D/g, ''); 
-     const maxDigits = 11; 
  
-     if (numbersOnly.length > maxDigits) {
-       numbersOnly = numbersOnly.slice(0, maxDigits);
-     }
- 
-     if (numbersOnly.length <= 2) {
-       this.cliente.telefone = `(${numbersOnly}`;
-     } else if (numbersOnly.length <= 7) {
-       this.cliente.telefone = `(${numbersOnly.slice(0, 2)}) ${numbersOnly.slice(2)}`;
-     } else {
-       this.cliente.telefone = `(${numbersOnly.slice(0, 2)}) ${numbersOnly.slice(2, 7)}-${numbersOnly.slice(7)}`;
-     }
-   }
-   */
-
-  /*applyCEPFormat(event: any): void {
-    const input = event.target.value;
-    let numbersOnly = input.replace(/\D/g, ''); 
-    const maxDigits = 8; // Máximo de dígitos permitidos para um CEP
-
-    if (numbersOnly.length > maxDigits) {
-      numbersOnly = numbersOnly.slice(0, maxDigits);
-    }
-
-    this.cliente.endereco.cep = numbersOnly.replace(/^(\d{5})(\d{3})$/, '$1-$2');
-  }*/
 
   verificarCPF() {
     const cpfclean = this.removeMascara(this.cliente.cpf);
@@ -141,7 +93,7 @@ export class CadastroComponent {
         this.router.navigate(['/']);
       },
       (error) => {
-        console.error('Ocorreu um erro ao cadastrar o cliente:', error);
+       alert('Ocorreu um erro ao cadastrar o cliente:' + error);
       }
     );
     this.router.navigate(['/']);

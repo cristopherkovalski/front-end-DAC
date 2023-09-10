@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
 import { AdminService } from '../services/admin.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-home-admin',
@@ -36,6 +35,7 @@ export class HomeAdminComponent {
     });
     this.adminService.getContasList().subscribe({
       next: (contas) => {
+        console.log(contas);
         this.contas = contas;
       },
       error: (error) => {
@@ -46,32 +46,67 @@ export class HomeAdminComponent {
   }
 
   getTotalPositivo(id: number | undefined) {
-    return this.adminService.calcularSaldoTotalPositivo(this.contas, id!);
+    return this.calcularSaldoTotalPositivo(this.contas, id!);
 
   }
 
   getTotalNegativo(id: number | undefined) {
-    return this.adminService.calcularSaldoTotalNegativo(this.contas, id!);
+    return this.calcularSaldoTotalNegativo(this.contas, id!);
   }
 
   getTotalClientes(id: number | undefined) {
-    return this.adminService.getTotalClientesPorGerente(this.contas, id!);
+    return this.getTotalClientesPorGerente(this.contas, id!);
   }
 
+  calcularSaldoTotalPositivo(contas: Conta[], gerenteId: number): number {
+
+    const contasDoGerente = contas.filter((conta) => conta.gerenteId === gerenteId);
+
+    let saldoTotalPositivo = 0;
+    for (const conta of contasDoGerente) {
+      if (conta.saldo && conta.saldo > 0) {
+        saldoTotalPositivo += conta.saldo;
+      }
+    }
+
+    return saldoTotalPositivo;
+  }
+
+  calcularSaldoTotalNegativo(contas: Conta[], gerenteId: number): number {
+
+    const contasDoGerente = contas.filter((conta) => conta.gerenteId === gerenteId);
+
+    let saldoTotalNegativo = 0;
+    for (const conta of contasDoGerente) {
+      if (conta.saldo && conta.saldo < 0) {
+        saldoTotalNegativo += conta.saldo;
+      }
+    }
+
+    return saldoTotalNegativo;
+  }
+
+  getTotalClientesPorGerente(contas: Conta[], gerenteId: number): number {
+    const contasDoGerente = contas.filter((conta) => conta.gerenteId === gerenteId);
+    return contasDoGerente.length;
+  }
+
+
+
   formatCurrency(value: number): string {
-    
+
     const formattedValue = Number(value).toFixed(2);
-  
-    
+
+
     const [integerPart, decimalPart] = formattedValue.split('.');
-  
+
     const integerWithSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  
+
     const formattedCurrency = `R$ ${integerWithSeparator},${decimalPart}`;
-  
+
     return formattedCurrency;
   }
-  
+
 
   verifyLogin(): boolean {
     if (this.login.usuarioLogado) {

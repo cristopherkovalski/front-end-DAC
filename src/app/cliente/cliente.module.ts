@@ -5,9 +5,7 @@ import { RouterModule } from '@angular/router';
 
 // import { CurrencyMaskDirective } from '../shared/directives/currency-mask.directive';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
-import { CpfFormatDirective } from '../shared/directives/cpf-format.directive';
-import { TelefoneFormatDirective } from '../shared/directives/telefone-format.directive';
-import { CepFormatDirective } from '../shared/directives/cep-format.directive';
+import { SharedModule } from '../shared/directives/shared.module';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { DepositaComponent } from './deposita/deposita.component';
 import { SaqueComponent } from './saque/saque.component';
@@ -28,9 +26,6 @@ import { HttpClientModule } from '@angular/common/http';
     TransfComponent,
     HomeClienteComponent,
     CadastroComponent,
-    CpfFormatDirective,
-    TelefoneFormatDirective,
-    CepFormatDirective,
     AlteraPerfilComponent
 
   ],
@@ -38,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FormsModule,
     RouterModule,
+    SharedModule,
     CurrencyMaskModule,
     HttpClientModule
   ]
