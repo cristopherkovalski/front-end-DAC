@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Observable, map, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Conta } from 'src/app/shared/models/conta.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CadastroService {
-  private apiUrl = "http://localhost:3000/clientes"
+  private apiUrl = "http://localhost:3000/clientes";
+  private contaUrl = "http://localhost:3000/contas";
 
  
   constructor(private http: HttpClient) { }
@@ -21,6 +23,20 @@ export class CadastroService {
         return throwError(error); // Reenvia o erro para quem chamou a função
       })
     );
+  }
+
+  insereConta(conta: Conta): Observable<any>  {
+    return this.http.post(this.contaUrl, conta).pipe(
+      catchError((error) => {
+        // Aqui você pode tratar o erro da forma que desejar
+        console.error('Ocorreu um erro na solicitação HTTP:', error);
+        return throwError(error); // Reenvia o erro para quem chamou a função
+      })
+    );
+  }
+
+  getContasList(): Observable<Conta[]> {
+    return this.http.get<Conta[]>(this.contaUrl);
   }
 
   isValidCPF(cpf: string): boolean {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Cliente } from 'src/app/shared/models/cliente.model';
+import { Conta } from 'src/app/shared/models/conta.model';
 import { NgForm } from '@angular/forms';
 import { CepService } from '../services/cep.service';
 import { CadastroService } from '../services/cadastro.service';
@@ -15,6 +16,8 @@ import { Router } from '@angular/router';
 })
 export class CadastroComponent {
   cliente: Cliente = new Cliente();
+  conta: Conta = new Conta ();
+  contas: Conta[] = [];
   mensagem: string = '';
   mensagemCPF: string = '';
   cpfValido: boolean = true;
@@ -66,10 +69,37 @@ export class CadastroComponent {
     } else {
       this.cpfValido = false;
       this.cliente.cpf = '';
-      this.mensagemCPF = "CPF inválido! Insira um novo CPF";
+      this.mensagemCPF = "CPF inválido! Insira um novo CPF.";
     }
   }
 
+   getGerenteComMenosContas(contas?: Conta[]) {
+    const contasPorGerente = new Map();
+  
+    for (let conta of contas!) {
+      const gerenteId = conta.gerenteId;
+      if (contasPorGerente.has(gerenteId)) {
+        contasPorGerente.set(gerenteId, contasPorGerente.get(gerenteId) + 1);
+      } else {
+        contasPorGerente.set(gerenteId, 1);
+      }
+    }
+  
+    let gerenteComMenosContasId = null;
+    let menorNumeroDeContas = Number.MAX_SAFE_INTEGER; // Inicializa com um valor muito grande
+  
+    contasPorGerente.forEach((numeroDeContas, gerenteId) => {
+      if (numeroDeContas < menorNumeroDeContas) {
+        menorNumeroDeContas = numeroDeContas;
+        gerenteComMenosContasId = gerenteId;
+      } else if (numeroDeContas === menorNumeroDeContas && gerenteId > gerenteComMenosContasId!) {
+        // Se dois gerentes têm o mesmo número de contas, escolha o de maior ID
+        gerenteComMenosContasId = gerenteId;
+      }
+    });
+  
+    return gerenteComMenosContasId;
+  }
 
 
 
@@ -79,23 +109,49 @@ export class CadastroComponent {
 
 
   cadastrarCliente(): void {
-    if (this.cliente.salario >= 2000) {
-      const limite = this.cliente.salario / 2;
-    }
+
     this.cliente.cpf = this.removeMascara(this.cliente.cpf);
     this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
     this.cliente.telefone = this.removeMascara(this.cliente.telefone);
-    // this.cliente.situacao = "PENDENTE";
-    this.cadastroService.insereCliente(this.cliente);
-    this.cadastroService.insereCliente(this.cliente).subscribe(
-      (response) => {
-        alert('Solicitação enviada. Aguardando aprovação.');
-        this.router.navigate(['/']);
+    this.cadastroService.getContasList().subscribe({
+      next: (contasResponse) => {
+        this.contas =  contasResponse;
+        this.cadastroService.insereCliente(this.cliente).subscribe({
+          next: (clienteResponse) => {
+            // Associa o ID do cliente à nova conta
+            this.conta.id_cliente = clienteResponse.id;
+            this.conta.gerenteId = this.getGerenteComMenosContas(this.contas!)!;
+            if (this.cliente.salario >= 2000) {
+              this.conta.limite = this.cliente.salario / 2;
+            }else{
+              this.conta.limite = 0;
+            }
+            this.conta.saldo = 0;
+            this.conta.observacao = "PENDENTE";
+            // Insere a nova conta
+            this.cadastroService.insereConta(this.conta).subscribe({
+              next: (contaResponse) => {
+                alert('Cliente e conta criados com sucesso.');
+                this.router.navigate(['/']);
+              },
+              error: (contaError) => {
+                alert('Erro ao criar a conta.');
+                console.error('Erro ao criar a conta:', contaError);
+              }
+            });
+          },
+          error: (clienteError) => {
+            alert('Erro ao criar o cliente.');
+            console.error('Erro ao criar o cliente:', clienteError);
+          },
+        });
       },
-      (error) => {
-       alert('Ocorreu um erro ao cadastrar o cliente:' + error);
+      error: (error) => {
+        alert ("erro geral, contate admin!");
       }
-    );
+    });
+    // this.cliente.situacao = "PENDENTE";
+   
     this.router.navigate(['/']);
   }
 
