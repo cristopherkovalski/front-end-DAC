@@ -13,6 +13,7 @@ import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.compon
 import { AlteraPerfilComponent } from './cliente/altera-perfil/altera-perfil.component';
 import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
 import { InserirGerenteComponent } from './admin/inserir-gerente/inserir-gerente.component';
+import { HomeGerenteComponent } from './gerente/home-gerente/home-gerente.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
   {path: 'transf', pathMatch: 'full', component: TransfComponent },
   {path: 'home-cliente', pathMatch:'full', component:HomeClienteComponent},
   {path: 'home-admin', pathMatch:'full', component:HomeAdminComponent},
-  {path: 'inserir-gerente', pathMatch:'full', component:InserirGerenteComponent}
+  {path: 'inserir-gerente', pathMatch:'full', component:InserirGerenteComponent},
+  {path: 'home-gerente', pathMatch:'full', component:HomeGerenteComponent},
 ];
 
 @NgModule({

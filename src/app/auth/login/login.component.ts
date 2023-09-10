@@ -28,9 +28,11 @@ export class LoginComponent implements OnInit {
       if (user.type == 'CLIENTE'){
         this.router.navigate(["/home-cliente"])
       }else if(user.type == "GERENTE"){
-        this.router.navigate(["/home-cliente"])
+        this.router.navigate(["/home-gerente"])
       }else if(user.type == "ADMIN"){
-        this.router.navigate(["/home-cliente"])
+        this.router.navigate(["/home-admin"])
+      }else{
+        this.router.navigate(["/login"])
       }
 
     }

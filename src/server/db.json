@@ -4,43 +4,55 @@
       "id": 1,
       "id_cliente": 1,
       "gerenteId": 3,
-      "saldo": 288.50000000000006,
-      "limite": 1000
+      "saldo": 298.50000000000006,
+      "limite": 1000,
+      "situacao": "APROVADO",
+      "observacao": null
     },
     {
       "id": 2,
       "id_cliente": 2,
       "gerenteId": 1,
       "saldo": 1000,
-      "limite": 0
+      "limite": 0,
+      "situacao": "APROVADO",
+      "observacao": null
     },
     {
       "id": 3,
       "id_cliente": 3,
       "gerenteId": 5,
       "saldo": 100,
-      "limite": 1000
+      "limite": 1000,
+      "situacao": "PENDENTE",
+      "observacao": null
     },
     {
       "id": 4,
       "id_cliente": 4,
       "gerenteId": 2,
       "saldo": -1000,
-      "limite": 1000
+      "limite": 1000,
+      "situacao": "APROVADO",
+      "observacao": null
     },
     {
       "id": 5,
       "id_cliente": 5,
       "gerenteId": 4,
       "saldo": -5000,
-      "limite": 1000
+      "limite": 1000,
+      "situacao": "RECUSADO",
+      "observacao": "porque eu quis ué"
     },
     {
       "id": 6,
       "id_cliente": 6,
       "gerenteId": 4,
       "saldo": 2000,
-      "limite": 1000
+      "limite": 1000,
+      "situacao": "RECUSADO",
+      "observacao": "porque eu quis ué"
     }
   ],
   "movimentacoes": [
@@ -148,6 +160,14 @@
       "conta_destiny": null,
       "contaId": "1",
       "id": 13
+    },
+    {
+      "dataHora": "2023-09-07T16:02:47.760Z",
+      "type": "DEPOSITO",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 14
     }
   ],
   "auth": [
@@ -168,9 +188,16 @@
     {
       "id": 3,
       "nome": "ademir",
-      "email": "admin@admin",
+      "email": "admin@admin.com",
       "senha": "admin",
       "type": "ADMIN"
+    },
+    {
+      "id": 4,
+      "nome": "glauber",
+      "email": "gerente@gerente.com",
+      "senha": "1234",
+      "type": "GERENTE"
     }
   ],
   "clientes": [
@@ -189,8 +216,7 @@
         "estado": "Parana"
       },
       "telefone": "51222222222",
-      "salario": 4500,
-      "situacao": "APROVADO"
+      "salario": 4500
     },
     {
       "id": 2,
@@ -207,8 +233,7 @@
         "estado": "Parana"
       },
       "telefone": "41999123456",
-      "salario": 3000,
-      "situacao": "APROVADO"
+      "salario": 3000
     },
     {
       "id": 3,
@@ -315,6 +340,13 @@
       "cpf": "091.614.779-74",
       "telefone": "(41) 20214-1111",
       "id": 5
+    },
+    {
+      "id": 6,
+      "nome": "gluber marmitas",
+      "email": "gerente@gerente",
+      "cpf": "091.614.779-74",
+      "telefone": "41999180417"
     }
   ]
 }
