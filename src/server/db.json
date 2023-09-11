@@ -53,6 +53,14 @@
       "limite": 1000,
       "situacao": "RECUSADO",
       "observacao": "porque eu quis ué"
+    },
+    {
+      "id_cliente": 7,
+      "gerenteId": 5,
+      "saldo": 0,
+      "limite": 2500,
+      "observacao": "PENDENTE",
+      "id": 7
     }
   ],
   "movimentacoes": [
@@ -306,6 +314,23 @@
       "telefone": "44444444433",
       "salario": 4000,
       "situacao": "PENDENTE"
+    },
+    {
+      "id": 7,
+      "nome": "Teste8000",
+      "email": "teste800@gmail.com",
+      "cpf": "69663783800",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Alex Skorobohaty",
+        "numero": "1111",
+        "complemento": "2222",
+        "cep": "81230200",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "41202020200",
+      "salario": 5000
     }
   ],
   "gerentes": [
