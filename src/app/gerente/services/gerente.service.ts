@@ -17,6 +17,8 @@ const acconts_waiting = "http://localhost:3000/gerentes/:id/contas/analise/";
 
 // /gerentes/:id/contas/analise
 
+const clientes = "http://localhost:3000/clientes";
+
 const contas = "http://localhost:3000/contas/";
 
 const auth = "http://localhost:3000/auth/";
@@ -119,6 +121,13 @@ export class GerenteService {
     const max = 9999; // Maior número de 4 dígitos (9999)
     const randomPassword = Math.floor(Math.random() * (max - min + 1)) + min;
     return randomPassword.toString();
+  }
+
+
+  listarTodos(): Observable<Cliente[]> {
+
+    return this.http.get<Cliente[]> (clientes, this.httpOptions);
+
   }
 
 
