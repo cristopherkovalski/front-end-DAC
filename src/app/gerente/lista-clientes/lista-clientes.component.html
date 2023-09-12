@@ -1,0 +1,56 @@
+<p>lista-clientes works!</p>
+
+<table class="table w-full ">
+            
+    <thead >
+        <tr>
+            <th></th>
+            <th></th>
+            <th>
+                    <!-- <form method="GET">
+                      <div class="ml-[-190px] relative text-gray-600 focus-within:text-gray-400">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                          </button>
+                        </span>
+                        <input search-bar type="search" name="q" class="py-2 text-sm bg-white border border-gray-400  rounded-md pl-10 focus:outline-none " placeholder="Buscar..." autocomplete="off">
+                      </div>
+                    </form> -->
+                  
+            </th>
+            <th></th>
+            <th></th>
+            
+        </tr>               
+                <tr >
+                    <th class="text-cyan-500 ">ID</th>
+                    <th class="text-center " >Peça</th>
+                    <th class="text-center" >Prazo</th>
+                    <th class="text-center">Valor</th>
+                    <th class="text-center"></th>
+                </tr>
+    </thead>
+    <tbody info-container>
+                <tr *ngFor="let cliente of clientes">
+                    <!-- <th class="text-cyan-500" card-id>{{peca.id}}</th>             --> 
+                    <td class="text-center text-lg" card-peça>{{cliente.id}}</td>
+
+                    <td class="text-center text-lg" card-peça>{{cliente.cpf}}</td>
+                    <td class="text-center text-lg" card-peça>{{cliente.nome}}</td>
+                    <td class="text-center text-lg" card-peça>{{cliente.endereco.cidade}}</td>
+                    <td class="text-center text-lg" card-peça>{{cliente.endereco.estado}}</td>
+                    <td class="text-center text-lg" card-peça>{{ buscaSaldoConta(cliente)}}</td><!-- saldo -->
+            </tr>
+  <!--  </tbody>
+        <tbody info-container>
+            <tr *ngFor="let conta of contas">
+                <td class="text-center text-lg" card-peça>{{conta.id}}</td>
+                <td class="text-center text-lg" card-peça>{{conta.id_cliente}}</td>
+                <td class="text-center text-lg" card-peça>{{conta.saldo}}</td>
+                
+            </tr>
+        </tbody>
+    -->
+</table>
+

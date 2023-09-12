@@ -16,6 +16,8 @@ import { InserirGerenteComponent } from './admin/inserir-gerente/inserir-gerente
 import { HomeGerenteComponent } from './gerente/home-gerente/home-gerente.component';
 import { AlterarGerenteComponent } from './admin/alterar-gerente/alterar-gerente.component';
 import { ManutencaoAdminComponent } from './admin/manutencao-admin/manutencao-admin.component';
+import { ListaClientesComponent } from './gerente/lista-clientes/lista-clientes.component';
+import { RelatorioClientesComponent } from './admin/relatorio-clientes/relatorio-clientes.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
@@ -31,6 +33,11 @@ const routes: Routes = [
   {path: 'home-gerente', pathMatch:'full', component:HomeGerenteComponent},
   {path: 'alterar-gerente',  pathMatch:'full', component: AlterarGerenteComponent},
   {path: 'manutencao-admin', pathMatch:'full', component:ManutencaoAdminComponent},
+  {path: 'lista-clientes', pathMatch:'full', component:ListaClientesComponent},
+
+
+  
+
 ];
 
 @NgModule({
