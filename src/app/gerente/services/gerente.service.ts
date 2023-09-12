@@ -13,6 +13,7 @@ import { Usuario } from 'src/app/shared/models/usuario.model';
 
 // const acconts_waiting = "http://localhost:3000/clientes"
 
+
 const acconts_waiting = "http://localhost:3000/gerentes/:id/contas/analise/";
 
 // /gerentes/:id/contas/analise
@@ -21,7 +22,10 @@ const clientes = "http://localhost:3000/clientes";
 
 const contas = "http://localhost:3000/contas/";
 
+const contasPorCliente = "http://localhost:3000/contas/conta:id_cliente";
+
 const auth = "http://localhost:3000/auth/";
+const url_conta = "http://localhost:3000/contas/";
 
 const LS_CHAVE: string = "usuarioLogado";
 
@@ -124,10 +128,32 @@ export class GerenteService {
   }
 
 
-  listarTodos(): Observable<Cliente[]> {
-
+  listarTodosClientes(): Observable<Cliente[]> {
+    
     return this.http.get<Cliente[]> (clientes, this.httpOptions);
 
+  }
+
+  listarTodosContas(): Observable<Conta[]> {
+
+    return this.http.get<Conta[]> (contas, this.httpOptions);
+
+  }
+
+  listarClienteConta(cliente: Cliente): Observable<Conta[]> {
+
+    let cliente_conta = contasPorCliente.replace(':id_cliente', cliente.id.toString());
+    return this.http.get<Conta[]> (cliente_conta, this.httpOptions);
+
+  }
+
+  public getAccontByClientId(id:number):Observable<Conta>{
+    const params = new HttpParams().set('id_cliente', id)
+    return this.http.get<Conta[]>(url_conta, {params}).pipe(
+        map((resposta: Conta[]) => {
+            return resposta[0]; // Retorna o primeiro objeto da resposta
+        })
+      );
   }
 
 

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { GerenteService } from '../services/gerente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Conta } from 'src/app/shared/models/conta.model';
+import { ClienteService } from 'src/app/cliente/services/cliente.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-lista-clientes',
@@ -10,33 +13,70 @@ import { Usuario } from 'src/app/shared/models/usuario.model';
 })
 export class ListaClientesComponent implements OnInit {
 
-  constructor(private gerenteService:GerenteService){}
+  constructor(private gerenteService:GerenteService, private clienteService:ClienteService){}
 
   clientes: Cliente[] = [];
+  contas: Conta[] = [];
   gerente !: Usuario;
-
-
+  
   ngOnInit(): void {
     this.gerente = this.gerenteService.gerenteLogado();
     this.clientes = [];
+    this.contas = [];
     this.listarTodos();
+    this.listarTodosC();
 
+
+    //saldo não pode vir direto no cliente.model? front, não é melhor id da conta no cliente inves de id do cliente na conta?
   }
 
 
   listarTodos(): Cliente[] {
-    this.gerenteService.listarTodos().subscribe({
+    this.gerenteService.listarTodosClientes().subscribe({
       next: (data: Cliente[]) => {
         if (data == null) {
           this.clientes = [];
         }
+
         else {
-          this.clientes = data;
+          data.forEach((cliente)=> {
+           this.clienteService.getAccontByClientId(cliente.id).subscribe(conta =>{
+
+            this.contas.push(conta)
+            if(conta.gerenteId == this.gerente.id){
+            this.clientes.push(cliente)
+                  }
+                }
+              )
+            }
+          )
         }
       }
     });
     return this.clientes;
   }
 
+  listarTodosC(): Conta[] {
+    this.gerenteService.listarTodosContas().subscribe({
+      next: (data: Conta[]) => {
+        if (data == null) {
+          this.clientes = [];
+        }
+        else {
+          this.contas = data;
+        }
+      }
+    });
+    return this.contas;
+  }
+
+
+  buscaSaldoConta(cliente: Cliente): any{
+
+    const clienteT = this.contas.filter(conta => conta.id_cliente == cliente.id).at(0)
+
+    return clienteT?.saldo
+    
+  }
 
 }

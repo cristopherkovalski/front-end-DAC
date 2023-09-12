@@ -15,6 +15,7 @@ import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
 import { InserirGerenteComponent } from './admin/inserir-gerente/inserir-gerente.component';
 import { HomeGerenteComponent } from './gerente/home-gerente/home-gerente.component';
 import { ListaClientesComponent } from './gerente/lista-clientes/lista-clientes.component';
+import { RelatorioClientesComponent } from './admin/relatorio-clientes/relatorio-clientes.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
@@ -29,6 +30,9 @@ const routes: Routes = [
   {path: 'inserir-gerente', pathMatch:'full', component:InserirGerenteComponent},
   {path: 'home-gerente', pathMatch:'full', component:HomeGerenteComponent},
   {path: 'lista-clientes', pathMatch:'full', component:ListaClientesComponent},
+
+
+  
 
 ];
 

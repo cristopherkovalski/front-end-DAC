@@ -32,19 +32,25 @@
                 </tr>
     </thead>
     <tbody info-container>
-                <tr *ngFor="let peca of clientes">
-                    <!-- <th class="text-cyan-500" card-id>{{peca.id}}</th>             -->      
-                    <td class="text-center text-lg" card-peça>{{peca.cpf}}</td>
-                    <td class="text-center text-lg" card-peça>{{peca.nome}}</td>
-                    <td class="text-center text-lg" card-peça>{{peca.endereco.cidade}}</td>
-                    <td class="text-center text-lg" card-peça>{{peca.endereco.estado}}</td>
-                    <td class="text-center text-lg" card-peça>{{peca.endereco.estado}}</td><!-- saldo -->
+                <tr *ngFor="let cliente of clientes">
+                    <!-- <th class="text-cyan-500" card-id>{{peca.id}}</th>             --> 
+                    <td class="text-center text-lg" card-peça>{{cliente.id}}</td>
 
-
-
-
-
-
+                    <td class="text-center text-lg" card-peça>{{cliente.cpf}}</td>
+                    <td class="text-center text-lg" card-peça>{{cliente.nome}}</td>
+                    <td class="text-center text-lg" card-peça>{{cliente.endereco.cidade}}</td>
+                    <td class="text-center text-lg" card-peça>{{cliente.endereco.estado}}</td>
+                    <td class="text-center text-lg" card-peça>{{ buscaSaldoConta(cliente)}}</td><!-- saldo -->
             </tr>
-    </tbody>
-    </table>
+  <!--  </tbody>
+        <tbody info-container>
+            <tr *ngFor="let conta of contas">
+                <td class="text-center text-lg" card-peça>{{conta.id}}</td>
+                <td class="text-center text-lg" card-peça>{{conta.id_cliente}}</td>
+                <td class="text-center text-lg" card-peça>{{conta.saldo}}</td>
+                
+            </tr>
+        </tbody>
+    -->
+</table>
+
