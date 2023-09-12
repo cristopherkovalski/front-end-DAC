@@ -12,6 +12,7 @@ export class TelefoneFormatDirective {
     this.formatPhone(input);
 
   }
+  
   formatPhone(input:any) {
     let numbersOnly = input.replace(/\D/g, '');
     const maxDigits = 11;

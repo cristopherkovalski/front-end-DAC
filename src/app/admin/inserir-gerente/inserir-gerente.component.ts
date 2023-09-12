@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -6,6 +6,8 @@ import { AdminService } from '../services/admin.service';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
+import { TelefoneFormatDirective } from 'src/app/shared/directives/telefone-format.directive';
+import { CpfFormatDirective } from 'src/app/shared/directives/cpf-format.directive';
 
 
 
@@ -23,11 +25,16 @@ export class InserirGerenteComponent {
   conta = new Conta;
   isCpfValido: boolean = true;
   mensagemCPF: string = '';
+  @ViewChild(TelefoneFormatDirective) telefoneFormatDirective!: TelefoneFormatDirective;
+  @ViewChild(CpfFormatDirective) cpfFormatDirective!: CpfFormatDirective;
+
 
   constructor(private login: LoginService, private router: Router, private adminService: AdminService) { }
 
 
   inserirGerente(): void {
+    this.gerente.cpf = this.removeMascara(this.gerente.cpf!);
+    this.gerente.telefone = this.removeMascara (this.gerente.telefone!);
     this.adminService.adicionarGerente(this.gerente).pipe(
       switchMap((response) => {
         this.gerente.id = response.id;

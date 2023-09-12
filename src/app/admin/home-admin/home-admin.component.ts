@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
 import { AdminService } from '../services/admin.service';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -25,25 +26,23 @@ export class HomeAdminComponent {
   }
 
   ngOnInit(): void {
-    this.adminService.getGerentesList().subscribe({
-      next: (gerentes) => {
+    // Fazer as duas chamadas assíncronas e aguardar que ambas sejam concluídas
+    forkJoin([
+      this.adminService.getGerentesList(),
+      this.adminService.getContasList()
+    ]).subscribe({
+      next: ([gerentes, contas]) => {
         this.gerentes = gerentes;
-      },
-      error: (error) => {
-        this.erro = 'Ocorreu um erro ao buscar os gerentes: ' + error.message;
-      }
-    });
-    this.adminService.getContasList().subscribe({
-      next: (contas) => {
-        console.log(contas);
         this.contas = contas;
+        // Agora que ambas as listas estão atualizadas, você pode calcular os valores
       },
       error: (error) => {
-        this.erro = 'Ocorreu um erro ao buscar as contas: ' + error.message;
+        this.erro = 'Ocorreu um erro ao buscar os dados: ' + error.message;
       }
     });
-
   }
+
+  
 
   getTotalPositivo(id: number | undefined) {
     return this.calcularSaldoTotalPositivo(this.contas, id!);

@@ -1,0 +1,36 @@
+<p>manutencao-admin works!</p>
+<div *ngIf="verifyLogin(); else erro">
+    <button routerLink="/inserir-gerente">Inserir Gerentes</button>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Alterar</th>
+                    <th>Excluir</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let gerente of gerentes">
+                    <td>{{ gerente.nome }}</td>
+                    <td appCpfFormat>{{ gerente.cpf }}</td>
+                    <td >{{ gerente.email }}</td>
+                    <td appTelefoneFormat>{{ gerente.telefone}}</td>
+                    <td ><button (click)="alteraGerente(gerente)" >Icone</button></td>
+                    <td ><button [disabled]="isDeleteValid" (click)="excluirGerente(gerente)">Icone</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button routerLink="/home-admin">Voltar</button>
+</div>
+
+<ng-template #erro>
+    <span>
+        Erro: Você não tem permissão para acessar esta página.
+    </span>
+</ng-template>

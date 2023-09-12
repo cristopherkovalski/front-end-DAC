@@ -7,6 +7,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SharedModule } from '../shared/directives/shared.module';
 import { RelatorioClientesComponent } from './relatorio-clientes/relatorio-clientes.component';
 import { InserirGerenteComponent } from './inserir-gerente/inserir-gerente.component';
+import { ManutencaoAdminComponent } from './manutencao-admin/manutencao-admin.component';
+import { AlterarGerenteComponent } from './alterar-gerente/alterar-gerente.component';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { InserirGerenteComponent } from './inserir-gerente/inserir-gerente.compo
     HomeAdminComponent,
     RelatorioClientesComponent,
     InserirGerenteComponent,
+    ManutencaoAdminComponent,
+    AlterarGerenteComponent,
   ],
   imports: [
     CommonModule,

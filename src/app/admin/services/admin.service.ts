@@ -4,7 +4,7 @@ import { LoginService } from 'src/app/auth/services/login.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
-import { Observable, map, catchError } from 'rxjs';
+import { Observable, map, catchError, switchMap, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,13 +41,55 @@ export class AdminService {
     const url = `${this.contaUrl}/${conta.id}`;
     return this.http.patch<Conta>(url, conta)
       .pipe(
-        map((contaAtualizada: Conta) => contaAtualizada), 
+        map((contaAtualizada: Conta) => contaAtualizada),
         catchError((error: any) => {
           console.error('Erro ao atualizar a conta', error);
-          throw error; 
+          throw error;
         })
       );
   }
 
+  atualizarGerente(gerente: Gerente): Observable<Gerente> {
+    const url = `${this.gerenteUrl}/${gerente.id}`;
+    return this.http.patch<Gerente>(url, gerente)
+      .pipe(
+        map((gerenteAtualizado: Gerente) => gerenteAtualizado),
+        catchError((error: any) => {
+          console.error('Erro ao atualizar o gerente', error);
+          throw error;
+        })
+      )
+
+
+  }
+
+  atualizarGerenteIdDaConta(contaId: number, novoGerenteId: number): Observable<Conta> {
+    const url = `${this.contaUrl}/${contaId}`;
+    const body = { gerenteId: novoGerenteId };
+    return this.http.patch<Conta>(url, body);
+  }
+
+  atualizarGerenteIdDeContasPorGerente(gerenteIdExistente: number, novoGerenteId: number): Observable<Conta[]> {
+    return this.getContasPorGerente(gerenteIdExistente).pipe(
+      switchMap((contas) => {
+        const observables: Observable<Conta>[] = contas.map((conta) =>
+          this.atualizarGerenteIdDaConta(conta.id!, novoGerenteId)
+        );
+        return forkJoin(observables);
+      })
+    );
+  }
+
+  getContasPorGerente(gerenteId: number): Observable<Conta[]> {
+    const url = `${this.contaUrl}/?gerenteId=${gerenteId}`;
+    return this.http.get<Conta[]>(url);
+  }
+
+  excluirGerente(gerente: Gerente): Observable<Gerente> {
+    const url = `${this.gerenteUrl}/${gerente.id}`;
+    return this.http.delete<Gerente>(url);
+  }
 
 }
+
+

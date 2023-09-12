@@ -14,6 +14,8 @@ import { AlteraPerfilComponent } from './cliente/altera-perfil/altera-perfil.com
 import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
 import { InserirGerenteComponent } from './admin/inserir-gerente/inserir-gerente.component';
 import { HomeGerenteComponent } from './gerente/home-gerente/home-gerente.component';
+import { AlterarGerenteComponent } from './admin/alterar-gerente/alterar-gerente.component';
+import { ManutencaoAdminComponent } from './admin/manutencao-admin/manutencao-admin.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
@@ -27,6 +29,8 @@ const routes: Routes = [
   {path: 'home-admin', pathMatch:'full', component:HomeAdminComponent},
   {path: 'inserir-gerente', pathMatch:'full', component:InserirGerenteComponent},
   {path: 'home-gerente', pathMatch:'full', component:HomeGerenteComponent},
+  {path: 'alterar-gerente',  pathMatch:'full', component: AlterarGerenteComponent},
+  {path: 'manutencao-admin', pathMatch:'full', component:ManutencaoAdminComponent},
 ];
 
 @NgModule({

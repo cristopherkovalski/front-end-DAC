@@ -338,25 +338,28 @@
       "id": 1,
       "nome": "gerente1",
       "email": "gerente@gerente",
+      "cpf": "00000000000",
       "telefone": "41999180417"
     },
     {
       "id": 2,
       "nome": "gerente2",
       "email": "gerente@gerente2",
+      "cpf": "00000000000",
       "telefone": "41999180417"
     },
     {
       "id": 3,
       "nome": "gerente3",
+      "cpf": "00000000000",
       "email": "gerente@gerente",
       "telefone": "41999180417"
     },
     {
       "nome": "aloha",
       "email": "testegmail2.com",
-      "cpf": "000.000.000-00",
-      "telefone": "(99) 99999-9999",
+      "cpf": "00000000000",
+      "telefone": "11111111111",
       "id": 4
     },
     {
