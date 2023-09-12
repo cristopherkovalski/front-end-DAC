@@ -34,9 +34,8 @@ const routes: Routes = [
   {path: 'alterar-gerente',  pathMatch:'full', component: AlterarGerenteComponent},
   {path: 'manutencao-admin', pathMatch:'full', component:ManutencaoAdminComponent},
   {path: 'lista-clientes', pathMatch:'full', component:ListaClientesComponent},
+  {path: 'relatorio-clientes', pathMatch: 'full' , component:RelatorioClientesComponent}
 
-
-  
 
 ];
 

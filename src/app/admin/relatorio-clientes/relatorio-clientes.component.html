@@ -13,15 +13,16 @@
             </thead>
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td>Cleitin</td>
-                    <td>08166677789</td>
-                    <td>1500</td>
-                    <td>Gerentin</td>
-                    <td>5000</td>
+                    <td>{{cliente.nome}}</td>
+                    <td>{{cliente.cpf}}</td>
+                    <td>{{formatCurrency(buscaLimiteConta(cliente))}}</td>
+                    <td>{{ buscaGerenteCliente(cliente)}}</td>
+                    <td>{{ formatCurrency(buscaSaldoConta(cliente))}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <button routerLink="/home-admin">Voltar</button>
 </div>
 
 <ng-template #erro>
