@@ -69,10 +69,10 @@ export class ClienteService {
   }
 
 
-  public clienteLogado(): any {
-    let clienteLogado = localStorage[LS_CHAVE];
-    return clienteLogado ? JSON.parse(clienteLogado) : null;
-  }
+  // public clienteLogado(): any {
+  //   let clienteLogado = localStorage[LS_CHAVE];
+  //   return clienteLogado ? JSON.parse(clienteLogado) : null;
+  // }
 
   public getUsuarioLogado(): Usuario {   //usar esse para buscar usuario logado
       console.log(this.loginService.usuarioLogado)

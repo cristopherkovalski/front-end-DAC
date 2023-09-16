@@ -22,7 +22,7 @@ export class DepositaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cliente = this.clienteService.clienteLogado();
+    this.cliente = this.clienteService.getUsuarioLogado();
     this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
       conta => {
         if (conta) {
