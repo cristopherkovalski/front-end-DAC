@@ -148,6 +148,8 @@ export class GerenteService {
   }
 
   public getAccontByClientId(id:number):Observable<Conta>{
+
+    
     const params = new HttpParams().set('id_cliente', id)
     return this.http.get<Conta[]>(url_conta, {params}).pipe(
         map((resposta: Conta[]) => {

@@ -7,6 +7,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { GerenteModule } from './gerente/gerente.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -22,7 +23,8 @@ import { GerenteModule } from './gerente/gerente.module';
     ClienteModule,
     AdminModule,
     GerenteModule,
-    AuthModule
+    AuthModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,7 @@
       "id": 1,
       "id_cliente": 1,
       "gerenteId": 3,
-      "saldo": 298.50000000000006,
+      "saldo": 300.7300000000001,
       "limite": 1000,
       "situacao": "APROVADO",
       "observacao": null
@@ -21,11 +21,11 @@
     {
       "id": 3,
       "id_cliente": 3,
-      "gerenteId": 5,
+      "gerenteId": 7,
       "saldo": 100,
       "limite": 1000,
-      "situacao": "PENDENTE",
-      "observacao": null
+      "situacao": "RECUSADO",
+      "observacao": "sim"
     },
     {
       "id": 4,
@@ -56,11 +56,27 @@
     },
     {
       "id_cliente": 7,
-      "gerenteId": 5,
+      "gerenteId": 7,
       "saldo": 0,
       "limite": 2500,
       "observacao": "PENDENTE",
       "id": 7
+    },
+    {
+      "id_cliente": 8,
+      "gerenteId": 3,
+      "saldo": 0,
+      "limite": 0,
+      "observacao": "PENDENTE",
+      "id": 8
+    },
+    {
+      "id_cliente": 9,
+      "gerenteId": 2,
+      "saldo": 0,
+      "limite": 0,
+      "observacao": "PENDENTE",
+      "id": 9
     }
   ],
   "movimentacoes": [
@@ -176,6 +192,38 @@
       "conta_id": 1,
       "conta_destiny": null,
       "id": 14
+    },
+    {
+      "dataHora": "2023-09-16T22:29:35.942Z",
+      "type": "SAQUE",
+      "value": 1.11,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 15
+    },
+    {
+      "dataHora": "2023-09-16T22:30:29.285Z",
+      "type": "SAQUE",
+      "value": 11.11,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 16
+    },
+    {
+      "dataHora": "2023-09-16T22:31:28.378Z",
+      "type": "DEPOSITO",
+      "value": 1.23,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 17
+    },
+    {
+      "dataHora": "2023-09-16T22:32:07.072Z",
+      "type": "DEPOSITO",
+      "value": 13.22,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 18
     }
   ],
   "auth": [
@@ -204,6 +252,13 @@
       "id": 4,
       "nome": "glauber",
       "email": "gerente@gerente.com",
+      "senha": "1234",
+      "type": "GERENTE"
+    },
+    {
+      "id": 7,
+      "nome": "cristopherburro",
+      "email": "crist@gmail.com",
       "senha": "1234",
       "type": "GERENTE"
     }
@@ -331,6 +386,40 @@
       },
       "telefone": "41202020200",
       "salario": 5000
+    },
+    {
+      "id": 8,
+      "nome": "euduvido",
+      "email": "eu@gmail.com",
+      "cpf": "56453654645",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Delegado Leopoldo Belczak",
+        "numero": "321",
+        "complemento": "casa",
+        "cep": "82800220",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "76222222222",
+      "salario": 1000
+    },
+    {
+      "id": 9,
+      "nome": "teste",
+      "email": "gerente@gerente.com",
+      "cpf": "10568513924",
+      "endereco": {
+        "tipo": "casa",
+        "logradouro": "do caralho",
+        "numero": "6969",
+        "complemento": "casa",
+        "cep": "00000000",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "76222222222",
+      "salario": -1232130
     }
   ],
   "gerentes": [
@@ -375,6 +464,13 @@
       "email": "gerente@gerente",
       "cpf": "091.614.779-74",
       "telefone": "41999180417"
+    },
+    {
+      "nome": "cristopherburro",
+      "email": "crist@gmail.com",
+      "cpf": "10568513924",
+      "telefone": "41988147209",
+      "id": 7
     }
   ]
 }
