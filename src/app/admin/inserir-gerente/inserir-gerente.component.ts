@@ -64,8 +64,8 @@ export class InserirGerenteComponent {
               this.usuario.senha = this.gerarSenha(10);
               this.adminService.inserirAutenticacao(this.usuario).subscribe({
                 next: (response) => {
-                  console.log("autentificação criada com sucesso, morra ! " + response.senha);
-                  alert("autentificação criada com sucesso, morra !" + response.senha);
+                  console.log("autentificação criada com sucesso" + response.senha);
+                  alert("autentificação criada com sucesso" + response.senha);
                   this.router.navigate(['/home-admin']);
                 },
                 error: (error) => {
