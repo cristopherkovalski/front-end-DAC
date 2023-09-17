@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div class="wrapper">
+  <div *ngIf="conta" class="wrapper">
     <div>
       <h4 class="box-title">Saque</h4>
       <h4> Número da Conta: {{conta.id}}</h4>
@@ -23,12 +23,12 @@
       <form #formSacar="ngForm">
         <div>
           <label for="valor">Valor:</label>
-          <input name="valor" currencyMask [(ngModel)]="valorSaque"
-            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" />
+          <input type="text" #valor id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorSaque"  />
         </div>
-        <div>
-          <button class="btn-confirm" type="button" style="margin-right: 10px" (click)="sacar()" [disabled]="!formSacar.form.valid">
-            Confirmar
+        <div >
+          <button type="button"  class="btn-confirm" (click)="sacar()"
+            [disabled]="!formSacar.form.valid || valorSaque <= 0  || !isValidValue() ">
+          Confirmar
           </button>
           <button class="btn-back" type="button"><a [routerLink]="['']">
             Voltar

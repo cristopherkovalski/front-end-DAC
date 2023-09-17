@@ -4,7 +4,7 @@
       "id": 1,
       "id_cliente": 1,
       "gerenteId": 3,
-      "saldo": 300.7300000000001,
+      "saldo": 300.68000000000006,
       "limite": 1000,
       "situacao": "APROVADO",
       "observacao": null
@@ -59,15 +59,15 @@
       "gerenteId": 7,
       "saldo": 0,
       "limite": 2500,
-      "observacao": "PENDENTE",
+      "situacao": "PENDENTE",
       "id": 7
     },
     {
       "id_cliente": 8,
-      "gerenteId": 3,
+      "gerenteId": 8,
       "saldo": 0,
       "limite": 0,
-      "observacao": "PENDENTE",
+      "situacao": "PENDENTE",
       "id": 8
     },
     {
@@ -75,7 +75,7 @@
       "gerenteId": 2,
       "saldo": 0,
       "limite": 0,
-      "observacao": "PENDENTE",
+      "situacao": "PENDENTE",
       "id": 9
     }
   ],
@@ -261,6 +261,13 @@
       "email": "crist@gmail.com",
       "senha": "1234",
       "type": "GERENTE"
+    },
+    {
+      "nome": "GabrielOInteligente",
+      "senha": "x4CtR564u8yw",
+      "email": "gaib@QI.com",
+      "type": "GERENTE",
+      "id": 8
     }
   ],
   "clientes": [
@@ -471,6 +478,13 @@
       "cpf": "10568513924",
       "telefone": "41988147209",
       "id": 7
+    },
+    {
+      "nome": "GabrielOInteligente",
+      "email": "gaib@QI.com",
+      "cpf": "10835832201",
+      "telefone": "11111111111",
+      "id": 8
     }
   ]
 }

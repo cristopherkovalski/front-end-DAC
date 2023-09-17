@@ -107,8 +107,7 @@ export class ManutencaoAdminComponent {
       const gerenteComMenosContas = this.encontrarGerenteComMenosContas(this.contas);
 
       if (gerenteComMenosContas) {
-        //const contasDoGerenteExcluido = this.contas.filter(c => c.gerenteId === gerente.id);
-        this.adminService.atualizarGerenteIdDeContasPorGerente(gerente.id!, gerenteComMenosContas.id!).subscribe({
+        this.adminService.atualizarNovoGerenteConta(gerente.id!, gerenteComMenosContas.id!).subscribe({
           next: (contasAtualizadas) => {
             console.log('Contas vinculadas com sucesso!', contasAtualizadas);
             this.adminService.excluirGerente(gerente).subscribe({

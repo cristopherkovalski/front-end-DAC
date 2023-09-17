@@ -26,7 +26,7 @@ export class HomeAdminComponent {
   }
 
   ngOnInit(): void {
-    // Fazer as duas chamadas assíncronas e aguardar que ambas sejam concluídas
+    
     forkJoin([
       this.adminService.getGerentesList(),
       this.adminService.getContasList()
@@ -34,7 +34,6 @@ export class HomeAdminComponent {
       next: ([gerentes, contas]) => {
         this.gerentes = gerentes;
         this.contas = contas;
-        // Agora que ambas as listas estão atualizadas, você pode calcular os valores
       },
       error: (error) => {
         this.erro = 'Ocorreu um erro ao buscar os dados: ' + error.message;

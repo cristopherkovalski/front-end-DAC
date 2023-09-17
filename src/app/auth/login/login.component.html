@@ -14,7 +14,7 @@
 
       <div>
         <label for="senha">Senha</label>
-        <input [(ngModel)]="auth.senha" #password="ngModel" name="senha" type="password" id="senha" required minlength="4" maxlength="10"/>
+        <input [(ngModel)]="auth.senha" #password="ngModel" name="senha" type="password" id="senha" required minlength="4" maxlength="13"/>
         <div *ngIf="password.errors && (password.dirty || password.touched)">
           <div> Digite uma senha</div>
         </div>

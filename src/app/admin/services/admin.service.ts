@@ -5,14 +5,16 @@ import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
 import { Observable, map, catchError, switchMap, forkJoin } from 'rxjs';
+import { Usuario } from 'src/app/shared/models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  gerenteUrl = 'http://localhost:3000/gerentes';
-  contaUrl = 'http://localhost:3000/contas';
-  clienteUrl = 'http://localhost:3000/clientes';
+ private gerenteUrl = 'http://localhost:3000/gerentes';
+ private  contaUrl = 'http://localhost:3000/contas';
+ private  clienteUrl = 'http://localhost:3000/clientes';
+ private  usuarioUrl = 'http://localhost:3000/auth'
 
 
   constructor(private http: HttpClient, private loginService: LoginService) {
@@ -69,7 +71,7 @@ export class AdminService {
     return this.http.patch<Conta>(url, body);
   }
 
-  atualizarGerenteIdDeContasPorGerente(gerenteIdExistente: number, novoGerenteId: number): Observable<Conta[]> {
+  atualizarNovoGerenteConta(gerenteIdExistente: number, novoGerenteId: number): Observable<Conta[]> {
     return this.getContasPorGerente(gerenteIdExistente).pipe(
       switchMap((contas) => {
         const observables: Observable<Conta>[] = contas.map((conta) =>
@@ -78,6 +80,10 @@ export class AdminService {
         return forkJoin(observables);
       })
     );
+  }
+
+  inserirAutenticacao(usuario: Usuario): Observable<Usuario>{
+    return this.http.post(this.usuarioUrl, usuario);
   }
 
   getContasPorGerente(gerenteId: number): Observable<Conta[]> {

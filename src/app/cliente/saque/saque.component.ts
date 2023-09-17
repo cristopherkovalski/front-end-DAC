@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 
 })
 export class SaqueComponent implements OnInit {
+
   @ViewChild('formSacar') formSacar!: NgForm;
 
   cliente!: any;
@@ -23,18 +24,28 @@ export class SaqueComponent implements OnInit {
 
   ngOnInit(): void {
     this.cliente = this.clienteService.getUsuarioLogado();
-    this.clienteService.getAccontByClientId(this.cliente.id).subscribe({
-      next: (response) => {
-        this.conta = response;
-      },
-      error: (e) => {
-        alert("Cliente Sem conta, por favor entre em contato");
-        this.router.navigate(["/home-cliente"]);
+    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+      conta => {
+        if (conta) {
+          this.conta = conta; 
+        } else {
+          alert("Cliente Sem conta, por favor entre em contato");
+          this.router.navigate(["/home-cliente"])
+        }
       }
-    });
+    );
+  }
+
+  isValidValue(): boolean{
+    if (this.valorSaque > this.conta.saldo){
+       return false;
+      }else{
+       return true;
+      }
   }
 
   sacar(): void {
+    if ((this.formSacar.form.valid) && (this.valorSaque > 0) && (this.valorSaque <= this.conta.saldo)){
     this.clienteService.sacar(+this.valorSaque, this.conta).subscribe({
       next: (response) => {
         alert('Saque realizado com sucesso!');
@@ -42,6 +53,9 @@ export class SaqueComponent implements OnInit {
       },
       error: (e) => alert(e)
     })
+  }else{
+    alert('Valor Inválido');
+  }
   }
 
 

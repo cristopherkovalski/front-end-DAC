@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef  } from '@angular/core';
 import { Cliente } from 'src/app/shared/models/cliente.model';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { CepService } from '../services/cep.service';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Router } from '@angular/router';
@@ -22,6 +22,8 @@ export class AlteraPerfilComponent {
   @ViewChild(TelefoneFormatDirective) telefoneFormatDirective!: TelefoneFormatDirective;
   @ViewChild(CepFormatDirective) cepFormatDirective!: CepFormatDirective; 
   @ViewChild(CpfFormatDirective) cpfFormatDirective!: CpfFormatDirective;
+  @ViewChild('formAlterar') formAlterar!: NgForm;
+
 
   cliente = new Cliente();
   mensagem: string = '';
@@ -30,6 +32,7 @@ export class AlteraPerfilComponent {
   constructor(private cepService: CepService, private router: Router, private login: LoginService, private clienteService: ClienteService, ) {
   
 }
+
 
 ngAfterViewInit(): void {
   const clienteResult = this.clienteService.getUsuarioLogado();
@@ -49,6 +52,7 @@ ngAfterViewInit(): void {
     }
   );
 }
+
 
 
 
@@ -82,6 +86,7 @@ ngAfterViewInit(): void {
 
 
   alterarCliente(): void {
+    if(this.formAlterar.form.valid && this.cliente.salario > 0){
     if (this.cliente.salario >= 2000) {
       const limite = this.cliente.salario / 2;
     }
@@ -90,7 +95,7 @@ ngAfterViewInit(): void {
     this.cliente.telefone = this.removeMascara(this.cliente.telefone);
     this.clienteService.atualizarCliente(this.cliente).subscribe(
     (mensagem) => {
-        alert(mensagem); // Exibe a mensagem de sucesso ou erro em um alerta
+        alert(mensagem); 
         this.router.navigate(['/home-cliente']);
       },
       (error) => {
@@ -98,7 +103,10 @@ ngAfterViewInit(): void {
       }
     );
     this.router.navigate(['/home-cliente']);
+  }else{
+    alert('Inserir dados válidos');
   }
+}
 
 
 }

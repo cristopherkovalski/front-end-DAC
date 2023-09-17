@@ -10,9 +10,9 @@
 <body>
     <div>
         <h2>Alterar Perfil</h2>
-        <form (ngSubmit)="alterarCliente()" #formCadastrar="ngForm">
+        <form (ngSubmit)="alterarCliente()" #formAlterar="ngForm">
             <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" [(ngModel)]="cliente.nome" required>
+            <input type="text" id="nome" name="nome" [(ngModel)]="cliente.nome" [pattern]="'^[a-zA-Z \-\']$'" required>
             <br>
             <label for="gerente">Gerente da conta:</label>
             <!-- <span [(ngModel)]="gerente.nome">{{gerente.nome}}</span>-->
@@ -26,7 +26,7 @@
             <br>
             <label for="telefone">Telefone:</label>
             <input type="text" id="telefone" name="telefone" [(ngModel)]="cliente.telefone"
-                placeholder="(00) 00000-0000" maxlength="15" pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" required
+                placeholder="(00) 00000-0000" maxlength="15" pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}"
                 appTelefoneFormat />
             <br>
             <label for="cep">CEP:</label>
@@ -56,7 +56,7 @@
             <input type="text" id="salario" currencyMask name="salario" [(ngModel)]="cliente.salario"
                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required>
             <br>
-            <button type="submit" [disabled]="!formCadastrar.valid">Alterar perfil</button>
+            <button type="submit" [disabled]="!formAlterar.valid || cliente.salario <= 0 ">Alterar perfil</button>
             <button routerLink="/">Voltar para a Home</button>
         </form>
         <p>{{ mensagem }}</p>

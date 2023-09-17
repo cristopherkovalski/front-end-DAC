@@ -8,6 +8,8 @@ import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Conta } from 'src/app/shared/models/conta.model';
 import { TelefoneFormatDirective } from 'src/app/shared/directives/telefone-format.directive';
 import { CpfFormatDirective } from 'src/app/shared/directives/cpf-format.directive';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Usuario } from 'src/app/shared/models/usuario.model';
 
 
 
@@ -17,14 +19,18 @@ import { CpfFormatDirective } from 'src/app/shared/directives/cpf-format.directi
   styleUrls: ['./inserir-gerente.component.css']
 })
 export class InserirGerenteComponent {
+  @ViewChild('formInserirGerente') formInserirGerente!: NgForm;
+
+  usuario = new Usuario;
   gerente = new Gerente;
   gerentes: Gerente[] = [];
   contas: Conta[] = [];
   clientes: Cliente[] = [];
   erro: string | null = null;
   conta = new Conta;
-  isCpfValido: boolean = true;
+  isCpfValido: boolean = false;
   mensagemCPF: string = '';
+
   @ViewChild(TelefoneFormatDirective) telefoneFormatDirective!: TelefoneFormatDirective;
   @ViewChild(CpfFormatDirective) cpfFormatDirective!: CpfFormatDirective;
 
@@ -33,38 +39,73 @@ export class InserirGerenteComponent {
 
 
   inserirGerente(): void {
-    this.gerente.cpf = this.removeMascara(this.gerente.cpf!);
-    this.gerente.telefone = this.removeMascara (this.gerente.telefone!);
-    this.adminService.adicionarGerente(this.gerente).pipe(
-      switchMap((response) => {
-        this.gerente.id = response.id;
-        console.log('Gerente adicionado com sucesso:', response);
-        return this.adminService.getContasList();
-      })
-    ).subscribe({
-      next: (contas) => {
-        console.log('Contas buscadas com sucesso:', contas);
-        this.contas = contas;
-        this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
-        this.conta.gerenteId = this.gerente.id;
-        this.adminService.atualizarConta(this.conta).subscribe({
-          next: (response) => {
-           alert('Conta atualizada com sucesso com o novo gerente.');
-           console.log(response);
-           this.router.navigate(['/home-admin']);
-          },
-          error: (error) => {
-            alert('Erro ao atualizar conta')
-            console.error('Erro ao vincular conta ao novo gerente:', error);
-            this.router.navigate(['/home-admin']);
-          }
-        });
-      },
-      error: (error) => {
-        alert('Erro ao adicionar gerente ou buscar contas: Tente novamente!')
-        console.error('Erro ao adicionar gerente ou buscar contas: Tente novamente', error);
-      }
-    });
+    if (this.formInserirGerente.form.valid && this.isCpfValido) {
+      this.gerente.cpf = this.removeMascara(this.gerente.cpf!);
+      this.gerente.telefone = this.removeMascara(this.gerente.telefone!);
+      this.adminService.adicionarGerente(this.gerente).pipe(
+        switchMap((response) => {
+          this.gerente.id = response.id;
+          console.log('Gerente adicionado com sucesso:', response);
+          return this.adminService.getContasList();
+        })
+      ).subscribe({
+        next: (contas) => {
+          console.log('Contas buscadas com sucesso:', contas);
+          this.contas = contas;
+          this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
+          this.conta.gerenteId = this.gerente.id;
+          this.adminService.atualizarConta(this.conta).subscribe({
+            next: (response) => {
+              alert('Conta atualizada com sucesso com o novo gerente.');
+              console.log(response);
+              this.usuario.email = this.gerente.email;
+              this.usuario.nome = this.gerente.nome;
+              this.usuario.type = "GERENTE";
+              this.usuario.senha = this.gerarSenha(10);
+              this.adminService.inserirAutenticacao(this.usuario).subscribe({
+                next: (response) => {
+                  console.log("autentificação criada com sucesso, morra ! " + response.senha);
+                  alert("autentificação criada com sucesso, morra !" + response.senha);
+                  this.router.navigate(['/home-admin']);
+                },
+                error: (error) => {
+                  alert("erro ao criar autentificação, fale com admin!" + error)
+                }
+              })
+            },
+            error: (error) => {
+              alert('Erro ao atualizar conta')
+              console.error('Erro ao vincular conta ao novo gerente:', error);
+              this.router.navigate(['/home-admin']);
+            }
+          });
+        },
+        error: (error) => {
+          alert('Erro ao adicionar gerente ou buscar contas: Tente novamente!')
+          console.error('Erro ao adicionar gerente ou buscar contas: Tente novamente', error);
+        }
+      });
+    } else {
+      alert("Erro. Verifique os dados inseridos!");
+    }
+  }
+
+  gerarSenha(tamanho: number): string {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let senha = '';
+
+    for (let i = 0; i < tamanho; i++) {
+      const indice = Math.floor(Math.random() * caracteres.length);
+      senha += caracteres.charAt(indice);
+    }
+
+    return senha;
+  }
+
+  resetarValidacaoCPF(){
+    if(this.isCpfValido === true)
+    this.isCpfValido= false;
+    this.mensagemCPF = '';
   }
 
   verificarCPF() {
