@@ -1,14 +1,13 @@
 <div class="container d-flex justify-content-center mt-5">
   <div *ngIf="conta" style="width: 300px;" class="deposito">
-    <h1>Depósitar</h1>
-
+    <h1>Depositar</h1>
+    <h5>Conta: {{conta.id}}</h5>
+    <h6>Saldo:
+      <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
+    </h6>
     <form #formDepositar="ngForm">
-      <p>Saldo: {{ conta.saldo | currency }}</p>
-
-      <p>Informe o valor do depósito:</p>
-
       <div class="form-group">
-        <label for="valor">Valor:</label>
+        <label for="valor">Informe o valor do depósito:</label>
         <input placeholder="R$ 0,00" class="form-control" #valor="ngModel" id="valor" name="valor" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"  required [(ngModel)]="valorDeposito"  />
         <div *ngIf="valor.errors && (valor.dirty || valor.touched)" class="mt-2 alert alert-danger">
           <div [hidden]="!valor.errors?.['required']"> Digite um valor para deposito.</div>
@@ -23,6 +22,7 @@
           Depósitar
         </button>
       </div>
+
     </form>
   </div>
   <div *ngIf="!conta">

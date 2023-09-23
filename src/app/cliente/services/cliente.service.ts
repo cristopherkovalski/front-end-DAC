@@ -177,7 +177,6 @@ export class ClienteService {
   
    // isso aqui vai morrer jaja, 
   registrarTransacaoJson(tipo: string, valor: number, contaOrigem?: any, contaDestino?: any):Observable<any>{
-
     let url = url_movimentacao.replace(':id', contaOrigem.toString());
     const transacao = {
       dataHora: new Date().toJSON(), // Adicione esta linha para incluir a data e hora atual

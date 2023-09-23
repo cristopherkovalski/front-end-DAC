@@ -276,6 +276,20 @@
       "email": "gaib@QI.com",
       "type": "GERENTE",
       "id": 8
+    },
+    {
+      "nome": "GabrielOInteligente",
+      "senha": "x4CtR564u8yw",
+      "email": "gaib@QI.com",
+      "type": "GERENTE",
+      "id": 9
+    },
+    {
+      "nome": "Serjão Lanches",
+      "senha": "1234",
+      "email": "admin@admin.com",
+      "type": "ADMIN",
+      "id": 10
     }
   ],
   "clientes": [
@@ -493,6 +507,15 @@
       "cpf": "10835832201",
       "telefone": "11111111111",
       "id": 8
+    }
+  ],
+  "admins":[
+    {
+      "id": 1,
+      "nome": "Serjão Lanches",
+      "email": "admin@admin.com",
+      "cpf": "14721479018",
+      "telefone": "41996563224"
     }
   ]
 }

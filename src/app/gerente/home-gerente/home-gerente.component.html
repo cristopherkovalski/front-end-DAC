@@ -1,31 +1,29 @@
 
 
 <div>
-  <button routerLink="/lista-clientes">Lista Clientes</button>
-  <button routerLink="/pesquisar-cliente">Procurar Cliente</button>
-  <button routerLink="/melhores-clientes">Os Tops</button>
-    <div> <!-- aqui sera a lista de cliente   -->
-        <table>
-            <thead>
-              <tr>
-                <th>CPF</th>
-                <th>Nome</th>
-                <th>Salário</th>
-                <th>Ação</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let cliente of clientes">
-                <td>{{ cliente.cpf }}</td>
-                <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.salario }}</td>
-                <td>
-                  <button (click)="aprovarCliente(cliente)">Aprovar</button>
-                  <button (click)="recusarCliente(cliente)">Recusar</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
+  <div> <!-- aqui sera a lista de cliente   -->
+      <table>
+        <thead>
+          <tr>
+            <th>CPF</th>
+            <th>Nome</th>
+            <th>Salário</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.cpf }}</td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.salario }}</td>
+            <td>
+              <button (click)="aprovarCliente(cliente)">Aprovar</button>
+              <button (click)="recusarCliente(cliente)">Recusar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="clientes.length === 0">Nenhum cliente para analise.</p>
+  </div>
 </div>
 

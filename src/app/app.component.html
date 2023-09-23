@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand bg-dark" data-bs-theme="dark">
-    <div *ngIf="usuarioLogado" class="container-fluid">
+<nav *ngIf="usuarioLogado" class="navbar navbar-expand bg-dark" data-bs-theme="dark">
+    <div class="container-fluid">
         <a class="navbar-brand" routerLink="">BANTADS</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,9 +25,35 @@
                     <a class="nav-link" routerLink="/alterarperfil">Alterar Perfil</a>
                 </li>
             </ul>
+
             <ul *ngIf="usuarioLogado.type==='GERENTE'" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/lista-clientes">Listar Cliente</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/pesquisar-cliente">Pesquisar Cliente</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/melhores-clientes">TOPs Clientes</a>
+                </li>
             </ul>
+
             <ul *ngIf="usuarioLogado.type==='ADMIN'" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/inserir-gerente">Cadastro Gerente</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/manutencao-admin">Manutenção Gerentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/relatorio-clientes">Relatório de Clientes</a>
+                </li>
             </ul>
             <span class="navbar-text">
                 Olá {{usuarioLogado.nome}}   <a href="#" (click)="logout()">Logout</a>

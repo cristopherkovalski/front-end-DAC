@@ -41,12 +41,6 @@ const routes: Routes = [
   {path: 'pesquisar-cliente', pathMatch: 'full' , component:PesquisarClienteComponent},
   {path: 'melhores-clientes', pathMatch: 'full' , component:MelhoresClientesComponent},
   {path: 'detalhe-cliente', pathMatch: 'full', component:DetalheClienteComponent}
-
-
-  
-  
-
-
 ];
 
 @NgModule({
