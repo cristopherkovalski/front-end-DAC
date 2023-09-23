@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HomeGerenteComponent } from './home-gerente/home-gerente.component';
 import { ListaClientesComponent } from './lista-clientes/lista-clientes.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.component';
 
 
 
@@ -10,10 +12,12 @@ import { RouterModule } from '@angular/router';
   declarations: [
     HomeGerenteComponent,
     ListaClientesComponent,
+    DetalheClienteComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ]
 })
 export class GerenteModule { }

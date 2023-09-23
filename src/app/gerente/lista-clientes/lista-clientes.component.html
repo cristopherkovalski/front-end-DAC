@@ -1,19 +1,32 @@
-<p>lista-clientes works!</p>
 
+<div>
+  <input search-bar type="text" [(ngModel)]="consulta" placeholder="Pesquisar por nome ou CPF" (input)="filtrarClientes()">
 
+  <div>
+        <table>
+            <thead>
+              <tr>
+                <th>CPF</th>
+                <th>Nome</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Saldo</th>
+                <th>Visualizar</th> 
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of clientesFiltrados">
+                <td>{{ cliente.cpf }}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.endereco.cidade }}</td>
+                <td>{{ cliente.endereco.estado }}</td>
+                <td>{{ buscaSaldoConta(cliente)}}</td>
+                <td> <button routerLink="/detalhe-cliente">Detalhes</button> </td>
+              </tr>
+            </tbody>
+          </table>
+          <button routerLink="/home-gerente">Voltar</button>
 
-<table class="table w-full ">
-            
-                <tr *ngFor="let cliente of clientes">
-                    <!-- <th class="text-cyan-500" card-id>{{peca.id}}</th>             --> 
-                    <td class="text-center text-lg" card-peça>{{cliente.id}}</td>
-
-                    <td class="text-center text-lg" card-peça>{{cliente.cpf}}</td>
-                    <td class="text-center text-lg" card-peça>{{cliente.nome}}</td>
-                    <td class="text-center text-lg" card-peça>{{cliente.endereco.cidade}}</td>
-                    <td class="text-center text-lg" card-peça>{{cliente.endereco.estado}}</td>
-                    <td class="text-center text-lg" card-peça>{{ buscaSaldoConta(cliente)}}</td><!-- saldo -->
-            </tr>
-
-</table>
+    </div>
+</div>
 

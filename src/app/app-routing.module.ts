@@ -19,6 +19,8 @@ import { ManutencaoAdminComponent } from './admin/manutencao-admin/manutencao-ad
 import { ListaClientesComponent } from './gerente/lista-clientes/lista-clientes.component';
 import { RelatorioClientesComponent } from './admin/relatorio-clientes/relatorio-clientes.component';
 import { PesquisarClienteComponent } from './gerente/pesquisar-cliente/pesquisar-cliente.component';
+import { MelhoresClientesComponent } from './gerente/melhores-clientes/melhores-clientes.component';
+import { DetalheClienteComponent } from './gerente/detalhe-cliente/detalhe-cliente.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
@@ -35,7 +37,14 @@ const routes: Routes = [
   {path: 'alterar-gerente',  pathMatch:'full', component: AlterarGerenteComponent},
   {path: 'manutencao-admin', pathMatch:'full', component:ManutencaoAdminComponent},
   {path: 'lista-clientes', pathMatch:'full', component:ListaClientesComponent},
-  {path: 'relatorio-clientes', pathMatch: 'full' , component:RelatorioClientesComponent}
+  {path: 'relatorio-clientes', pathMatch: 'full' , component:RelatorioClientesComponent},
+  {path: 'pesquisar-cliente', pathMatch: 'full' , component:PesquisarClienteComponent},
+  {path: 'melhores-clientes', pathMatch: 'full' , component:MelhoresClientesComponent},
+  {path: 'detalhe-cliente', pathMatch: 'full', component:DetalheClienteComponent}
+
+
+  
+  
 
 
 ];

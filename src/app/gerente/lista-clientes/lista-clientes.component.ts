@@ -4,7 +4,7 @@ import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { Conta } from 'src/app/shared/models/conta.model';
 import { ClienteService } from 'src/app/cliente/services/cliente.service';
-import { map } from 'rxjs';
+
 
 @Component({
   selector: 'app-lista-clientes',
@@ -13,11 +13,14 @@ import { map } from 'rxjs';
 })
 export class ListaClientesComponent implements OnInit {
 
+
   constructor(private gerenteService:GerenteService, private clienteService:ClienteService){}
 
   clientes: Cliente[] = [];
   contas: Conta[] = [];
   gerente !: Usuario;
+  clientesFiltrados: Cliente[] = []; // Array para armazenar os clientes filtrados
+  consulta: string = ''; // A consulta de pesquisa inserida pelo usuário
   
   ngOnInit(): void {
     this.gerente = this.gerenteService.gerenteLogado();
@@ -25,9 +28,8 @@ export class ListaClientesComponent implements OnInit {
     this.contas = [];
     this.listarTodos();
     this.listarTodosC();
+    this.clientesFiltrados = this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
 
-
-    //saldo não pode vir direto no cliente.model? front, não é melhor id da conta no cliente inves de id do cliente na conta?
   }
 
 
@@ -36,24 +38,22 @@ export class ListaClientesComponent implements OnInit {
       next: (data: Cliente[]) => {
         if (data == null) {
           this.clientes = [];
-        }
+        } else {
+          data.forEach((cliente) => {
+            this.clienteService.getAccontByClientId(cliente.id).subscribe((conta) => {
+              this.contas.push(conta);
+              if (conta.gerenteId == this.gerente.id) {
+                this.clientes.push(cliente);
+              }
+            });
+          });
 
-        else {
-          data.forEach((cliente)=> {
-           this.clienteService.getAccontByClientId(cliente.id).subscribe(conta =>{
 
-            this.contas.push(conta)
-            if(conta.gerenteId == this.gerente.id){
-            this.clientes.push(cliente)
-                  }
-                }
-              )
-            }
-          )
         }
       }
     });
-    return this.clientes;
+
+    return this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
   }
 
   listarTodosC(): Conta[] {
@@ -70,13 +70,24 @@ export class ListaClientesComponent implements OnInit {
     return this.contas;
   }
 
-
   buscaSaldoConta(cliente: Cliente): any{
-
     const clienteT = this.contas.filter(conta => conta.id_cliente == cliente.id).at(0)
-
     return clienteT?.saldo
     
   }
+  // Função para filtrar os clientes com base na consulta
+  filtrarClientes() {
+    this.clientesFiltrados = this.clientes.filter(
+      (cliente) =>
+        cliente.nome.toLowerCase().includes(this.consulta.toLowerCase()) ||
+        cliente.cpf.includes(this.consulta)
+    );
+
+  }
+
 
 }
+
+
+
+

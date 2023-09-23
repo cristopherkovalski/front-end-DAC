@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { GerenteModule } from './gerente/gerente.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -24,7 +25,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AdminModule,
     GerenteModule,
     AuthModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
