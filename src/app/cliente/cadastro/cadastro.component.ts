@@ -63,21 +63,24 @@ export class CadastroComponent {
 
   verificarCPF() {
     const cpfclean = this.removeMascara(this.cliente.cpf);
-    if (this.cadastroService.isValidCPF(cpfclean)) {
-      this.cadastroService.checkCpf(cpfclean).subscribe((cpfExists) => {
-        if (cpfExists) {
-          this.cpfValido = false;
-          this.cliente.cpf = '';
-          this.mensagemCPF = "CPF já cadastrado! Insira um novo CPF.";
-        } else {
-          this.cpfValido = true;
-          this.mensagemCPF = "CPF Ok!";
-        }
-      });
-    } else {
-      this.cpfValido = false;
-      this.cliente.cpf = '';
-      this.mensagemCPF = "CPF inválido! Insira um novo CPF.";
+
+    if (cpfclean.length == 11){
+      if (this.cadastroService.isValidCPF(cpfclean)) {
+        this.cadastroService.checkCpf(cpfclean).subscribe((cpfExists) => {
+          if (cpfExists) {
+            this.cpfValido = false;
+            this.cliente.cpf = '';
+            this.mensagemCPF = "CPF já cadastrado! Insira um novo CPF.";
+          } else {
+            this.cpfValido = true;
+            this.mensagemCPF = "CPF Ok!";
+          }
+        });
+      } else {
+        this.cpfValido = false;
+        this.cliente.cpf = '';
+        this.mensagemCPF = "CPF inválido! Insira um novo CPF.";
+      }
     }
   }
 

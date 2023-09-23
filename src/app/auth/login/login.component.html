@@ -1,31 +1,44 @@
-<div>
-  <h1>BANTADS</h1>
-    <form #formLogin="ngForm">
-      <div>
-        <h4>Login</h4>
-      </div>
-      <div >
-        <label for="email">Email</label>
-        <input [(ngModel)]="auth.login" #emailF="ngModel" name="email" type="email" id="email" required />
-        <div *ngIf="emailF.errors && (emailF.dirty || emailF.touched)">
-          <div> Digite um email do Usuario. </div>
-        </div>
-      </div>
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <form #formLogin="ngForm">
 
-      <div>
-        <label for="senha">Senha</label>
-        <input [(ngModel)]="auth.senha" #password="ngModel" name="senha" type="password" id="senha" required minlength="4" maxlength="13"/>
-        <div *ngIf="password.errors && (password.dirty || password.touched)">
-          <div> Digite uma senha</div>
+              <div class="mb-md-5 mt-md-4 pb-5">
+
+                <h2 class="fw-bold mb-2 text-uppercase">BANTADS</h2>
+                <p class="text-white-50 mb-3">Por favor entre com login e senha!</p>
+
+                <div class="form-outline form-white mb-4">
+                  <label class="form-label text-center" for="login">Login</label>
+                  <input placeholder="Email" class="form-control form-control-lg" [(ngModel)]="auth.login" #emailF="ngModel" name="email" type="email" id="email" required />
+                  <div class="mt-2 alert alert-danger" *ngIf="emailF.errors && (emailF.dirty || emailF.touched)">
+                    <div> Digite um email do Usuario. </div>
+                  </div>
+                </div>
+
+                <div class="form-outline form-white mb-4">
+                  <label class="form-label text-center" for="senha">Senha</label>
+                  <input placeholder="" class="form-control form-control-lg" [(ngModel)]="auth.senha" #password="ngModel" name="senha" type="password" id="senha" required minlength="4" maxlength="13"/>
+                  <div class="mt-2 alert alert-danger" *ngIf="password.errors && (password.dirty || password.touched)">
+                    <div> Digite uma senha</div>
+                  </div>
+                </div>
+
+                <button [disabled]="!formLogin.valid" (click)="login()" class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+              </div>
+            </form>
+            <div>
+              <div *ngIf="message">
+                {{message}}
+              </div>
+              <p>Não tem uma conta no nosso banco? <a [routerLink]="['/registrar']">Registre-se</a> é gratis...ou não vai saber</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-        <button (click)="login()" type="submit">Entrar</button>
-      </div>
-      <div *ngIf="message">
-        {{message}}
-      </div>
-      <p>Não tem uma conta no nosso banco? <a [routerLink]="['/registrar']">Registre-se</a> é gratis...ou não vai saber</p>
-    </form>
-</div>
-  
+    </div>
+  </div>
+</section>
