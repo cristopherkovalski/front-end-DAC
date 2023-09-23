@@ -1,50 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-  <div *ngIf="conta">
-    <div>
-      <h4>Depositar - Conta: {{conta.id}}</h4>
-    </div>
-    
-    <div>
-      <h4>Saldo:
-        <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
-      </h4>
-    </div>
+<div class="container d-flex justify-content-center mt-5">
+  <div *ngIf="conta" style="width: 300px;" class="deposito">
+    <h1>Depósitar</h1>
 
-    <div>
-      <h3>Transações:</h3>
-      <ul>
-        <li *ngFor="let transacao of conta.movimentacao">
-          {{ transacao.dataHora | date: 'dd/MM/yyyy HH:mm:ss' }} - Tipo: {{ transacao.type }} - Valor: {{ transacao.value | currency: "BRL" }}
-        </li>
-      </ul>
-    </div>
+    <form #formDepositar="ngForm">
+      <p>Saldo: {{ conta.saldo | currency }}</p>
 
-      <div>
-        <form #formDepositar="ngForm">
-          <div>
-            <label for="valor">Valor:</label>
-            <input type="text" #valor id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorDeposito"  />
-          </div>
-          <div >
-            <button type="button"  style="margin-right: 10px" (click)="depositar()"
-              [disabled]="!formDepositar.form.valid || valorDeposito <= 0 ">
-            Confirmar
-            </button>
-            <button (click)="getConta()">pega conta</button>
-            <a [routerLink]="['']">
-              Voltar
-            </a>
-          </div>
-        </form>
+      <p>Informe o valor do depósito:</p>
+
+      <div class="form-group">
+        <label for="valor">Valor:</label>
+        <input placeholder="R$ 0,00" class="form-control" #valor="ngModel" id="valor" name="valor" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"  required [(ngModel)]="valorDeposito"  />
+        <div *ngIf="valor.errors && (valor.dirty || valor.touched)" class="mt-2 alert alert-danger">
+          <div [hidden]="!valor.errors?.['required']"> Digite um valor para deposito.</div>
+        </div>
       </div>
-  </div>
 
-</body>
-</html>
+      <div class="form-group mt-5 d-flex justify-content-center">
+        <a class="btn btn-secondary me-3" href="#" routerLink="">
+          Voltar
+        </a>
+        <button type="button" class="btn btn-primary" (click)="depositar()" [disabled]="!formDepositar.form.valid || !valorDeposito">
+          Depósitar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!conta">
+    <div class="d-flex align-items-center">
+      <strong role="status">
+        <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+      </strong>
+    </div>
+  </div>
+</div>

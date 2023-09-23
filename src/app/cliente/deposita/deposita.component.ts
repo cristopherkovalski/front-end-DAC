@@ -35,40 +35,23 @@ export class DepositaComponent implements OnInit {
     );
   }
 
-depositar(): void {
-  if ((this.formDepositar.form.valid) && (this.valorDeposito > 0)) {
-    this.clienteService.depositar(this.valorDeposito, this.conta).subscribe({
-      next:(response) =>{
-        alert('Depósito realizado com sucesso!');
-        this.conta = response;
+  depositar(): void {
+    if ((this.formDepositar.form.valid) && (this.valorDeposito > 0)) {
+      this.clienteService.depositar(this.valorDeposito, this.conta).subscribe({
+        next:(response) =>{
+          alert('Depósito realizado com sucesso!');
+          this.conta = response;
 
-        // const options:any = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        // const transacao = {
-        //   valor: this.valorDeposito,
-        //   origem: this.conta.id,
-        //   destino: null,
-        //   dataHora: new Date().toJSON() // Hora atual em formato ISO
-        // };
-      },
-      error:(e) => alert(e)
-    })
+          // const options:any = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+          // const transacao = {
+          //   valor: this.valorDeposito,
+          //   origem: this.conta.id,
+          //   destino: null,
+          //   dataHora: new Date().toJSON() // Hora atual em formato ISO
+          // };
+        },
+        error:(e) => alert(e)
+      })
+    }
   }
-}
-
-getConta():void{
-  console.log(this.conta)
-}
-
-
-
-// registrarTransacao(transacao: any): void {
-//   this.clienteService.registrarTransacao(
-//     'DEPOSITO', // Tipo da transação
-//     transacao.valor,
-//     this.conta.id, // Conta de origem
-//     null // Não há conta de destino para depósito
-//   );
-// }
-// // ...
-
 }

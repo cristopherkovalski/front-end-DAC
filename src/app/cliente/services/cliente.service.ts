@@ -75,14 +75,13 @@ export class ClienteService {
   // }
 
   public getUsuarioLogado(): Usuario {   //usar esse para buscar usuario logado
-      console.log(this.loginService.usuarioLogado)
       let user = this.loginService.usuarioLogado;
       return user;
   }
   
   
   public buscarCliente(id: number | undefined): Observable<Cliente> {
-  const url = `${apiUrl}/${id}`; 
+    const url = `${apiUrl}/${id}`; 
     return this.http.get<Cliente>(url);
   }
 
@@ -96,12 +95,6 @@ export class ClienteService {
         catchError(() => 'Erro ao atualizar o cliente') 
       );
   }
-
-  public buscarContaPorClienteId(id:number):Observable<any>{
-    //faz a requisição e volta uma conta por hora só volta o json
-    return of(this.conta);
-  }
-
 
   public getAccontByClientId(id:number):Observable<Conta>{
     const params = new HttpParams().set('id_cliente', id)

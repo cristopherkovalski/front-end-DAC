@@ -1,20 +1,38 @@
-<nav>
-    <div *ngIf="usuarioLogado">
-        <div *ngIf="usuarioLogado.type==='ADMIN'">
-
-        </div>
-        <div *ngIf="usuarioLogado.type==='CLIENTE'">
-
-        </div>
-        <div *ngIf="usuarioLogado.type==='GERENTE'">
-        </div>
-        <div>
-            <p>
+<nav class="navbar navbar-expand bg-dark" data-bs-theme="dark">
+    <div *ngIf="usuarioLogado" class="container-fluid">
+        <a class="navbar-brand" routerLink="">BANTADS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul *ngIf="usuarioLogado.type==='CLIENTE'" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/depositar">Deposito</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/sacar">Saque</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/transf">Tranferência</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="">Extrato</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/alterarperfil">Alterar Perfil</a>
+                </li>
+            </ul>
+            <ul *ngIf="usuarioLogado.type==='GERENTE'" class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <ul *ngIf="usuarioLogado.type==='ADMIN'" class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <span class="navbar-text">
                 Olá {{usuarioLogado.nome}}   <a href="#" (click)="logout()">Logout</a>
-            </p>
-        </div>        
+            </span>
+        </div>
     </div>
 </nav>
-
-
 <router-outlet></router-outlet>

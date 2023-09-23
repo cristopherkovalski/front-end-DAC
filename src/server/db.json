@@ -4,7 +4,7 @@
       "id": 1,
       "id_cliente": 1,
       "gerenteId": 3,
-      "saldo": 300.68000000000006,
+      "saldo": 300.7800000000001,
       "limite": 1000,
       "situacao": "APROVADO",
       "observacao": null
@@ -224,6 +224,14 @@
       "conta_id": 1,
       "conta_destiny": null,
       "id": 18
+    },
+    {
+      "dataHora": "2023-09-23T16:20:18.567Z",
+      "type": "DEPOSITO",
+      "value": 0.1,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 19
     }
   ],
   "auth": [
