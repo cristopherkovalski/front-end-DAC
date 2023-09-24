@@ -56,11 +56,12 @@
     },
     {
       "id_cliente": 7,
-      "gerenteId": 7,
+      "gerenteId": 4,
       "saldo": 0,
       "limite": 2500,
-      "situacao": "PENDENTE",
-      "id": 7
+      "situacao": "RECUSADO",
+      "id": 7,
+      "observacao": "tava moscando"
     },
     {
       "id_cliente": 8,

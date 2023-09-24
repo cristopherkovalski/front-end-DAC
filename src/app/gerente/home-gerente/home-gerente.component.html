@@ -1,29 +1,37 @@
-
-
-<div>
-  <div> <!-- aqui sera a lista de cliente   -->
-      <table>
-        <thead>
-          <tr>
-            <th>CPF</th>
-            <th>Nome</th>
-            <th>Salário</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let cliente of clientes">
-            <td>{{ cliente.cpf }}</td>
-            <td>{{ cliente.nome }}</td>
-            <td>{{ cliente.salario }}</td>
-            <td>
-              <button (click)="aprovarCliente(cliente)">Aprovar</button>
-              <button (click)="recusarCliente(cliente)">Recusar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p *ngIf="clientes.length === 0">Nenhum cliente para analise.</p>
+<div class="container mt-5">
+  <!-- aqui sera a lista de cliente   -->
+  <h2>Clientes para Aprovação</h2>
+  <table class="table mt-4">
+    <thead class="">
+      <tr>
+        <th scope="col">CPF</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Salário</th>
+        <th scope="col">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr scope="row" *ngFor="let cliente of clientes">
+        <td>{{ cliente.cpf }}</td>
+        <td>{{ cliente.nome }}</td>
+        <td>{{ cliente.salario }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="aprovarCliente(cliente)">Aprovar</button>
+          <button class="btn btn-danger ms-2" (click)="recusarCliente(cliente)">Recusar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="clientes && clientes.length === 0">
+    <h5>
+      <p class="text-center" *ngIf="clientes.length === 0">Nenhum cliente para analise.</p>
+    </h5>
+  </div>
+  <div *ngIf="clientes == undefined">
+    <div class=" text-center vh-100">
+      <strong role="status">
+        <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+      </strong>
+    </div>
   </div>
 </div>
-

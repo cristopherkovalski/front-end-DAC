@@ -14,22 +14,23 @@ export class HomeGerenteComponent implements OnInit{
 
   constructor(private gerenteService:GerenteService){}
 
-  clientes: Cliente[] = [];
+  clientes!: Cliente[];
   gerente !: Usuario;
 
 
   ngOnInit(): void {
-      this.gerente = this.gerenteService.gerenteLogado();
+    console.log(this.clientes)
+    this.gerente = this.gerenteService.gerenteLogado();
 
       //não gosto disso mas é o q tá tendo
-      this.buscaClientesAnalise();
+    this.buscaClientesAnalise();
   }
 
 
   buscaClientesAnalise(){
-    this.clientes = [];
     this.gerenteService.getContasAprovacao(this.gerente.id!).subscribe(contas =>{
       if (contas){
+        this.clientes = [];
         contas.forEach(conta => {
           this.gerenteService.getClientesById(conta.id_cliente!).subscribe(cliente =>{
             // console.log(cliente)
