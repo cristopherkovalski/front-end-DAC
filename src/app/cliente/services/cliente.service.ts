@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { Endereco } from 'src/app/shared/models/endereco.model';
-import { Observable, of, map, catchError, throwError, tap } from 'rxjs';
+import { Observable, of, map, catchError, throwError, tap, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { LoginService } from 'src/app/auth/services/login.service';
@@ -19,17 +19,11 @@ const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
   providedIn: 'root'
 })
 export class ClienteService {
-  cliente: { nome: string; salario: number;  email: string, senha: string};
-  gerente: {};
   movimentacao: any[] = [];
 
-  conta: { id: number; cliente: { nome: string; salario: number; }; gerente: {}; movimentacao: any[]; saldo: number; limite: number; };
 
-  cliente1: { nome: string; salario: number; email: string, senha: string };
-  gerente1: {};
   movimentacao1: any[] = [];
 
-  conta1: { id: number; cliente: { nome: string; salario: number; }; gerente: {}; movimentacao: any[]; saldo: number; limite: number; };
 
  cliente2 = new Cliente();
 
@@ -41,38 +35,11 @@ export class ClienteService {
 
   
   constructor(private http: HttpClient, private loginService: LoginService) {
-    this.cliente = { nome: 'cleitin', salario: 2000, email: 'cliente@cliente.com', senha: '1234' };
-    this.gerente = {};
-    this.movimentacao = [];
-    this.conta = {
-      id: 1,
-      cliente: this.cliente,
-      gerente: this.gerente,
-      movimentacao: this.movimentacao,
-      saldo: 3,
-      limite: 1000
-    };
-  
-    this.cliente1 = { nome: 'outronom', salario: 2500, email: 'cliente2@cliente.com', senha: '1234' };
-    this.gerente1 = {};
-    this.movimentacao1 = [];
-    this.conta1 = {
-      id: 2,
-      cliente: this.cliente,
-      gerente: this.gerente,
-      movimentacao: this.movimentacao,
-      saldo: 10,
-      limite: 2000
-    };
-    //this.cliente2 = new Cliente(1, "Teste", "testegmail.com", "09161477974", new Endereco("rua", "do saci", "300", "casa", "81240510", "curitiba", "Paraná"), "4232458124", 3000);
+    
     
   }
 
 
-  // public clienteLogado(): any {
-  //   let clienteLogado = localStorage[LS_CHAVE];
-  //   return clienteLogado ? JSON.parse(clienteLogado) : null;
-  // }
 
   public getUsuarioLogado(): Usuario {   //usar esse para buscar usuario logado
       let user = this.loginService.usuarioLogado;
@@ -150,16 +117,39 @@ export class ClienteService {
     }
   }
 
-  tranfere(valor: number) {
-    if (valor > 0 && valor <= this.conta.saldo) {
-      this.conta.saldo -= valor;
-      this.conta1.saldo += valor;
+  transfere(valor: number, contaOrigem: any, contaDestino: any): Observable<any> {
+    if (valor > 0 && valor <= contaOrigem.saldo) {
+      // Atualiza o saldo da conta de origem
+      const saldoOrigem = contaOrigem.saldo - valor;
+      const dataOrigem = { saldo: saldoOrigem };
 
-      this.registrarTransacao('TRANSFERENCIA', valor, this.conta, this.conta1);
-      return true;
+      // Atualiza o saldo da conta de destino
+      const saldoDestino = contaDestino.saldo + valor;
+      const dataDestino = { saldo: saldoDestino };
+
+      // Realiza a transferência
+      const transferencia = {
+        contaOrigem: contaOrigem.id,
+        contaDestino: contaDestino.id,
+        valor: valor
+      };
+
+      // Atualiza a conta de origem
+      const atualizacaoOrigem = this.http.patch<any>(url_conta + contaOrigem.id, JSON.stringify(dataOrigem), this.httpOptions);
+
+      // Atualiza a conta de destino
+      const atualizacaoDestino = this.http.patch<any>(url_conta + contaDestino.id, JSON.stringify(dataDestino), this.httpOptions);
+
+      // Registra a transação de transferência
+      const registroTransacao = this.registrarTransacaoJson('TRANSFERENCIA', valor, contaOrigem.id, contaDestino.id);
+
+      // Executa todas as atualizações e registro de transação em paralelo
+      return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacao]);
+    } else {
+      return of(null); // Retorne algo apropriado caso a transferência não seja válida
     }
-    return false;
   }
+     
 
 
   registrarTransacao(tipo: string, valor: number, contaOrigem?: any, contaDestino?: any) {
@@ -186,42 +176,6 @@ export class ClienteService {
       conta_destiny: contaDestino ? contaDestino : null
     };
     return this.http.post(url, JSON.stringify(transacao), this.httpOptions);
-  }
-
-  
-  // {
-  //   "id": 1,
-  //   "conta_id":1,
-  //   "dataHora": "10:10:10 01/08/2023",
-  //   "type":"DEPOSITO",
-  //   "conta_destiny": null,
-  //   "valor":100
-  // }
-
-
-  //metodos para pegar os valores fixos. ISSO AQUI N VAI MANTER ASSIM
-  getCliente() {
-    return this.cliente;
-  }
-
-  getConta() {
-    return this.conta;
-  }
-
-  getGerente() {
-    this.gerente;
-  }
-
-  getCliente1() {
-    return this.cliente1;
-  }
-
-  getConta1(){
-    return this.conta1;
-  }
-
-  getGerente1(){
-    this.gerente1;
   }
 
 

@@ -4,7 +4,7 @@
       "id": 1,
       "id_cliente": 1,
       "gerenteId": 4,
-      "saldo": 300.7800000000001,
+      "saldo": 851.7799999999988,
       "limite": 1000,
       "situacao": "APROVADO",
       "observacao": null
@@ -22,7 +22,7 @@
       "id": 3,
       "id_cliente": 3,
       "gerenteId": 4,
-      "saldo": 100,
+      "saldo": 188,
       "limite": 1000,
       "situacao": "RECUSADO",
       "observacao": "sim"
@@ -233,6 +233,150 @@
       "conta_id": 1,
       "conta_destiny": null,
       "id": 19
+    },
+    {
+      "dataHora": "2023-09-24T07:51:10.867Z",
+      "type": "DEPOSITO",
+      "value": 100000,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 20
+    },
+    {
+      "dataHora": "2023-09-24T07:51:33.320Z",
+      "type": "SAQUE",
+      "value": 100000,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 21
+    },
+    {
+      "dataHora": "2023-09-24T08:03:23.864Z",
+      "type": "TRANSFERENCIA",
+      "value": 100,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 22
+    },
+    {
+      "dataHora": "2023-09-24T08:03:31.683Z",
+      "type": "TRANSFERENCIA",
+      "value": 100,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 23
+    },
+    {
+      "dataHora": "2023-09-24T08:03:35.231Z",
+      "type": "TRANSFERENCIA",
+      "value": 100,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 24
+    },
+    {
+      "dataHora": "2023-09-24T08:03:40.635Z",
+      "type": "TRANSFERENCIA",
+      "value": 50,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 25
+    },
+    {
+      "dataHora": "2023-09-24T08:04:04.637Z",
+      "type": "TRANSFERENCIA",
+      "value": 200,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 26
+    },
+    {
+      "dataHora": "2023-09-24T08:04:23.523Z",
+      "type": "DEPOSITO",
+      "value": 1000,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 27
+    },
+    {
+      "dataHora": "2023-09-24T08:04:37.913Z",
+      "type": "TRANSFERENCIA",
+      "value": 120,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 28
+    },
+    {
+      "dataHora": "2023-09-24T08:05:52.837Z",
+      "type": "TRANSFERENCIA",
+      "value": 12,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 29
+    },
+    {
+      "dataHora": "2023-09-24T08:06:57.837Z",
+      "type": "TRANSFERENCIA",
+      "value": 12,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 30
+    },
+    {
+      "dataHora": "2023-09-24T08:09:28.691Z",
+      "type": "TRANSFERENCIA",
+      "value": 5,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 31
+    },
+    {
+      "dataHora": "2023-09-24T08:10:01.166Z",
+      "type": "TRANSFERENCIA",
+      "value": 12,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 32
+    },
+    {
+      "dataHora": "2023-09-24T08:13:20.229Z",
+      "type": "TRANSFERENCIA",
+      "value": 12,
+      "conta_id": 1,
+      "conta_destiny": 3,
+      "id": 33
+    },
+    {
+      "dataHora": "2023-09-24T08:13:46.478Z",
+      "type": "TRANSFERENCIA",
+      "value": 12,
+      "conta_id": 1,
+      "conta_destiny": 3,
+      "id": 34
+    },
+    {
+      "dataHora": "2023-09-24T08:13:51.565Z",
+      "type": "TRANSFERENCIA",
+      "value": 12,
+      "conta_id": 1,
+      "conta_destiny": 3,
+      "id": 35
+    },
+    {
+      "dataHora": "2023-09-24T08:26:49.738Z",
+      "type": "TRANSFERENCIA",
+      "value": 1,
+      "conta_id": 1,
+      "conta_destiny": 3,
+      "id": 36
+    },
+    {
+      "dataHora": "2023-09-24T08:27:09.894Z",
+      "type": "TRANSFERENCIA",
+      "value": 51,
+      "conta_id": 1,
+      "conta_destiny": 3,
+      "id": 37
     }
   ],
   "auth": [
