@@ -18,8 +18,8 @@
             <tbody>
               <tr scope="row" *ngFor="let cliente of clientesFiltrados">
                 <td class="link-style">
-                  <a routerLink="/detalhe-cliente">{{ cliente.cpf }}</a>
-                </td>
+                  <a *ngIf="cliente.id" [routerLink]="['/detalhe-cliente', cliente.id]">{{ cliente.cpf }}</a>
+                </td>                
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.endereco.cidade }}</td>
                 <td>{{ cliente.endereco.estado }}</td>

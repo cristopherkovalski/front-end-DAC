@@ -38,7 +38,6 @@ export class PesquisarClienteComponent implements OnInit {
         } else {
           // Filtrar os clientes com base na consulta e na regra do gerente
           this.clientes = data.filter((cliente) =>
-            cliente.nome.toLowerCase().includes(this.consulta.toLowerCase()) ||
             cliente.cpf.includes(this.consulta)
           ).filter((cliente) =>
             this.contas.some((conta) => conta.id_cliente == cliente.id && conta.gerenteId == this.gerente.id)
@@ -70,14 +69,7 @@ export class PesquisarClienteComponent implements OnInit {
   }
 
   
-  // Função para filtrar os clientes com base na consulta
-  filtrarClientes() {
-    this.clientes = this.clientes.filter(
-      (cliente) =>
-        cliente.nome.toLowerCase().includes(this.consulta.toLowerCase()) ||
-        cliente.cpf.includes(this.consulta)
-    );
-  }
+
 
 }
 

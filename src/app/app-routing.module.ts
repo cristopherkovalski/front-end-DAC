@@ -41,8 +41,8 @@ const routes: Routes = [
   {path: 'relatorio-clientes', pathMatch: 'full' , component:RelatorioClientesComponent},
   {path: 'pesquisar-cliente', pathMatch: 'full' , component:PesquisarClienteComponent},
   {path: 'melhores-clientes', pathMatch: 'full' , component:MelhoresClientesComponent},
-  {path: 'detalhe-cliente', pathMatch: 'full', component:DetalheClienteComponent},
-  {path: 'extrato', pathMatch: 'full', component:ExtratoComponent}
+  { path: 'detalhe-cliente/:id', component: DetalheClienteComponent }, 
+   {path: 'extrato', pathMatch: 'full', component:ExtratoComponent}
 
 
 
