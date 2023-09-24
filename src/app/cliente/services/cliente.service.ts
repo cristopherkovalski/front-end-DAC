@@ -52,6 +52,7 @@ export class ClienteService {
     return this.http.get<Cliente>(url);
   }
 
+
   
 
   public atualizarCliente(cliente: Cliente): Observable<string> {
@@ -119,34 +120,23 @@ export class ClienteService {
 
   transfere(valor: number, contaOrigem: any, contaDestino: any): Observable<any> {
     if (valor > 0 && valor <= contaOrigem.saldo) {
-      // Atualiza o saldo da conta de origem
       const saldoOrigem = contaOrigem.saldo - valor;
       const dataOrigem = { saldo: saldoOrigem };
-
-      // Atualiza o saldo da conta de destino
       const saldoDestino = contaDestino.saldo + valor;
       const dataDestino = { saldo: saldoDestino };
-
-      // Realiza a transferência
       const transferencia = {
         contaOrigem: contaOrigem.id,
         contaDestino: contaDestino.id,
         valor: valor
       };
 
-      // Atualiza a conta de origem
       const atualizacaoOrigem = this.http.patch<any>(url_conta + contaOrigem.id, JSON.stringify(dataOrigem), this.httpOptions);
-
-      // Atualiza a conta de destino
       const atualizacaoDestino = this.http.patch<any>(url_conta + contaDestino.id, JSON.stringify(dataDestino), this.httpOptions);
-
-      // Registra a transação de transferência
       const registroTransacao = this.registrarTransacaoJson('TRANSFERENCIA', valor, contaOrigem.id, contaDestino.id);
 
-      // Executa todas as atualizações e registro de transação em paralelo
       return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacao]);
     } else {
-      return of(null); // Retorne algo apropriado caso a transferência não seja válida
+      return of(null); 
     }
   }
      
@@ -177,6 +167,13 @@ export class ClienteService {
     };
     return this.http.post(url, JSON.stringify(transacao), this.httpOptions);
   }
+
+  // isso aqui vai morrer jaja, 
+  getMovimentacoesPorIdConta(conta: any):Observable<any>{
+    const url = url_movimentacao.replace(':id', conta.toString());
+    return this.http.get(url);
+  }
+
 
 
 }

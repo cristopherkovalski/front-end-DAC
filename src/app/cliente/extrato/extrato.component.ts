@@ -1,19 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ClienteService } from '../services/cliente.service';
 
 @Component({
   selector: 'app-extrato',
   templateUrl: './extrato.component.html',
   styleUrls: ['./extrato.component.css']
 })
-export class ExtratoComponent {
+export class ExtratoComponent implements OnInit {
   dataInicial: string | undefined;
   dataFinal: string | undefined;
+  movimentacoes: any[] = [];
+  cliente!: any;
+  conta!: any;
 
-  onSubmit() {
-    // Aqui você pode acessar os valores de dataInicial e dataFinal
-    console.log('Data Inicial:', this.dataInicial);
-    console.log('Data Final:', this.dataFinal);
+  constructor(private clienteService: ClienteService) {}
 
-    // Faça o que quiser com os valores, como enviar para um serviço ou realizar a lógica desejada.
+  ngOnInit(): void {
+    this.carregarMovimentacoes();
+    
+  }
+
+  carregarMovimentacoes(): void {
+
+    const idConta = this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+      conta => {
+        if (conta) {
+          this.conta = conta; 
+        } 
+      }
+      
+    ); 
+   
+    this.clienteService.getMovimentacoesPorIdConta(idConta).subscribe(
+      (movimentacoes) => {
+        this.movimentacoes = movimentacoes;
+      },
+      (error) => {
+        console.error('Erro ao carregar as movimentações:', error);
+      }
+    );
+  }
+
+  filtrarMovimentacoes(): void {
+
   }
 }
