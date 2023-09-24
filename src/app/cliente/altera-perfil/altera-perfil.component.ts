@@ -18,7 +18,7 @@ const LS_CHAVE: string = "ususarioLogado";
   templateUrl: './altera-perfil.component.html',
   styleUrls: ['./altera-perfil.component.css']
 })
-export class AlteraPerfilComponent {
+export class AlteraPerfilComponent{
   @ViewChild(TelefoneFormatDirective) telefoneFormatDirective!: TelefoneFormatDirective;
   @ViewChild(CepFormatDirective) cepFormatDirective!: CepFormatDirective; 
   @ViewChild(CpfFormatDirective) cpfFormatDirective!: CpfFormatDirective;
@@ -39,12 +39,12 @@ ngAfterViewInit(): void {
   console.log(clienteResult);
 
   this.clienteService.buscarCliente(clienteResult.id).subscribe(
-    (cliente: Cliente) => {
+    (cliente: Cliente) => {  
       this.cliente = cliente;
       setTimeout(() => {
-        this.telefoneFormatDirective.formatPhone(this.cliente.telefone);
-        this.cpfFormatDirective.formatCPF(this.cliente.cpf);
-        this.cepFormatDirective.formatCep(this.cliente.endereco.cep);
+        this.cliente.telefone = this.telefoneFormatDirective.formatPhone(this.cliente.telefone);
+        this.cliente.cpf = this.cpfFormatDirective.formatCPF(this.cliente.cpf);
+        this.cliente.endereco.cep = this.cepFormatDirective.formatCep(this.cliente.endereco.cep);
       });
     },
     (error) => {
@@ -52,8 +52,6 @@ ngAfterViewInit(): void {
     }
   );
 }
-
-
 
 
   buscarEndereco(): void {

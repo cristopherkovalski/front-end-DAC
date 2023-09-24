@@ -1,4 +1,4 @@
-<section class="vh-100 gradient-custom">
+<section class="vh-90 gradient-custom">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -21,7 +21,7 @@
 
                 <div class="form-outline form-white mb-4">
                   <label class="form-label text-center" for="senha">Senha</label>
-                  <input placeholder="" class="form-control form-control-lg" [(ngModel)]="auth.senha" #password="ngModel" name="senha" type="password" id="senha" required minlength="4" maxlength="13"/>
+                  <input placeholder="******" class="form-control form-control-lg" [(ngModel)]="auth.senha" #password="ngModel" name="senha" type="password" id="senha" required minlength="4" maxlength="13"/>
                   <div class="mt-2 alert alert-danger" *ngIf="password.errors && (password.dirty || password.touched)">
                     <div> Digite uma senha</div>
                   </div>

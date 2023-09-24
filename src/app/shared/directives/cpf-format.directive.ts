@@ -29,5 +29,7 @@ export class CpfFormatDirective {
     } else {
       this.el.nativeElement.value = `${numbersOnly.slice(0, 3)}.${numbersOnly.slice(3, 6)}.${numbersOnly.slice(6, 9)}-${numbersOnly.slice(9)}`;
     }
+
+    return this.el.nativeElement.value;
   }
 }

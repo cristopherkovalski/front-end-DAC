@@ -27,6 +27,8 @@ export class TelefoneFormatDirective {
     } else {
       this.el.nativeElement.value = `(${numbersOnly.slice(0, 2)}) ${numbersOnly.slice(2, 7)}-${numbersOnly.slice(7)}`;
     }
+
+    return this.el.nativeElement.value;
   }
 }
 

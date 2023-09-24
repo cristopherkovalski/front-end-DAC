@@ -21,5 +21,7 @@ export class CepFormatDirective {
     }
 
     this.el.nativeElement.value = numbersOnly.replace(/^(\d{5})(\d{3})$/, '$1-$2');
+
+    return  this.el.nativeElement.value;
   }
 }

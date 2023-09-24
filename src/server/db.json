@@ -307,7 +307,7 @@
         "cidade": "Cidade c",
         "estado": "Parana"
       },
-      "telefone": "51222222222",
+      "telefone": "41998843331",
       "salario": 4500
     },
     {
@@ -509,7 +509,7 @@
       "id": 8
     }
   ],
-  "admins":[
+  "admins": [
     {
       "id": 1,
       "nome": "Serjão Lanches",
