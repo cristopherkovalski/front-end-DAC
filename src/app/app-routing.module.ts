@@ -21,6 +21,7 @@ import { RelatorioClientesComponent } from './admin/relatorio-clientes/relatorio
 import { PesquisarClienteComponent } from './gerente/pesquisar-cliente/pesquisar-cliente.component';
 import { MelhoresClientesComponent } from './gerente/melhores-clientes/melhores-clientes.component';
 import { DetalheClienteComponent } from './gerente/detalhe-cliente/detalhe-cliente.component';
+import { ExtratoComponent } from './cliente/extrato/extrato.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent },
@@ -40,7 +41,15 @@ const routes: Routes = [
   {path: 'relatorio-clientes', pathMatch: 'full' , component:RelatorioClientesComponent},
   {path: 'pesquisar-cliente', pathMatch: 'full' , component:PesquisarClienteComponent},
   {path: 'melhores-clientes', pathMatch: 'full' , component:MelhoresClientesComponent},
-  {path: 'detalhe-cliente', pathMatch: 'full', component:DetalheClienteComponent}
+  {path: 'detalhe-cliente', pathMatch: 'full', component:DetalheClienteComponent},
+  {path: 'extrato', pathMatch: 'full', component:ExtratoComponent}
+
+
+
+  
+  
+
+
 ];
 
 @NgModule({

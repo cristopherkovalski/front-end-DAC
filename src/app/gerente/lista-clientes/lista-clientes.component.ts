@@ -28,6 +28,7 @@ export class ListaClientesComponent implements OnInit {
     this.contas = [];
     this.listarTodos();
     this.listarTodosC();
+    this.filtrarClientes();
     this.clientesFiltrados = this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
 
   }
@@ -47,8 +48,6 @@ export class ListaClientesComponent implements OnInit {
               }
             });
           });
-
-
         }
       }
     });
@@ -72,7 +71,7 @@ export class ListaClientesComponent implements OnInit {
 
   buscaSaldoConta(cliente: Cliente): any{
     const clienteT = this.contas.filter(conta => conta.id_cliente == cliente.id).at(0)
-    return clienteT?.saldo
+    return clienteT
     
   }
   // Função para filtrar os clientes com base na consulta
@@ -84,7 +83,6 @@ export class ListaClientesComponent implements OnInit {
     );
 
   }
-
 
 }
 

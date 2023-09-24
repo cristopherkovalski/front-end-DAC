@@ -1,0 +1,10 @@
+<form #formSacar="ngForm">
+    <label>Data Inicial:</label>
+    <input type="date" id="dataInicial" [(ngModel)]="dataInicial">
+    
+    <label>Data Final:</label>
+    <input type="date" id="dataFinal" [(ngModel)]="dataFinal">
+    
+    <input type="submit" value="Consultar" (click)="onSubmit">
+  </form>
+  

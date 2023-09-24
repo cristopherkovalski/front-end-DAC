@@ -5,6 +5,7 @@ import { ListaClientesComponent } from './lista-clientes/lista-clientes.componen
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.component';
+import { PesquisarClienteComponent } from './pesquisar-cliente/pesquisar-cliente.component';
 
 
 
@@ -13,6 +14,7 @@ import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.compo
     HomeGerenteComponent,
     ListaClientesComponent,
     DetalheClienteComponent,
+    PesquisarClienteComponent
   ],
   imports: [
     CommonModule,

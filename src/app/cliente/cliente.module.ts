@@ -14,6 +14,7 @@ import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { AlteraPerfilComponent } from './altera-perfil/altera-perfil.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ExtratoComponent } from './extrato/extrato.component';
 
 
 
@@ -26,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     TransfComponent,
     HomeClienteComponent,
     CadastroComponent,
-    AlteraPerfilComponent
+    AlteraPerfilComponent,
+    ExtratoComponent
 
   ],
   imports: [

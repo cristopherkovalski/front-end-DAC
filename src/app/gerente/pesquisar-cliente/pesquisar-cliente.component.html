@@ -1,1 +1,44 @@
-<p>pesquisar-cliente works!</p>
+<div class="container mt-5">
+  <h2>Cliente Detalhado</h2>
+  <div class="input-group mt-4">
+    <input type="text" class="form-control" [(ngModel)]="consulta" placeholder="Pesquisar por nome ou CPF">
+    <button class="btn btn-primary" (click)="listarTodos()">Buscar</button>
+  </div>
+
+  <div class="table-responsive mt-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Informações Pessoais</th>
+          <th scope="col">Endereço</th>
+          <th scope="col">Financeiro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>
+            <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+            <p><strong>E-mail:</strong> {{ cliente.email }}</p>
+            <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+            <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+            <p><strong>Salário:</strong> {{ cliente.salario }}</p>
+          </td>
+          <td>
+            <p><strong>Tipo:</strong> {{ cliente.endereco.tipo }}</p>
+            <p><strong>Logradouro:</strong> {{ cliente.endereco.logradouro }}</p>
+            <p><strong>Número:</strong> {{ cliente.endereco.numero }}</p>
+            <p><strong>Complemento:</strong> {{ cliente.endereco.complemento }}</p>
+            <p><strong>CEP:</strong> {{ cliente.endereco.cep }}</p>
+            <p><strong>Cidade:</strong> {{ cliente.endereco.cidade }}</p>
+            <p><strong>Estado:</strong> {{ cliente.endereco.estado }}</p>
+          </td>
+          <td>   
+            <p><strong>Saldo:</strong> {{ buscaSaldoConta(cliente).saldo }}</p>
+            <p><strong>Limite:</strong> {{ buscaSaldoConta(cliente).limite }}</p>
+            <p><strong>Situacao:</strong> {{ buscaSaldoConta(cliente).situacao }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

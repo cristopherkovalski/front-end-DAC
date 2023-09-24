@@ -1,31 +1,33 @@
+<div class="container mt-5">
+<h2> Clientes que você gerencia</h2>
+<div class="input-group mt-4">
+  <input type="text" class="form-control" [(ngModel)]="consulta" (input)="filtrarClientes()" placeholder="Pesquisar por nome ou CPF">
 
-<div>
-  <input search-bar type="text" [(ngModel)]="consulta" placeholder="Pesquisar por nome ou CPF" (input)="filtrarClientes()">
-
+</div>
   <div>
-        <table>
-            <thead>
+        <table class="table mt-4">
+            <thead class="">
               <tr>
-                <th>CPF</th>
-                <th>Nome</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>Saldo</th>
-                <th>Visualizar</th> 
+                <th scope="col">CPF</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Saldo</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cliente of clientesFiltrados">
-                <td>{{ cliente.cpf }}</td>
+              <tr scope="row" *ngFor="let cliente of clientesFiltrados">
+                <td class="link-style">
+                  <a routerLink="/detalhe-cliente">{{ cliente.cpf }}</a>
+                </td>
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.endereco.cidade }}</td>
                 <td>{{ cliente.endereco.estado }}</td>
-                <td>{{ buscaSaldoConta(cliente)}}</td>
-                <td> <button routerLink="/detalhe-cliente">Detalhes</button> </td>
+                <td>{{ buscaSaldoConta(cliente).saldo}}</td>
+               
               </tr>
             </tbody>
           </table>
-          <button routerLink="/home-gerente">Voltar</button>
 
     </div>
 </div>
