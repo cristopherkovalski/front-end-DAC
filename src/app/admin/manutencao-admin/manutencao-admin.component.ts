@@ -6,6 +6,7 @@ import { Gerente } from 'src/app/shared/models/gerente.model';
 import { CpfFormatDirective } from 'src/app/shared/directives/cpf-format.directive';
 import { TelefoneFormatDirective } from 'src/app/shared/directives/telefone-format.directive';
 import { Conta } from 'src/app/shared/models/conta.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-manutencao-admin',
@@ -100,36 +101,61 @@ export class ManutencaoAdminComponent {
 
   }
 
+
+
   excluirGerente(gerente: Gerente) {
+    console.log(gerente.id);
+
+    const contasDoGerente = this.contas.filter(conta => conta.gerenteId === gerente.id);
+    console.log(contasDoGerente);
+
     if (this.gerentes.length === 1) {
       alert("Não será possível excluir gerente! Existe apenas um Gerente no banco.");
+    } else if (contasDoGerente.length === 0) {
+      this.adminService.excluirGerente(gerente).subscribe({
+        next: (response) => {
+          alert("Gerente Excluído com sucesso");
+          console.log('Contas vinculadas com sucesso!', response);
+          this.setGerentesList();
+          this.setContasList();
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar gerenteId das contas', error);
+        }
+      });
     } else {
       const gerenteComMenosContas = this.encontrarGerenteComMenosContas(this.contas);
-
-      if (gerenteComMenosContas) {
-        this.adminService.atualizarNovoGerenteConta(gerente.id!, gerenteComMenosContas.id!).subscribe({
-          next: (contasAtualizadas) => {
-            console.log('Contas vinculadas com sucesso!', contasAtualizadas);
-            this.adminService.excluirGerente(gerente).subscribe({
-              next: (response) => {
-                console.log('Gerente excluído com sucesso', response);
-                this.setGerentesList();
-                this.setContasList();
-              },
-              error: (error) => {
-                console.error('Erro ao excluir gerente', error);
-              }
-            });
-          },
-          error: (error) => {
-            console.error('Erro ao atualizar gerenteId das contas', error);
-          }
-        });
-      } else {
-        alert("Não há outro gerente para assumir as contas vinculadas. A exclusão não é possível.");
-      }
+      
+      const updateAccountObservables = contasDoGerente.map(conta =>
+        this.adminService.atualizarGerenteIdDaConta(conta.id!, gerenteComMenosContas!.id!) //derrubando o server
+      );
+    
+      forkJoin(updateAccountObservables).subscribe({
+        next: (contasAtualizadas) => {
+          alert("Contas vinculadas atualizadas com sucesso!");
+          this.adminService.excluirGerente(gerente).subscribe({
+            next: (response) => {
+              alert("Gerente Excluído com sucesso");
+              this.setGerentesList();
+              this.setContasList();
+            },
+            error: (error) => {
+              console.error('Erro ao atualizar gerenteId das contas', error);
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar gerenteId das contas', error);
+        }
+      });
     }
   }
+
+
+
+
+
+ 
 
   encontrarGerenteComMenosContas(contas: Conta[]): Gerente | null {
     let contasPorGerente: Record<number, number> = {};

@@ -1,39 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserir Gerente</title>
-</head>
-
-<body>
-    <div>
-        <div class="container" >
-            <h2>Inserir Gerente</h2>
+<section class="vh-90 gradient-custom">
+  <div class="container py-5 vh-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5">
             <form (submit)="inserirGerente()" #formInserirGerente="ngForm">
               <div class="form-group">
-                <label for="nome">Nome do Gerente:</label>
-                <input type="text" id="nome" name="nome" [(ngModel)]="gerente.nome" required>
-                <br>
-                <label for="CPF">CPF</label>
-                <input type="text" id="cpf" name="cpf" [(ngModel)]="gerente.cpf" placeholder="999.999.999-99" maxlength="14"
-                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" appCpfFormat (ngModelChange)="resetarValidacaoCPF()" required>
-                <button type="button" (click)="verificarCPF()" >Verificar CPF</button>
-                <p *ngIf="mensagemCPF" [style.color]="isCpfValido ? 'green' : 'red'">{{ mensagemCPF }}</p>
-                <br>
-                <label for="email">Email do Gerente:</label>
-                <input type="text" id="email" name="email" [(ngModel)]="gerente.email" required>
-                <br>
-                <label for="telefone">Telefone do Gerente:</label>
-                <input type="text" id="telefone" name="telefone" [(ngModel)]="gerente.telefone"  placeholder="(00) 00000-0000" maxlength="15"
-                 pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" appTelefoneFormat required>
+                <h2 class="fw-bold mb-2">Inserir novo Gerente</h2>
+                <div class="form-outline form-white mb-3">
+                  <label for="nome">Nome do Gerente:</label>
+                  <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="gerente.nome" required>
+                </div>
+                <div class="form-outline form-white mb-3">
+                  <label for="CPF">CPF</label>
+                  <input type="text" class="form-control" id="cpf" name="cpf" [(ngModel)]="gerente.cpf"
+                    placeholder="999.999.999-99" maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" appCpfFormat
+                    (ngModelChange)="resetarValidacaoCPF()" required>
+                  <button type="button" class="btn btn-primary" (click)="verificarCPF()">Verificar CPF</button>
+                  <div class="mt-2" [ngClass]="isCpfValido ? 'alert alert-success' : 'alert alert-danger'" role="alert"
+                    *ngIf="mensagemCPF">
+                    {{ mensagemCPF }}
+                  </div>
+                </div>
+                <div class="form-outline form-white mb-3">
+                  <label for="email">Email do Gerente:</label>
+                  <input type="text" class="form-control" id="email" name="email" [(ngModel)]="gerente.email" required>
+                </div>
+                <div class="form-outline form-white mb-3">
+                  <label for="telefone">Telefone do Gerente:</label>
+                  <input type="text" class="form-control" id="telefone" name="telefone" [(ngModel)]="gerente.telefone"
+                    placeholder="(00) 00000-0000" maxlength="15" pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}"
+                    appTelefoneFormat required>
+                </div>
+                <button type="submit" class="btn btn-outline-light"
+                  [disabled]="!formInserirGerente.valid || !isCpfValido">Inserir</button>
+                <a class="btn btn-secondary ml-2" routerLink="/home-admin">Voltar</a>
               </div>
-              <button type="submit" [disabled]="!formInserirGerente.valid || !isCpfValido">Inserir</button>
-            <button routerLink="/home-admin">Voltar para a Home</button>
             </form>
           </div>
+        </div>
+      </div>
     </div>
-</body>
+  </div>
 
-</html>
+</section>

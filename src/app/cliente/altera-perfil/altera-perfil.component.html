@@ -3,115 +3,120 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div *ngIf="cliente.id">
-                    <div class="card-body">
-                        <form (ngSubmit)="alterarCliente()" #formAlterar="ngForm">
-                            <div class="mb-md-1 mt-md-1 pb-2">
-                                <h2 class="fw-bold mb-2">Alterar Perfil</h2>
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+                            <form (ngSubmit)="alterarCliente()" #formAlterar="ngForm">
+                                <div class="mb-md-1 mt-md-1 pb-2">
+                                    <h2 class="fw-bold mb-2">Alterar Perfil</h2>
 
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="nome">Nome</label>
-                                    <input class="form-control" placeholder="Nome" type="text" id="nome" name="nome"
-                                        [(ngModel)]="cliente.nome" required>
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="nome">Nome</label>
+                                        <input class="form-control" placeholder="Nome" type="text" id="nome" name="nome"
+                                            [(ngModel)]="cliente.nome" required>
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="email">E-mail</label>
+                                        <input class="form-control" placeholder="E-mail" type="email" id="email"
+                                            name="email" [(ngModel)]="cliente.email" required>
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="cpf">CPF</label>
+                                        <input class="form-control" placeholder="CPF" type="text" id="cpf" name="cpf"
+                                            [(ngModel)]="cliente.cpf" placeholder="999.999.999-99" maxlength="14"
+                                            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required appCpfFormat
+                                            [disabled]="true" />
+
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="telefone">Telefone</label>
+                                        <input class="form-control" type="text" id="telefone" name="telefone"
+                                            [(ngModel)]="cliente.telefone" placeholder="(00) 00000-0000" maxlength="15"
+                                            pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" required appTelefoneFormat />
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="cep">CEP</label>
+                                        <input class="form-control" type="text" id="cep" name="cep"
+                                            [(ngModel)]="cliente.endereco.cep" placeholder="99999-999" maxlength="9"
+                                            appCepFormat required>
+                                        <button class="btn btn-primary mt-2" type="button"
+                                            (click)="buscarEndereco()">Buscar
+                                            CEP</button>
+                                    </div>
+
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="enderecoTipo">Tipo de Endereço:</label>
+                                        <input class="form-control" type="text" id="enderecoTipo" name="enderecoTipo"
+                                            [(ngModel)]="cliente.endereco.tipo">
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="logradouro">Logradouro:</label>
+                                        <input class="form-control" type="text" id="logradouro" name="logradouro"
+                                            [(ngModel)]="cliente.endereco.logradouro">
+                                    </div>
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="numero">Número:</label>
+                                        <input class="form-control" type="text" id="numero" name="numero" required
+                                            [(ngModel)]="cliente.endereco.numero">
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="complemento">Complemento:</label>
+                                        <input class="form-control" type="text" id="complemento" name="complemento"
+                                            [(ngModel)]="cliente.endereco.complemento">
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="cidade">Cidade:</label>
+                                        <input class="form-control" type="text" id="cidade" name="cidade"
+                                            [(ngModel)]="cliente.endereco.cidade">
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="estado">Estado:</label>
+                                        <input class="form-control" type="text" id="estado" name="estado"
+                                            [(ngModel)]="cliente.endereco.estado">
+                                    </div>
+
+                                    <div class="form-outline form-white mb-3">
+                                        <label class="form-label" for="salario">Salário:</label>
+                                        <input class="form-control" type="text" id="salario" currencyMask name="salario"
+                                            [(ngModel)]="cliente.salario"
+                                            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required>
+                                    </div>
+
+                                    <div class="form-outline form-white mb-2 text-center">
+                                        <a class="btn btn-secondary me-3" href="#" routerLink="">
+                                            Voltar
+                                        </a>
+                                        <button class="btn btn-primary" type="submit"
+                                            [disabled]="!formAlterar.valid || cliente.salario <= 0 ">Alterar
+                                            perfil</button>
+
+
+                                    </div>
                                 </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="email">E-mail</label>
-                                    <input class="form-control" placeholder="E-mail" type="email" id="email"
-                                        name="email" [(ngModel)]="cliente.email" required>
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="cpf">CPF</label>
-                                    <input class="form-control" placeholder="CPF" type="text" id="cpf" name="cpf"
-                                        [(ngModel)]="cliente.cpf" placeholder="999.999.999-99" maxlength="14"
-                                        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required appCpfFormat [disabled]="true" />
-
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="telefone">Telefone</label>
-                                    <input class="form-control" type="text" id="telefone" name="telefone"
-                                        [(ngModel)]="cliente.telefone" placeholder="(00) 00000-0000" maxlength="15"
-                                        pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" required appTelefoneFormat />
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="cep">CEP</label>
-                                    <input class="form-control" type="text" id="cep" name="cep"
-                                        [(ngModel)]="cliente.endereco.cep" placeholder="99999-999" maxlength="9"
-                                        appCepFormat required>
-                                    <button class="btn btn-primary mt-2" type="button" (click)="buscarEndereco()">Buscar
-                                        CEP</button>
-                                </div>
-
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="enderecoTipo">Tipo de Endereço:</label>
-                                    <input class="form-control" type="text" id="enderecoTipo" name="enderecoTipo"
-                                        [(ngModel)]="cliente.endereco.tipo">
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="logradouro">Logradouro:</label>
-                                    <input class="form-control" type="text" id="logradouro" name="logradouro"
-                                        [(ngModel)]="cliente.endereco.logradouro">
-                                </div>
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="numero">Número:</label>
-                                    <input class="form-control" type="text" id="numero" name="numero" required
-                                        [(ngModel)]="cliente.endereco.numero">
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="complemento">Complemento:</label>
-                                    <input class="form-control" type="text" id="complemento" name="complemento"
-                                        [(ngModel)]="cliente.endereco.complemento">
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="cidade">Cidade:</label>
-                                    <input class="form-control" type="text" id="cidade" name="cidade"
-                                        [(ngModel)]="cliente.endereco.cidade">
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="estado">Estado:</label>
-                                    <input class="form-control" type="text" id="estado" name="estado"
-                                        [(ngModel)]="cliente.endereco.estado">
-                                </div>
-
-                                <div class="form-outline form-white mb-3">
-                                    <label class="form-label" for="salario">Salário:</label>
-                                    <input class="form-control" type="text" id="salario" currencyMask name="salario"
-                                        [(ngModel)]="cliente.salario"
-                                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required>
-                                </div>
-
-                                <div class="form-outline form-white mb-2 text-center">
-                                    <a class="btn btn-secondary me-3" href="#" routerLink="">
-                                        Voltar
-                                      </a>
-                                    <button class="btn btn-primary" type="submit"
-                                        [disabled]="!formAlterar.valid || cliente.salario <= 0 ">Alterar perfil</button>
-                                    
-                                        
-                                </div>
+                            </form>
+                            <div>
                             </div>
-                        </form>
-                        <div>
-
                         </div>
                     </div>
                 </div>
-                <div *ngIf="!cliente.id">
-                    <div class="text-center">
-                        <strong role="status">
-                            <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true">
-                            </div>
-                        </strong>
-                    </div>
+            </div>
+            <div *ngIf="!cliente.id">
+                <div class="text-center">
+                    <strong role="status">
+                        <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true">
+                        </div>
+                    </strong>
                 </div>
             </div>
         </div>
     </div>
+    
 </section>
