@@ -78,6 +78,15 @@
       "limite": 0,
       "situacao": "PENDENTE",
       "id": 9
+    },
+    {
+      "id": 10,
+      "id_cliente": 10,
+      "gerenteId": 4,
+      "saldo": 0,
+      "limite": 0,
+      "situacao": "RECUSADO",
+      "observacao": "teste"
     }
   ],
   "movimentacoes": [
@@ -581,7 +590,7 @@
     {
       "id": 9,
       "nome": "teste",
-      "email": "gerente@gerente.com",
+      "email": "piada@piada.com",
       "cpf": "10568513924",
       "endereco": {
         "tipo": "casa",
@@ -594,6 +603,23 @@
       },
       "telefone": "76222222222",
       "salario": -1232130
+    },
+    {
+      "id": 10,
+      "nome": "Jeanderson",
+      "email": "jean@derson.com",
+      "cpf": "72726892183",
+      "endereco": {
+        "tipo": "Avenida",
+        "logradouro": "Principal",
+        "numero": "1234",
+        "complemento": "casebre",
+        "cep": "81280340",
+        "cidade": "Cidade c",
+        "estado": "Parana"
+      },
+      "telefone": "41997675541",
+      "salario": 2050
     }
   ],
   "gerentes": [
@@ -623,7 +649,7 @@
       "email": "testegmail2.com",
       "cpf": "00000000000",
       "telefone": "11111111111",
-      "id": 4
+      "id": 6
     },
     {
       "nome": "aaa",
@@ -633,7 +659,7 @@
       "id": 5
     },
     {
-      "id": 6,
+      "id": 4,
       "nome": "gluber marmitas",
       "email": "gerente@gerente",
       "cpf": "091.614.779-74",

@@ -16,25 +16,26 @@ export class ListaClientesComponent implements OnInit {
 
   constructor(private gerenteService:GerenteService, private clienteService:ClienteService){}
 
+  loading:boolean = false;
   clientes: Cliente[] = [];
   contas: Conta[] = [];
   gerente !: Usuario;
   clientesFiltrados: Cliente[] = []; // Array para armazenar os clientes filtrados
   consulta: string = ''; // A consulta de pesquisa inserida pelo usuário
-  
+
   ngOnInit(): void {
+    
     this.gerente = this.gerenteService.gerenteLogado();
     this.clientes = [];
     this.contas = [];
     this.listarTodos();
-    this.listarTodosC();
-    this.filtrarClientes();
-    this.clientesFiltrados = this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
-
+    // this.listarTodosC();
+    // this.filtrarClientes();
   }
 
 
-  listarTodos(): Cliente[] {
+  listarTodos(): void {
+    this.loading = true;
     this.gerenteService.listarTodosClientes().subscribe({
       next: (data: Cliente[]) => {
         if (data == null) {
@@ -45,29 +46,31 @@ export class ListaClientesComponent implements OnInit {
               this.contas.push(conta);
               if (conta.gerenteId == this.gerente.id) {
                 this.clientes.push(cliente);
+                this.clientesFiltrados = this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
               }
             });
           });
         }
-      }
+      },
+      complete:()=>{this.loading = false;}
     });
 
-    return this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
+    
   }
 
-  listarTodosC(): Conta[] {
-    this.gerenteService.listarTodosContas().subscribe({
-      next: (data: Conta[]) => {
-        if (data == null) {
-          this.clientes = [];
-        }
-        else {
-          this.contas = data;
-        }
-      }
-    });
-    return this.contas;
-  }
+  // listarTodosC(): Conta[] {
+  //   this.gerenteService.listarTodosContas().subscribe({
+  //     next: (data: Conta[]) => {
+  //       if (data == null) {
+  //         this.clientes = [];
+  //       }
+  //       else {
+  //         this.contas = data;
+  //       }
+  //     }
+  //   });
+  //   return this.contas;
+  // }
 
   buscaSaldoConta(cliente: Cliente): any{
     const clienteT = this.contas.filter(conta => conta.id_cliente == cliente.id).at(0)

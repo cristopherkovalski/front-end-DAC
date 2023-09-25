@@ -16,21 +16,22 @@ export class PesquisarClienteComponent implements OnInit {
 
   constructor(private gerenteService:GerenteService, private clienteService:ClienteService){}
 
-  clientes: Cliente[] = [];
+  loading:boolean = false;
+  clientes!: Cliente[];
   contas: Conta[] = [];
-  gerente !: Usuario;
+  gerente !: Usuario; // pq não usou o model de gerente ??
   consulta: string = ''; // A consulta de pesquisa inserida pelo usuário
   
   ngOnInit(): void {
     this.gerente = this.gerenteService.gerenteLogado();
-    this.clientes = [];
     this.contas = [];
     this.listarTodosC();
-
+    // this.listarTodos();
   }
 
 
   listarTodos(): void {
+    this.loading = true;
     this.gerenteService.listarTodosClientes().subscribe({
       next: (data: Cliente[]) => {
         if (data == null) {
@@ -38,13 +39,18 @@ export class PesquisarClienteComponent implements OnInit {
         } else {
           // Filtrar os clientes com base na consulta e na regra do gerente
           this.clientes = data.filter((cliente) =>
-            cliente.cpf.includes(this.consulta)
+            cliente.cpf == this.removeMascara(this.consulta)
           ).filter((cliente) =>
             this.contas.some((conta) => conta.id_cliente == cliente.id && conta.gerenteId == this.gerente.id)
           );
         }
       }
     });
+    this.loading = false;
+  }
+
+  removeMascara(mask: string): string {
+    return mask.replace(/\D/g, '');
   }
   
 
@@ -53,6 +59,7 @@ export class PesquisarClienteComponent implements OnInit {
       next: (data: Conta[]) => {
         if (data == null) {
           this.clientes = [];
+          console.log("kaa")
         }
         else {
           this.contas = data;

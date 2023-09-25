@@ -127,11 +127,27 @@ export class GerenteService {
     return randomPassword.toString();
   }
 
-
-  listarTodosClientes(): Observable<Cliente[]> {
+  //mudar saporra depois
+  listarTodosClientes(sort:string|null = null, orderby:string|null = null, limit: string|null = null): Observable<Cliente[]> {
+    let url = clientes;
     
-    return this.http.get<Cliente[]> (clientes, this.httpOptions);
+    if(sort)
+      url += `?_sort=${sort}`;
 
+    if (limit)
+      url += (url.includes('?') ? '&' : '?') + `_order=${orderby}`;
+     
+    if (limit)
+        url += (url.includes('?') ? '&' : '?') + `_limit=${limit}`;
+      
+    return this.http.get<Cliente[]> (url , this.httpOptions);
+
+  }
+
+  listarTopClientes(id_gerente:number){
+    let url = "http://localhost:3000/gerentes/"+id_gerente+"/tops/";
+    console.log(url);
+    return this.http.get<Cliente[]> (url , this.httpOptions);
   }
 
   listarTodosContas(): Observable<Conta[]> {

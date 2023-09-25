@@ -15,6 +15,7 @@ export class MelhoresClientesComponent implements OnInit {
 
   constructor(private gerenteService:GerenteService, private clienteService:ClienteService){}
 
+  loading:boolean = false;
   clientes: Cliente[] = [];
   contas: Conta[] = [];
   gerente !: Usuario;
@@ -23,16 +24,15 @@ export class MelhoresClientesComponent implements OnInit {
   
   ngOnInit(): void {
     this.gerente = this.gerenteService.gerenteLogado();
-    this.clientes = [];
+    // this.clientes = [];
     this.contas = [];
     this.listarTodos();
     this.listarTodosC();
-    this.filtrarClientesPorSaldo();
-   
   }
 
 
-  listarTodos(): Cliente[] {
+  listarTodos(): void {
+    this.loading = true;
     this.gerenteService.listarTodosClientes().subscribe({
       next: (data: Cliente[]) => {
         if (data == null) {
@@ -43,14 +43,18 @@ export class MelhoresClientesComponent implements OnInit {
               this.contas.push(conta);
               if (conta.gerenteId == this.gerente.id) {
                 this.clientes.push(cliente);
+                this.filtrarClientesPorSaldo();
               }
             });
           });
         }
-      }
+      },
+    complete: ()=>{this.loading = false;}
+      
     });
+    
 
-    return this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
+    // return this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
   }
 
   listarTodosC(): Conta[] {
@@ -61,7 +65,7 @@ export class MelhoresClientesComponent implements OnInit {
         }
         else {
           this.contas = data;
-          this.filtrarClientesPorSaldo();
+          // this.filtrarClientesPorSaldo();
         }
       }
     });

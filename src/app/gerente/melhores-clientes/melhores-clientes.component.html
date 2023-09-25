@@ -1,30 +1,37 @@
 <div class="container mt-5">
     <h2> Ricos Riquinhos</h2>
 
-      <div>
-            <table class="table mt-4">
-                <thead class="">
-                  <tr>
-                    <th scope="col">CPF</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Cidade</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Saldo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr scope="row" *ngFor="let cliente of clientes">
-                    <td>{{ cliente.cpf }}</td>            
-                    <td>{{ cliente.nome }}</td>
-                    <td>{{ cliente.endereco.cidade }}</td>
-                    <td>{{ cliente.endereco.estado }}</td>
-                    <td>{{ buscaSaldoConta(cliente).saldo}}</td>
-                   
-                  </tr>
-                </tbody>
-              </table>
-    
-        </div>
+    <div *ngIf="loading == true">
+      <div class=" text-center vh-100">
+        <strong role="status">
+          <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+        </strong>
+      </div>
     </div>
+
+  <div>
+    <table class="table mt-4">
+      <thead class="">
+        <tr>
+          <th scope="col">CPF</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Cidade</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Saldo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr scope="row" *ngFor="let cliente of clientesFiltrados">
+          <td>{{ cliente.cpf }}</td>            
+          <td>{{ cliente.nome }}</td>
+          <td>{{ cliente.endereco.cidade }}</td>
+          <td>{{ cliente.endereco.estado }}</td>
+          <td>{{ buscaSaldoConta(cliente).saldo}}</td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
     
     

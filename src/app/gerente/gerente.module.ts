@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.component';
 import { PesquisarClienteComponent } from './pesquisar-cliente/pesquisar-cliente.component';
 import { MelhoresClientesComponent } from './melhores-clientes/melhores-clientes.component';
+import { SharedModule } from '../shared/directives/shared.module';
 
 
 
@@ -21,7 +22,8 @@ import { MelhoresClientesComponent } from './melhores-clientes/melhores-clientes
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class GerenteModule { }
