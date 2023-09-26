@@ -15,6 +15,9 @@ const apiUrl = "http://localhost:3000/clientes"
 
 const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
 
+
+// http://localhost:3000/movimentacoes?conta_id=1&_sort=dataHora
+
 @Injectable({
   providedIn: 'root'
 })
@@ -170,10 +173,12 @@ export class ClienteService {
 
   // isso aqui vai morrer jaja, 
   getMovimentacoesPorIdConta(conta: any):Observable<any>{
-    const url = url_movimentacao.replace(':id', conta.toString());
-    return this.http.get(url);
+    return this.http.get(url_movimentacao.replace(':id', conta.toString()) , this.httpOptions);
   }
 
+  getMovimentacoesPorIdContaDestiny(conta:any):Observable<any>{
+    return this.http.get(url_movimentacao.replace(':id', conta.toString()) + "/destiny" , this.httpOptions);
+  }
 
 
 }

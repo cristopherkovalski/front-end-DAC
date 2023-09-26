@@ -4,7 +4,7 @@
       "id": 1,
       "id_cliente": 1,
       "gerenteId": 4,
-      "saldo": 851.7799999999988,
+      "saldo": 801.7799999999988,
       "limite": 1000,
       "situacao": "APROVADO",
       "observacao": null
@@ -13,7 +13,7 @@
       "id": 2,
       "id_cliente": 2,
       "gerenteId": 4,
-      "saldo": 1000,
+      "saldo": 1030,
       "limite": 0,
       "situacao": "APROVADO",
       "observacao": null
@@ -386,6 +386,38 @@
       "conta_id": 1,
       "conta_destiny": 3,
       "id": 37
+    },
+    {
+      "dataHora": "2023-09-25T23:42:41.452Z",
+      "type": "SAQUE",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 38
+    },
+    {
+      "dataHora": "2023-09-25T23:42:49.845Z",
+      "type": "SAQUE",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "id": 39
+    },
+    {
+      "dataHora": "2023-09-26T00:30:37.401Z",
+      "type": "TRANSFERENCIA",
+      "value": 15,
+      "conta_id": 1,
+      "conta_destiny": 2,
+      "id": 40
+    },
+    {
+      "dataHora": "2023-09-26T00:31:01.530Z",
+      "type": "TRANSFERENCIA",
+      "value": 15,
+      "conta_id": 1,
+      "conta_destiny": 2,
+      "id": 41
     }
   ],
   "auth": [

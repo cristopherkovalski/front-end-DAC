@@ -1,5 +1,6 @@
 {
     "/contas/:id/movimentacoes": "/movimentacoes?conta_id=:id",
+    "/contas/:id/movimentacoes/destiny": "/movimentacoes?conta_destiny=:id",
     "/contas/conta/:id_cliente": "/contas/conta?id_cliente=:id_cliente",
     "/gerentes/:id/contas/analise/":  "/contas?situacao=PENDENTE&gerenteId=:id"
 

@@ -1,36 +1,40 @@
 <div class="container mt-5">
-    <h2> Ricos Riquinhos</h2>
+  <div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="border bg-dark rounded-4 p-3" style="width:100%;">
+      <h2 class="text-white"> Ricos Riquinhos</h2>
 
-    <div *ngIf="loading == true">
-      <div class=" text-center vh-100">
-        <strong role="status">
-          <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
-        </strong>
+      <div *ngIf="loading == true">
+        <div class=" text-center vh-100">
+          <strong role="status">
+            <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+          </strong>
+        </div>
+      </div>
+
+      <div>
+        <table class="table table-striped table-dark mt-4">
+          <thead class="">
+            <tr>
+              <th scope="col">CPF</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Cidade</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" *ngFor="let cliente of clientesFiltrados">
+              <td>{{ cliente.cpf }}</td>            
+              <td>{{ cliente.nome }}</td>
+              <td>{{ cliente.endereco.cidade }}</td>
+              <td>{{ cliente.endereco.estado }}</td>
+              <td>{{ buscaSaldoConta(cliente).saldo}}</td>
+              
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
-  <div>
-    <table class="table mt-4">
-      <thead class="">
-        <tr>
-          <th scope="col">CPF</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Cidade</th>
-          <th scope="col">Estado</th>
-          <th scope="col">Saldo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr scope="row" *ngFor="let cliente of clientesFiltrados">
-          <td>{{ cliente.cpf }}</td>            
-          <td>{{ cliente.nome }}</td>
-          <td>{{ cliente.endereco.cidade }}</td>
-          <td>{{ cliente.endereco.estado }}</td>
-          <td>{{ buscaSaldoConta(cliente).saldo}}</td>
-          
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
     

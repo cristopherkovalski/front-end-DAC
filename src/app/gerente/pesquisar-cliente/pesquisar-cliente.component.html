@@ -1,56 +1,59 @@
 <div class="container mt-5">
-  <h2>Cliente Detalhado</h2>
-  <div class="input-group mt-4">
-    <input class="form-control" type="text" class="form-control" [(ngModel)]="consulta"  maxlength="14"
-    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" appCpfFormat placeholder="Pesquisar por CPF">
-    <button class ="btn btn-dark" [disabled]="!consulta || removeMascara(consulta).length != 11" (click)="listarTodos()">Buscar</button>
-  </div>
+  <div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="border bg-dark rounded-4 p-3" style="width:100%;">
+      <h2 class="text-white">Cliente Detalhado</h2>
+      <div class="input-group mt-4">
+        <input class="form-control" type="text" class="form-control" [(ngModel)]="consulta"  maxlength="14"
+        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" appCpfFormat placeholder="Pesquisar por CPF">
+        <button class ="btn btn-secondary" [disabled]="!consulta || removeMascara(consulta).length != 11" (click)="listarTodos()">Buscar</button>
+      </div>
 
-  <div class="table-responsive mt-4" *ngIf="clientes">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Informações Pessoais</th>
-          <th scope="col">Endereço</th>
-          <th scope="col">Financeiro</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cliente of clientes">
-          <td>
-            <p><strong>Nome:</strong> {{ cliente.nome }}</p>
-            <p><strong>E-mail:</strong> {{ cliente.email }}</p>
-            <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
-            <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
-            <p><strong>Salário:</strong> {{ cliente.salario }}</p>
-          </td>
-          <td>
-            <p><strong>Tipo:</strong> {{ cliente.endereco.tipo }}</p>
-            <p><strong>Logradouro:</strong> {{ cliente.endereco.logradouro }}</p>
-            <p><strong>Número:</strong> {{ cliente.endereco.numero }}</p>
-            <p><strong>Complemento:</strong> {{ cliente.endereco.complemento }}</p>
-            <p><strong>CEP:</strong> {{ cliente.endereco.cep }}</p>
-            <p><strong>Cidade:</strong> {{ cliente.endereco.cidade }}</p>
-            <p><strong>Estado:</strong> {{ cliente.endereco.estado }}</p>
-          </td>
-          <td>   
-            <p><strong>Saldo:</strong> {{ buscaSaldoConta(cliente).saldo }}</p>
-            <p><strong>Limite:</strong> {{ buscaSaldoConta(cliente).limite }}</p>
-            <p><strong>Situacao:</strong> {{ buscaSaldoConta(cliente).situacao }}</p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div *ngIf="clientes && clientes.length === 0 && loading == false">
-      <p>Nenhum cliente</p>
-  </div>
-
-  <div *ngIf="loading == true">
-    <div class=" text-center vh-100">
-      <strong role="status">
-        <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
-      </strong>
+      <div class="table-responsive mt-4" *ngIf="clientes">
+        <table class="table table-striped table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Informações Pessoais</th>
+              <th scope="col">Endereço</th>
+              <th scope="col">Financeiro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes">
+              <td>
+                <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+                <p><strong>E-mail:</strong> {{ cliente.email }}</p>
+                <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+                <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+                <p><strong>Salário:</strong> {{ cliente.salario }}</p>
+              </td>
+              <td>
+                <p><strong>Tipo:</strong> {{ cliente.endereco.tipo }}</p>
+                <p><strong>Logradouro:</strong> {{ cliente.endereco.logradouro }}</p>
+                <p><strong>Número:</strong> {{ cliente.endereco.numero }}</p>
+                <p><strong>Complemento:</strong> {{ cliente.endereco.complemento }}</p>
+                <p><strong>CEP:</strong> {{ cliente.endereco.cep }}</p>
+                <p><strong>Cidade:</strong> {{ cliente.endereco.cidade }}</p>
+                <p><strong>Estado:</strong> {{ cliente.endereco.estado }}</p>
+              </td>
+              <td>   
+                <p><strong>Saldo:</strong> {{ buscaSaldoConta(cliente).saldo }}</p>
+                <p><strong>Limite:</strong> {{ buscaSaldoConta(cliente).limite }}</p>
+                <p><strong>Situacao:</strong> {{ buscaSaldoConta(cliente).situacao }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="clientes && clientes.length === 0 && loading == false">
+          <p class="text-white text-center">Nenhum cliente encontrado</p>
+      </div>
+      <div *ngIf="loading == true">
+        <div class=" text-center vh-100">
+          <strong role="status">
+            <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+          </strong>
+        </div>
+      </div>
     </div>
   </div>
 </div>
