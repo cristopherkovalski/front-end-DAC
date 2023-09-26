@@ -1,41 +1,49 @@
-<div class="container d-flex justify-content-center mt-5">
-  <div *ngIf="conta" style="width: 300px;" class="transf">
+<div class="container py-5 vh-90">
+  <div class="row d-flex justify-content-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body p-5">
+          <div *ngIf="conta" class="transf">
 
-  <h1 class="box-title">Transferência</h1>
-  <h5>Conta: {{conta.id}}</h5>
-  <h6>Saldo:
-    <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
-  </h6>
+            <h1 class="box-title text-center">Transferência</h1>
+            <h5>Conta: {{conta.id}}</h5>
+            <h6>Saldo:
+              <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
+            </h6>
 
-  <form #formDepositar="ngForm" (ngSubmit)="transferir()">
-    <div class="form-group">
-      <label for="contaDestinoId">Conta de Destino:</label>
-      <input
-        type="number"
-        class="form-control"
-        id="contaDestinoId"
-        name="contaDestinoId"
-        [(ngModel)]="contaDestinoId"
-        required
-      >
-    </div>
+            <form #formDepositar="ngForm" (ngSubmit)="transferir()">
+              <div class="form-group">
+                <label for="contaDestinoId">Conta de Destino:</label>
+                <input type="text" class="form-control" id="contaDestinoId" name="contaDestinoId"
+                  [(ngModel)]="contaDestinoId" required>
+              </div>
 
-    <div class="form-group">
-      <label for="valor">informe o valor da Transferência:</label>
-      <input type="text"  placeholder="R$ 0,00" class="form-control" #valor="ngModel" id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorTransferencia"  />
-      <div *ngIf="valor.errors && (valor.dirty || valor.touched)" class="mt-2 alert alert-danger">
-        <div [hidden]="!valor.errors?.['required']"> Digite um valor para deposito.</div>
+              <div class="form-group">
+                <label for="valor">informe o valor da Transferência:</label>
+                <input type="text" placeholder="R$ 0,00" class="form-control" #valor="ngModel" id="valor" name="valor"
+                  currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required
+                  [(ngModel)]="valorTransferencia" />
+                <div *ngIf="valor.errors && (valor.dirty || valor.touched)" class="mt-2 alert alert-danger">
+                  <div [hidden]="!valor?.errors?.['required']"> Digite um valor para deposito.</div>
+                </div>
+              </div>
+
+              <div class="form-group mt-5 d-flex justify-content-center">
+                <a class="btn btn-secondary me-3" href="#" routerLink="">
+                  Voltar
+                </a>
+                <button type="button" class="btn btn-primary" (click)="transferir()"
+                  [disabled]="!formDepositar.form.valid || valorTransferencia <= 0  || !isValidValue() ">
+                  Confirmar
+                </button>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="!conta" class="text-center">
+            <div class="spinner-border text-light  m-3"  role="status" style="width: 3rem; height: 3rem;"></div>
+          </div>
+        </div>
       </div>
     </div>
-
-      <div class="form-group mt-5 d-flex justify-content-center">
-        <a class="btn btn-secondary me-3" href="#" routerLink="">
-          Voltar
-        </a>
-        <button type="button" class="btn btn-primary" (click)="transferir()"
-            [disabled]="!formDepositar.form.valid || valorTransferencia <= 0  || !isValidValue() ">
-          Confirmar
-        </button>
-      </div>
-    </form>
+  </div>
 </div>

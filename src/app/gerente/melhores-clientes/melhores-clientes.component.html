@@ -3,12 +3,9 @@
     <div class="border bg-dark rounded-4 p-3" style="width:100%;">
       <h2 class="text-white"> Ricos Riquinhos</h2>
 
-      <div *ngIf="loading == true">
-        <div class=" text-center vh-100">
-          <strong role="status">
-            <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
-          </strong>
-        </div>
+      
+      <div *ngIf="loading== true" class="text-center">
+          <div class="spinner-border text-light  m-3"  role="status" style="width: 3rem; height: 3rem;"></div>
       </div>
 
       <div>
@@ -24,11 +21,11 @@
           </thead>
           <tbody>
             <tr scope="row" *ngFor="let cliente of clientesFiltrados">
-              <td>{{ cliente.cpf }}</td>            
+              <td>{{  cliente.cpf }}</td>            
               <td>{{ cliente.nome }}</td>
               <td>{{ cliente.endereco.cidade }}</td>
               <td>{{ cliente.endereco.estado }}</td>
-              <td>{{ buscaSaldoConta(cliente).saldo}}</td>
+              <td>{{ buscaSaldoConta(cliente).saldo | currency:'BRL'}}</td>
               
             </tr>
           </tbody>

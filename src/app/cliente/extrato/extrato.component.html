@@ -1,46 +1,123 @@
 <div class="container">
-  <h2>Extrato de Movimentações</h2>
+  <div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="text-white border bg-dark rounded-4 p-3" style="width:100%;">
+      <h2>Extrato de Movimentações</h2>
+  
+      <div class="row row-cols-sm-auto">     
+        <div class="col-12">
+          <label for="">Data Inicial</label>
+          <div class="dp-hidden position-absolute">
+            <div class="input-group">
+              <input
+                name="datepicker"
+                class="form-control"
+                ngbDatepicker
+                #datepicker="ngbDatepicker"
+                [autoClose]="'outside'"
+                (dateSelect)="onDateSelection($event)"
+                [displayMonths]="2"
+                [dayTemplate]="t"
+                [maxDate]="maxDate"
+                outsideDays="hidden"
+                [startDate]="dataInicial!"
+                tabindex="-1"
+              />
+              <ng-template #t let-date let-focused="focused">
+                <span
+                  class="custom-day"
+                  [class.focused]="focused"
+                  [class.range]="isRange(date)"
+                  [class.faded]="isHovered(date) || isInside(date)"
+                  (mouseenter)="hoveredDate = date"
+                  (mouseleave)="hoveredDate = null"
+                >
+                  {{ date.day }}
+                </span>
+              </ng-template>
+            </div>
+          </div>
+          <div class="input-group">
+            <input
+              #dataInicio
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="dataInicio"
+              [value]="format(dataInicial)"
+              (input)="dataInicial = validateInput(dataInicial, dataInicio.value)"
+            />
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+          </div>
+        </div>
+        <div class="col-12">
+          <label for="">Data Final</label>
+          <div class="input-group">
+            <input
+              #dataFim
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="dataFim"
+              [value]="dataFinal ? format(dataFinal) : ''"
+              (input)="validateInput(dataFinal, dataFim.value)"
+            />
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+          </div>
+        </div>
+      </div>
+      
+      
 
-  <!-- Filtros para seleção de datas -->
-  <div class="form-group">
-    <label>Data Inicial:</label>
-    <input type="date" [(ngModel)]="dataInicial">
+      <!-- Filtros para seleção de datas -->
+      <!-- <div class="form-group">
+        <label>Data Inicial:</label>
+        <input type="date" id="dp2" [(ngModel)]="dataInicial">
+      </div>
+      <div class="form-group">
+        <label>Data Final:</label>
+        <input type="date" [(ngModel)]="dataFinal">
+      </div> -->
+
+      <button class="btn btn-secondary mt-2" [disabled]="!dataFim.value || !dataInicio.value" (click)="carregarMovimentacoes()">Filtrar</button>
+
+      <!-- Tabela para exibir as movimentações -->
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Conta Origem</th>
+            <th>Conta Destino</th>
+            <th>Saldo Operaçao</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movimentacao of movimentacoes" [ngClass]="validaEntradaSaida(movimentacao)">
+            <td>{{ convertData(movimentacao.dataHora) }}</td>
+            <td>{{ movimentacao.type }}</td>
+            <td>{{ movimentacao.value | currency:'BRL' }}</td>
+            <td>{{movimentacao.conta_id}}</td>
+            <td>{{movimentacao.conta_destiny == conta.id? "Propria conta" : movimentacao.conta_destiny}}</td>
+            <td>{{movimentacao.saldo_final | currency:'BRL'  }}</td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <h2></h2>
+      <table *ngIf="saldosConsolidados" class="table table-striped table-dark mt-5">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Saldo Consolidado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let saldo of saldosConsolidados">
+            <td> {{ saldo.dataHora }}</td>
+            <td> {{ saldo.saldo | currency:'BRL' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="form-group">
-    <label>Data Final:</label>
-    <input type="date" [(ngModel)]="dataFinal">
-  </div>
-  <button (click)="filtrarMovimentacoes()">Filtrar</button>
-
-  <!-- Tabela para exibir as movimentações -->
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Data</th>
-        <th>Tipo</th>
-        <th>Valor</th>
-        <th>Conta Origem</th>
-        <th>Conta Destino</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let movimentacao of movimentacoes">
-        <td>{{ convertData(movimentacao.dataHora) }}</td>
-        <td>{{ movimentacao.type }}</td>
-        <td>{{ movimentacao.value | currency }}</td>
-        <td *ngIf="movimentacao.conta_id != conta.id">{{movimentacao.conta_id}}</td>
-        <td *ngIf="movimentacao.conta_id != conta.id">{{movimentacao.conta_id}}</td>
-
-        <!-- {
-          "dataHora": "2023-09-26T00:31:01.530Z",
-          "type": "TRANSFERENCIA",
-          "value": 15,
-          "conta_id": 1,
-          "conta_destiny": 2,
-          "id": 41
-      } -->
-
-      </tr>
-    </tbody>
-  </table>
 </div>

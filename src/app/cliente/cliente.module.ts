@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // import { CurrencyMaskDirective } from '../shared/directives/currency-mask.directive';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
@@ -37,7 +38,8 @@ import { ExtratoComponent } from './extrato/extrato.component';
     RouterModule,
     SharedModule,
     CurrencyMaskModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ]
 })
 export class ClienteModule { }

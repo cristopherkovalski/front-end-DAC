@@ -85,7 +85,7 @@ export class ClienteService {
       return this.http.patch<any>(url_conta + conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
               .pipe(
                   tap((response) => {
-                    this.registrarTransacaoJson('SAQUE', valor, conta.id).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
+                    this.registrarTransacaoJson('SAQUE', valor, data.saldo,conta.id ).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
                   }),
                   catchError((error) => {
                     return throwError(() => new Error('Falha ao sacar. Por favor, tente novamente mais tarde.'));
@@ -109,7 +109,7 @@ export class ClienteService {
       return this.http.patch<any>(url_conta + conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
               .pipe(
                   tap((response) => {
-                    this.registrarTransacaoJson('DEPOSITO', valor, conta.id).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
+                    this.registrarTransacaoJson('DEPOSITO', valor, data.saldo, conta.id).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
                   }),
                   catchError((error) => {
                     return throwError(() => new Error('Falha ao depositar. Por favor, tente novamente mais tarde.'));
@@ -135,9 +135,11 @@ export class ClienteService {
 
       const atualizacaoOrigem = this.http.patch<any>(url_conta + contaOrigem.id, JSON.stringify(dataOrigem), this.httpOptions);
       const atualizacaoDestino = this.http.patch<any>(url_conta + contaDestino.id, JSON.stringify(dataDestino), this.httpOptions);
-      const registroTransacao = this.registrarTransacaoJson('TRANSFERENCIA', valor, contaOrigem.id, contaDestino.id);
 
-      return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacao]);
+      const registroTransacaoOrigem = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoOrigem, contaOrigem.id, contaDestino.id);
+      const registroTransacaoDestino = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoDestino, contaDestino.id, null);
+
+      return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacaoOrigem, registroTransacaoDestino]);
     } else {
       return of(null); 
     }
@@ -159,14 +161,15 @@ export class ClienteService {
   }
   
    // isso aqui vai morrer jaja, 
-  registrarTransacaoJson(tipo: string, valor: number, contaOrigem?: any, contaDestino?: any):Observable<any>{
+  registrarTransacaoJson(tipo: string, valor: number, saldo:number, contaOrigem?: any, contaDestino?: any):Observable<any>{
     let url = url_movimentacao.replace(':id', contaOrigem.toString());
     const transacao = {
       dataHora: new Date().toJSON(), // Adicione esta linha para incluir a data e hora atual
       type: tipo,
       value: valor,
       conta_id: contaOrigem,
-      conta_destiny: contaDestino ? contaDestino : null
+      conta_destiny: contaDestino ? contaDestino : null,
+      saldo_final: saldo
     };
     return this.http.post(url, JSON.stringify(transacao), this.httpOptions);
   }

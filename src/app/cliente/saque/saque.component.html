@@ -1,37 +1,41 @@
-<div class="container d-flex justify-content-center mt-5">
-  <div *ngIf="conta" style="width: 300px;" class="saque">
-    <h1 class="box-title">Saque</h1>
-    <h5>Conta: {{conta.id}}</h5>
-    <h6>Saldo:
-      <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
-    </h6>
+<div class="container py-5 vh-90">
+  <div class="row d-flex justify-content-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body p-5">
+          <div *ngIf="conta" class="saque">
+            <h1 class="box-title text-ccenter">Saque</h1>
+            <h5>Conta: {{conta.id}}</h5>
+            <h6>Saldo:
+              <span [style.color]="conta.saldo! >= 0 ? 'green': 'red'">{{ conta.saldo | currency: "BRL"}}</span>
+            </h6>
 
-    <form #formSacar="ngForm">
-     
-      <div class="form-group">
-        <label for="valor">informe o valor do saque:</label>
-        <input type="text"  placeholder="R$ 0,00" class="form-control" #valor="ngModel" id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorSaque"  />
-        <div *ngIf="valor.errors && (valor.dirty || valor.touched)" class="mt-2 alert alert-danger">
-          <div [hidden]="!valor.errors?.['required']"> Digite um valor para deposito.</div>
-        </div>
-      </div>
+            <form #formSacar="ngForm">
+            
+              <div class="form-group">
+                <label for="valor">informe o valor do saque:</label>
+                <input type="text"  placeholder="R$ 0,00" class="form-control" #valor="ngModel" id="valor" name="valor" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required [(ngModel)]="valorSaque"  />
+                <div *ngIf="valor.errors && (valor.dirty || valor.touched)" class="mt-2 alert alert-danger">
+                  <div [hidden]="!valor?.errors?.['required']"> Digite um valor para deposito.</div>
+                </div>
+              </div>
 
-      <div class="form-group mt-5 d-flex justify-content-center">
-        <a class="btn btn-secondary me-3" href="#" routerLink="">
-          Voltar
-        </a>
-        <button type="button" class="btn btn-primary" (click)="sacar()"
-            [disabled]="!formSacar.form.valid || valorSaque <= 0  || !isValidValue() ">
-          Confirmar
-        </button>
+              <div class="form-group mt-5 d-flex justify-content-center">
+                <a class="btn btn-secondary me-3" href="#" routerLink="">
+                  Voltar
+                </a>
+                <button type="button" class="btn btn-primary" (click)="sacar()"
+                    [disabled]="!formSacar.form.valid || valorSaque <= 0  || !isValidValue() ">
+                  Confirmar
+                </button>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="!conta" class="text-center">
+            <div class="spinner-border text-light  m-3"  role="status" style="width: 3rem; height: 3rem;"></div>
+          </div>
+        </div> 
       </div>
-    </form>
-  </div>
-  <div *ngIf="!conta">
-    <div class="d-flex align-items-center vh-100">
-      <strong role="status">
-        <div class="spinner-border ms-3" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
-      </strong>
     </div>
   </div>
 </div>

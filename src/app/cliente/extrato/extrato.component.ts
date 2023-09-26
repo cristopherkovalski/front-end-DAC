@@ -1,33 +1,125 @@
 import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../services/cliente.service';
+import { NgbDate, NgbCalendar, NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-extrato',
   templateUrl: './extrato.component.html',
-  styleUrls: ['./extrato.component.css']
+  styles: [
+		`
+			.dp-hidden {
+				width: 0;
+				margin: 0;
+				border: none;
+				padding: 0;
+			}
+			.custom-day {
+				text-align: center;
+				padding: 0.185rem 0.25rem;
+				display: inline-block;
+				height: 2rem;
+				width: 2rem;
+			}
+			.custom-day.focused {
+				background-color: #e6e6e6;
+			}
+			.custom-day.range,
+			.custom-day:hover {
+				background-color: rgb(2, 117, 216);
+				color: white;
+			}
+			.custom-day.faded {
+				background-color: rgba(2, 117, 216, 0.5);
+			}
+		`,
+	],
 })
 export class ExtratoComponent implements OnInit {
-  dataInicial: string | undefined;
-  dataFinal: string | undefined;
+  // dataInicial: string | undefined;
+  // dataFinal: string | undefined;
   movimentacoes: any[] = [];
   cliente!: any;
   conta!: any;
+ 
+  // datepicker
+  hoveredDate: NgbDate | null = null;
 
-  constructor(private clienteService: ClienteService) {}
+	dataInicial!: NgbDate | null;
+	dataFinal!: NgbDate | null;
 
+  hj:Date = new Date();
+
+  maxDate: NgbDate = new NgbDate(this.hj.getFullYear(),this.hj.getMonth() + 1, this.hj.getDate());
+
+  readonly DELIMITER = '/';
+
+  saldosConsolidados!: any[]; 
+
+  constructor(private clienteService: ClienteService, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {}
+  
+ 
   ngOnInit(): void {
     this.cliente = this.clienteService.getUsuarioLogado();
-    this.clienteService.getAccontByClientId(2).subscribe(
+    // console.log(this.cliente)
+    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
       conta => {
         if (conta) {
           this.conta = conta; 
         } 
       }
     ); 
-
-    this.carregarMovimentacoes();
-    
   }
+
+  parse(value: string): NgbDateStruct | null {
+		if (value) {
+			const date = value.split(this.DELIMITER);
+			return {
+				day: parseInt(date[0], 10),
+				month: parseInt(date[1], 10),
+				year: parseInt(date[2], 10),
+			};
+		}
+		return null;
+	}
+
+	format(date: NgbDateStruct | null): string {
+		return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : '';
+	}
+
+  onDateSelection(date: NgbDate) {
+		if (!this.dataInicial && !this.dataFinal) {
+			this.dataInicial = date;
+		} else if (this.dataInicial && !this.dataFinal && date && date.after(this.dataInicial)) {
+			this.dataFinal = date;
+		} else {
+			this.dataFinal = null;
+			this.dataInicial = date;
+		}
+	}
+
+	isHovered(date: NgbDate) {
+		return (
+			this.dataInicial && !this.dataFinal && this.hoveredDate && date.after(this.dataInicial) && date.before(this.hoveredDate)
+		);
+	}
+
+	isInside(date: NgbDate) {
+		return this.dataFinal && date.after(this.dataInicial) && date.before(this.dataFinal);
+	}
+
+	isRange(date: NgbDate) {
+		return (
+			date.equals(this.dataInicial) ||
+			(this.dataFinal && date.equals(this.dataFinal)) ||
+			this.isInside(date) ||
+			this.isHovered(date)
+		);
+	}
+
+	validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+		const parsed = this.parse(input);
+		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+	}
 
   comparaDatas(a:any,b:any){
     let c = new Date(a.dataHora)
@@ -36,67 +128,140 @@ export class ExtratoComponent implements OnInit {
     return j.getTime() - c.getTime();
   }
 
-  carregarMovimentacoes(): void {
-    this.clienteService.getMovimentacoesPorIdConta("2").subscribe(
-      (movimentacoes) => {
-        movimentacoes.forEach((movi:any) => {
-          this.movimentacoes.push(movi);
-          this.movimentacoes.sort(this.comparaDatas);
-        })
-        console.log(this.movimentacoes)
-      },
-      (error) => {
-        console.error('Erro ao carregar as movimentações:', error);
-      }
-    );
+  comparaDatasOrdernado(a:any,b:any){
+    let c = new Date(a.dataHora)
+    let j = new Date(b.dataHora)
 
-    this.clienteService.getMovimentacoesPorIdContaDestiny("2").subscribe(
-      (movimentacoes) => {
-        movimentacoes.forEach((movi:any) => {
-          this.movimentacoes.push(movi);
-          this.movimentacoes.sort(this.comparaDatas);
-        })
-        console.log(this.movimentacoes)
-      },
-      (error) => {
-        console.error('Erro ao carregar as movimentações:', error);
-      }
-    )
+    return c.getTime() - j.getTime();
   }
 
-  filtrarMovimentacoes(): void {
+  calculaSaldoConsolidado(movimentacao:any){
+    let saldoPorDia:any = {};
+    
+    // Inicialize o saldo para a data inicial
 
+    const dataIni = new Date(this.dataInicial!.year,this.dataInicial!.month - 1, this.dataInicial!.day, 0,0,0);
+    const dataFim = new Date(this.dataFinal!.year,this.dataFinal!.month - 1, this.dataFinal!.day, 23,59,59);
+
+    saldoPorDia[dataIni.toISOString().split("T")[0]] = 0;
+
+    for (const movi of movimentacao) {
+      const dataMovimento = new Date(movi.dataHora);
+      const dataMovimentoString = dataMovimento.toISOString().split("T")[0];
+
+      // Verifique se a data da movimentação está dentro do intervalo desejado
+      if (dataMovimento >= dataIni && dataMovimento <= dataFim) {
+          saldoPorDia[dataMovimentoString] = movi.saldo_final;
+      }
+    }
+
+    // Preencha os dias em que não houve movimentação com o último saldo disponível
+    let ultimoSaldo = 0;
+    for (let data = new Date(dataIni); data <= dataFim; data.setDate(data.getDate() + 1)) {
+      const dataString = data.toISOString().split("T")[0];
+      if (saldoPorDia[dataString] !== undefined) {
+          ultimoSaldo = saldoPorDia[dataString];
+      } else {
+          saldoPorDia[dataString] = ultimoSaldo;
+      }
+    }
+
+    const keys: string[] = Object.keys(saldoPorDia);
+
+    let final = [];
+    for (const key of keys) {
+      let b = key.split("-")
+      let c = b[2] + "/"+ b[1] +"/" + b[0];
+      let a = {"dataHora": c, "saldo":saldoPorDia[key]}
+      final.push(a)
+    }
+
+    final = final.sort(this.compararDatas)
+
+    return final;
+  }
+
+  compararDatas(a:any, b:any) {
+    let c = a.dataHora.split("/")
+    let d = b.dataHora.split("/")
+
+    const dataA = new Date(c[2], c[1] - 1, c[0]);
+    const dataB = new Date(d[2], d[1] - 1, d[0]);
+  
+    if (dataA < dataB) {
+      return -1;
+    }
+    if (dataA > dataB) {
+      return 1;
+    }
+    return 0;
+  }
+  
+  carregarMovimentacoes(): void {
+    let moviFiltradas:any = [];
+
+    this.clienteService.getMovimentacoesPorIdConta(this.conta.id).subscribe(
+      (result)=>{
+        result.forEach((movi:any) =>{
+          moviFiltradas.push(movi)
+          moviFiltradas.sort(this.comparaDatas)
+        })
+      },
+      (error) => {
+        console.error('Erro:', error);
+      },
+      () => {
+        this.movimentacoes = this.filtrarMovimentacoes(moviFiltradas);
+        this.saldosConsolidados = this.calculaSaldoConsolidado(this.filtrarMovimentacoes(moviFiltradas.sort(this.comparaDatasOrdernado)));
+        
+      }
+    )
+
+  }
+
+  filtrarMovimentacoes(movimentacoes:any): [] {
+    let movis = [];
+   
     if(this.dataInicial != undefined && this.dataFinal != undefined){
-      this.movimentacoes = this.movimentacoes.filter(objeto => {
+        movis = movimentacoes.filter((objeto:any) => {
 
-        // nojo de timezones e datetime
+        const dataIni = new Date(this.dataInicial!.year,this.dataInicial!.month - 1, this.dataInicial!.day, 0,0,0).getTime();
+        const dataFim = new Date(this.dataFinal!.year,this.dataFinal!.month - 1, this.dataFinal!.day, 23,59,59).getTime();
         const dataObjeto = new Date(objeto.dataHora).getTime();
-        const dataIni = new Date(this.dataInicial!+"T00:00:00.000Z").getTime();
-        const dataFim = new Date(this.dataFinal!+"T23:59:59.999Z").getTime();
 
         return (dataObjeto >= dataIni && dataObjeto <= dataFim);
       });
     }
+    return movis;
   }
 
-  //const combinedArray = [...array1, ...array2];
+
+  validaEntradaSaida(movimentacao:any):string{
+    //'table-danger' : 'table-primary'
+
+    if(movimentacao.type === "SAQUE" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.conta_destiny != null) ){
+      return "table-danger";
+    }
+
+    if(movimentacao.type === "DEPOSITO" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.conta_destiny != null) ){
+      return "table-primary";
+    }
+
+    return "";
+
+  }
+
 
   convertData(date:string){
+    let data = new Date(date);
 
-    // Converter a data para um objeto Date
-    const data = new Date(date);
+    let dia = data.getDate().toString()
+    let mes = (data.getMonth() + 1).toString()
+    let ano = data.getFullYear();
+    let hora = data.getHours().toString()
+    let minutos = data.getMinutes().toString()
+    let segundos = data.getSeconds().toString()
 
-    // Obter os componentes da data (dia, mês, ano, hora, minutos, segundos)
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Note que os meses são base 0
-    const ano = data.getFullYear();
-    const hora = data.getHours().toString().padStart(2, '0');
-    const minutos = data.getMinutes().toString().padStart(2, '0');
-    const segundos = data.getSeconds().toString().padStart(2, '0');
-
-    // Formatar a data no formato desejado
-    const dataFormatada = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
-
-    return dataFormatada;
+    return `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;;
   }
 }
