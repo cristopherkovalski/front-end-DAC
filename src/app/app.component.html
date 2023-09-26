@@ -7,52 +7,52 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul *ngIf="usuarioLogado.type==='CLIENTE'" class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" routerLink="">Home</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/home-cliente">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/depositar">Deposito</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/depositar">Deposito</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/sacar">Saque</a>
+                    <a class="nav-link"  routerLinkActive="active" routerLink="/sacar">Saque</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/transf">Tranferência</a>
+                    <a class="nav-link"  routerLinkActive="active" routerLink="/transf">Tranferência</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/extrato">Extrato</a>
+                    <a class="nav-link" routerLinkActive="active"  routerLink="/extrato">Extrato</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/alterarperfil">Alterar Perfil</a>
+                    <a class="nav-link"  routerLinkActive="active" routerLink="/alterarperfil">Alterar Perfil</a>
                 </li>
             </ul>
 
             <ul *ngIf="usuarioLogado.type==='GERENTE'" class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" routerLink="">Home</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/home-gerente">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/lista-clientes">Listar Cliente</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/lista-clientes">Listar Cliente</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/pesquisar-cliente">Pesquisar Cliente</a>
+                    <a class="nav-link"  routerLink="/pesquisar-cliente">Pesquisar Cliente</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/melhores-clientes">TOPs Clientes</a>
+                    <a class="nav-link" routerLinkActive="active"  routerLink="/melhores-clientes">TOPs Clientes</a>
                 </li>
             </ul>
 
             <ul *ngIf="usuarioLogado.type==='ADMIN'" class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" routerLink="">Home</a>
+                    <a class="nav-link"  routerLinkActive="active" routerLink="/home-admin">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/inserir-gerente">Cadastro Gerente</a>
+                    <a class="nav-link"  routerLinkActive="active" routerLink="/inserir-gerente">Cadastro Gerente</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/manutencao-admin">Manutenção Gerentes</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/manutencao-admin">Manutenção Gerentes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/relatorio-clientes">Relatório de Clientes</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/relatorio-clientes">Relatório de Clientes</a>
                 </li>
             </ul>
             <span class="navbar-text">
