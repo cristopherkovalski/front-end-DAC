@@ -33,7 +33,7 @@ export class HomeGerenteComponent implements OnInit{
         this.clientes = [];
         contas.forEach(conta => {
           this.gerenteService.getClientesById(conta.id_cliente!).subscribe(cliente =>{
-            // console.log(cliente)
+            console.log(cliente)
             this.clientes.push(cliente)
           })
         });

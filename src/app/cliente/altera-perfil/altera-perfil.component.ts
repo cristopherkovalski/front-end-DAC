@@ -84,27 +84,27 @@ ngAfterViewInit(): void {
 
 
   alterarCliente(): void {
-    if(this.formAlterar.form.valid && this.cliente.salario > 0){
-    if (this.cliente.salario >= 2000) {
-      const limite = this.cliente.salario / 2;
-    }
-    this.cliente.cpf = this.removeMascara(this.cliente.cpf);
-    this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
-    this.cliente.telefone = this.removeMascara(this.cliente.telefone);
-    this.clienteService.atualizarCliente(this.cliente).subscribe(
-    (mensagem) => {
-        alert(mensagem); 
-        this.router.navigate(['/home-cliente']);
-      },
-      (error) => {
-        alert('Erro ao atualizar o cliente' + error);
+    if (this.formAlterar.form.valid && this.cliente.salario >= 0) {
+      if (this.cliente.salario >= 2000) {
+        const limite = this.cliente.salario / 2;
       }
-    );
-    this.router.navigate(['/home-cliente']);
-  }else{
-    alert('Inserir dados válidos');
+      this.cliente.cpf = this.removeMascara(this.cliente.cpf);
+      this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
+      this.cliente.telefone = this.removeMascara(this.cliente.telefone);
+      this.clienteService.atualizarCliente(this.cliente).subscribe(
+        (mensagem) => {
+          alert(mensagem);
+          this.router.navigate(['/home-cliente']);
+        },
+        (error) => {
+          alert('Erro ao atualizar o cliente' + error);
+        }
+      );
+      this.router.navigate(['/home-cliente']);
+    } else {
+      alert('Inserir dados válidos');
+    }
   }
-}
 
 
 }

@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
     if(this.formLogin.form.valid){
       this.loginService.logar(this.auth).subscribe((user) =>{
         if(user){
-          this.loginService.usuarioLogado = user;
+          let u = new Usuario(user.id_user, user.nome, user.senha, user.email, user.type);
+          this.loginService.usuarioLogado = u;
           if(user.type == "CLIENTE"){
             this.router.navigate(["/home-cliente"]);
           }else if(user.type == "GERENTE"){

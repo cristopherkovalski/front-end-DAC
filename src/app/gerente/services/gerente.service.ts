@@ -22,9 +22,10 @@ const clientes = "http://localhost:3000/clientes";
 
 const contas = "http://localhost:3000/contas/";
 
+
 const contasPorCliente = "http://localhost:3000/contas/conta:id_cliente";
 
-const auth = "http://localhost:3000/auth/";
+const auth = "http://localhost:3000/auth";
 const url_conta = "http://localhost:3000/contas/";
 
 const LS_CHAVE: string = "usuarioLogado";
@@ -76,7 +77,7 @@ export class GerenteService {
   }
 
   getContasAprovacao(id_gerente:number):Observable<Conta[] | null>{
-
+    
     let url = acconts_waiting.replace(':id', id_gerente.toString());
   
     return this.http.get<Conta[]>(url).pipe(
@@ -99,18 +100,22 @@ export class GerenteService {
     return this.clienteService.getAccontByClientId(cliente.id).pipe(
       switchMap((conta: Conta) => {
         conta.situacao = "APROVADO";
-        return this.http.put(contas + cliente.id, JSON.stringify(conta), this.httpOptions);
+        console.log(conta);
+        return this.http.put(contas + conta.id, conta, this.httpOptions);
       }),
       switchMap(() => {
+        return this.http.get(auth + "/?id_user=" + cliente.id, this.httpOptions);
+      }), 
+      switchMap((auth:any) => {
+        let aux = auth[0];
         let a ={"senha": this.generateRandomPassword().toString()}
-        return this.http.patch(auth + cliente.id, a , this.httpOptions);
+        let url = "http://localhost:3000/auth/" + aux.id
+        console.log("Resultado da segunda chamada:", aux);
+        return this.http.patch(url, a, this.httpOptions);
       })
       // switchMap(() => {
       //   return this.http.get(auth + cliente.id, this.httpOptions);
-      // }),
-      
-
-             
+      // }),       
     );
   }
 
@@ -119,7 +124,7 @@ export class GerenteService {
       switchMap((conta:Conta) =>{
         conta.situacao = "RECUSADO";
         conta.observacao = motivo;
-        return this.http.put(contas + cliente.id, JSON.stringify(conta), this.httpOptions);
+        return this.http.put(contas + conta.id, JSON.stringify(conta), this.httpOptions);
       })
     )
 

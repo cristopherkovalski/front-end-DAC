@@ -1,63 +1,76 @@
 {
   "contas": [
     {
-      "id_cliente": 1,
-      "gerenteId": null,
-      "saldo": 0,
-      "limite": 8330,
-      "situacao": "PENDENTE",
+      "id_cliente": 8,
+      "gerenteId": 1,
+      "saldo": 10,
+      "limite": 0,
+      "situacao": "APROVADO",
       "id": 1
     }
   ],
-  "movimentacoes": [],
+  "movimentacoes": [
+    {
+      "dataHora": "2023-09-27T03:34:42.004Z",
+      "type": "DEPOSITO",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "saldo_final": 20,
+      "id": 1
+    }
+  ],
   "auth": [
     {
       "nome": "Serjão Lanches",
       "senha": "1234",
       "email": "admin@admin.com",
       "type": "ADMIN",
-      "id": 1
+      "id": 1,
+      "id_user": 1
     },
     {
-      "nome": "gabr",
-      "senha": "5lzIVDlCy4",
-      "email": "gerente@gerente.com",
+      "nome": "pato",
+      "senha": "1234",
+      "email": "pato@pato.com",
       "type": "GERENTE",
-      "id": 2
+      "id": 2,
+      "id_user": 1
     },
     {
-      "nome": "teste",
-      "senha": null,
-      "email": "cliente@cliente.com",
+      "id_user": 8,
+      "nome": "vini",
+      "senha": "3232",
+      "email": "v@v.com",
       "type": "CLIENTE",
       "id": 3
     }
   ],
   "clientes": [
     {
-      "id": 1,
-      "nome": "teste",
-      "email": "cliente@cliente.com",
-      "cpf": "10865823308",
+      "id": 8,
+      "nome": "vinie",
+      "email": "v@v.com",
+      "cpf": "12928342931",
       "endereco": {
         "tipo": "Rua",
-        "logradouro": "Florindo Lindes",
-        "numero": "44",
-        "complemento": "casa",
-        "cep": "83330270",
-        "cidade": "Pinhais",
+        "logradouro": "Ana Alzira Pereira",
+        "numero": "163",
+        "complemento": "",
+        "cep": "81925020",
+        "cidade": "Curitiba",
         "estado": "PR"
       },
-      "telefone": "76222222222",
-      "salario": 16660
+      "telefone": "41998843331",
+      "salario": 0
     }
   ],
   "gerentes": [
     {
-      "nome": "gabr",
-      "email": "gerente@gerente.com",
-      "cpf": "55593166951",
-      "telefone": "99999999999",
+      "nome": "pato",
+      "email": "pato@pato.com",
+      "cpf": "12928342931",
+      "telefone": "41998843333",
       "id": 1
     }
   ],

@@ -142,7 +142,7 @@ export class CadastroComponent {
               this.conta.situacao = "PENDENTE";
               this.cadastroService.insereConta(this.conta).subscribe({
                 next: (contaResponse) => {
-                  this.cadastroService.insereAuth({ "nome": this.cliente.nome, "senha" : null, "email": this.cliente.email, "type" : "CLIENTE"}).subscribe({
+                  this.cadastroService.insereAuth({"id_user": clienteResponse.id,"nome": this.cliente.nome, "senha" : null, "email": this.cliente.email, "type" : "CLIENTE"}).subscribe({
                     next: (responsse) =>{
                       alert('Cliente e conta criados com sucesso.');
                       this.router.navigate(['/']);
