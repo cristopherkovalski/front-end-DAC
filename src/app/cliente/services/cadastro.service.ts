@@ -4,6 +4,7 @@ import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Observable, map, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Conta } from 'src/app/shared/models/conta.model';
+import { Gerente } from 'src/app/shared/models/gerente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class CadastroService {
   private apiUrl = "http://localhost:3000/clientes";
   private contaUrl = "http://localhost:3000/contas";
   private authUrl = "http://localhost:3000/auth";
+  private gerenteUrl = "http://localhost:3000/gerentes";
 
  
   constructor(private http: HttpClient) { }
@@ -81,6 +83,10 @@ export class CadastroService {
     return this.http.get<any[]>(`${this.apiUrl}?cpf=${cpf}`).pipe(
       map(clientes => clientes.length > 0) 
     );
+  }
+
+  getGerentesList(): Observable<Gerente[]> {
+    return this.http.get<Gerente[]>(this.gerenteUrl);
   }
 
 }

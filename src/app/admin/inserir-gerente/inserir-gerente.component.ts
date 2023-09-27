@@ -52,10 +52,10 @@ export class InserirGerenteComponent {
         next: (contas) => {
           console.log('Contas buscadas com sucesso:', contas);
           this.contas = contas;
-
-          this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
-
-          if (this.conta != null){ //se ele não for o primeiro recebe uma conta
+          let gerenteId = this.getGerenteComMaisContas(this.contas)!
+          this.conta = this.encontrarContaGerenteComMaiorId(this.contas, gerenteId )!;
+          let contasDoGerente = contas.filter(conta => conta.gerenteId === gerenteId);
+          if (this.conta != null && contasDoGerente.length > 1){ //se ele não for o primeiro recebe uma conta
 
             this.conta.gerenteId = this.gerente.id;
 
@@ -190,19 +190,6 @@ export class InserirGerenteComponent {
         contasPorGerente.set(gerenteId, 1);
       }
     }
-
-    if (contasPorGerente.size === 1 ) { //se só tiver outro gerente não roubar a conta dele kkkk
-      let a:boolean = false;
-      contasPorGerente.forEach((numeroDeContas, gerenteId) => {
-        if(numeroDeContas == 1){
-          a = true;
-        }
-      })
-
-      if(a)
-        return null;
-    }
-    
 
     let gerenteComMaisContasId: number | null = null;
     let maiorNumeroDeContas = 0;

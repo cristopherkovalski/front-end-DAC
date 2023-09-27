@@ -124,7 +124,7 @@ export class ManutencaoAdminComponent {
         }
       });
     } else {
-      const gerenteComMenosContas = this.encontrarGerenteComMenosContas(this.contas);
+      const gerenteComMenosContas = this.encontrarGerenteComMenosContas(this.contas, gerente.id!);
       
       const updateAccountObservables = contasDoGerente.map(conta =>
         this.adminService.atualizarGerenteIdDaConta(conta.id!, gerenteComMenosContas!.id!) //derrubando o server
@@ -157,9 +157,9 @@ export class ManutencaoAdminComponent {
 
  
 
-  encontrarGerenteComMenosContas(contas: Conta[]): Gerente | null {
+  encontrarGerenteComMenosContas(contas: Conta[], gerenteExcluidoId: number): Gerente | null {
     let contasPorGerente: Record<number, number> = {};
-
+  
     contas.forEach((conta) => {
       let gerenteId = conta.gerenteId;
       if (gerenteId !== undefined) {
@@ -170,26 +170,26 @@ export class ManutencaoAdminComponent {
         }
       }
     });
-
+  
     let gerenteComMenosContas: Gerente | null = null;
     let menorQuantidadeDeContas = Infinity;
-    let maiorIdDoGerenteComMenosContas = -1;
-
+    let menorIdDoGerenteComMenosContas = Infinity;
+  
     this.gerentes.forEach((gerente) => {
       let gerenteId = gerente.id;
-      if (gerenteId !== undefined) {
+      if (gerenteId !== undefined && gerenteId !== gerenteExcluidoId) {
         let quantidadeDeContas = contasPorGerente[gerenteId] || 0;
         if (quantidadeDeContas < menorQuantidadeDeContas) {
           menorQuantidadeDeContas = quantidadeDeContas;
-          maiorIdDoGerenteComMenosContas = gerenteId!;
+          menorIdDoGerenteComMenosContas = gerenteId!;
           gerenteComMenosContas = gerente;
-        } else if (quantidadeDeContas === menorQuantidadeDeContas && gerenteId! > maiorIdDoGerenteComMenosContas) {
-          maiorIdDoGerenteComMenosContas = gerenteId!;
+        } else if (quantidadeDeContas === menorQuantidadeDeContas && gerenteId! < menorIdDoGerenteComMenosContas) {
+          menorIdDoGerenteComMenosContas = gerenteId!;
           gerenteComMenosContas = gerente;
         }
       }
     });
-
+  
     return gerenteComMenosContas;
   }
 

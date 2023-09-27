@@ -5,6 +5,7 @@ import { FormControl, NgForm, Validators } from '@angular/forms';
 import { CepService } from '../services/cep.service';
 import { CadastroService } from '../services/cadastro.service';
 import { Router } from '@angular/router';
+import { Gerente } from 'src/app/shared/models/gerente.model';
 
 
 
@@ -19,6 +20,8 @@ export class CadastroComponent {
 
   cliente: Cliente = new Cliente();
   conta: Conta = new Conta();
+  gerentes: Gerente[] = [];
+  gerente: Gerente = new Gerente();
   contas: Conta[] = [];
   mensagem: string = '';
   mensagemCPF: string = '';
@@ -30,11 +33,25 @@ export class CadastroComponent {
   constructor(private cepService: CepService, private cadastroService: CadastroService, private router: Router) {
 
   }
+
+  ngOnInit(): void {
+    this.setGerentesList();}
   
   resetarValidacaoCPF(){
     if(this.cpfValido === true)
     this.cpfValido= false;
     this.mensagemCPF = '';
+  }
+
+  setGerentesList() {
+    this.cadastroService.getGerentesList().subscribe({
+      next: (gerentes) => {
+        this.gerentes = gerentes
+      },
+      error: (error) => {
+        alert('Ocorreu um erro ao buscar os gerentes: ' + error.message);
+      }
+    });
   }
 
   buscarEndereco(): void {
@@ -86,35 +103,41 @@ export class CadastroComponent {
     }
   }
 
-  getGerenteComMenosContas(contas?: Conta[]) {
-    const contasPorGerente = new Map();
-
-    for (let conta of contas!) {
-      const gerenteId = conta.gerenteId;
-      if (contasPorGerente.has(gerenteId)) {
-        contasPorGerente.set(gerenteId, contasPorGerente.get(gerenteId) + 1);
-      } else {
-        contasPorGerente.set(gerenteId, 1);
-      }
-    }
-
-    let gerenteComMenosContasId = null;
-    let menorNumeroDeContas = Number.MAX_SAFE_INTEGER; // Inicializa com um valor muito grande
-
-    contasPorGerente.forEach((numeroDeContas, gerenteId) => {
-      if (numeroDeContas < menorNumeroDeContas) {
-        menorNumeroDeContas = numeroDeContas;
-        gerenteComMenosContasId = gerenteId;
-      } else if (numeroDeContas === menorNumeroDeContas && gerenteId > gerenteComMenosContasId!) {
-        // Se dois gerentes têm o mesmo número de contas, escolha o de maior ID
-        gerenteComMenosContasId = gerenteId;
+  encontrarGerenteComMenosContas(contas: Conta[]): Gerente | null {
+    let contasPorGerente: Record<number, number> = {};
+  
+    contas.forEach((conta) => {
+      let gerenteId = conta.gerenteId;
+      if (gerenteId !== undefined) {
+        if (contasPorGerente[gerenteId] === undefined) {
+          contasPorGerente[gerenteId] = 1;
+        } else {
+          contasPorGerente[gerenteId]++;
+        }
       }
     });
-
-    return gerenteComMenosContasId;
+  
+    let gerenteComMenosContas: Gerente | null = null;
+    let menorQuantidadeDeContas = Infinity;
+    let menorIdDoGerenteComMenosContas = Infinity;
+  
+    this.gerentes.forEach((gerente) => {
+      let gerenteId = gerente.id;
+      if (gerenteId !== undefined) {
+        let quantidadeDeContas = contasPorGerente[gerenteId] || 0;
+        if (quantidadeDeContas < menorQuantidadeDeContas) {
+          menorQuantidadeDeContas = quantidadeDeContas;
+          menorIdDoGerenteComMenosContas = gerenteId!;
+          gerenteComMenosContas = gerente;
+        } else if (quantidadeDeContas === menorQuantidadeDeContas && gerenteId! < menorIdDoGerenteComMenosContas) {
+          menorIdDoGerenteComMenosContas = gerenteId!;
+          gerenteComMenosContas = gerente;
+        }
+      }
+    });
+  
+    return gerenteComMenosContas;
   }
-
-
 
   removeMascara(mask: string): string {
     return mask.replace(/\D/g, '');
@@ -132,7 +155,9 @@ export class CadastroComponent {
           this.cadastroService.insereCliente(this.cliente).subscribe({
             next: (clienteResponse) => {
               this.conta.id_cliente = clienteResponse.id;
-              this.conta.gerenteId = this.getGerenteComMenosContas(this.contas!)!;
+              this.gerente = this.encontrarGerenteComMenosContas(this.contas!)!;
+              this.conta.gerenteId = this.gerente.id;
+              console.log(this.conta.gerenteId);
               if (this.cliente.salario >= 2000) {
                 this.conta.limite = this.cliente.salario / 2;
               } else {
