@@ -27,7 +27,7 @@ export class InserirGerenteComponent {
   contas: Conta[] = [];
   clientes: Cliente[] = [];
   erro: string | null = null;
-  conta = new Conta;
+  conta:Conta = new Conta();
   isCpfValido: boolean = false;
   mensagemCPF: string = '';
 
@@ -52,33 +52,57 @@ export class InserirGerenteComponent {
         next: (contas) => {
           console.log('Contas buscadas com sucesso:', contas);
           this.contas = contas;
-          this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
-          this.conta.gerenteId = this.gerente.id;
-          this.adminService.atualizarConta(this.conta).subscribe({
-            next: (response) => {
-              alert('Conta atualizada com sucesso com o novo gerente.');
-              console.log(response);
-              this.usuario.email = this.gerente.email;
-              this.usuario.nome = this.gerente.nome;
-              this.usuario.type = "GERENTE";
-              this.usuario.senha = this.gerarSenha(10);
-              this.adminService.inserirAutenticacao(this.usuario).subscribe({
-                next: (response) => {
-                  console.log("autentificação criada com sucesso" + response.senha);
-                  alert("autentificação criada com sucesso" + response.senha);
-                  this.router.navigate(['/home-admin']);
-                },
-                error: (error) => {
-                  alert("erro ao criar autentificação, fale com admin!" + error)
-                }
-              })
-            },
-            error: (error) => {
-              alert('Erro ao atualizar conta')
-              console.error('Erro ao vincular conta ao novo gerente:', error);
-              this.router.navigate(['/home-admin']);
-            }
-          });
+
+          let a = this.getGerenteComMaisContas(this.contas);
+
+          if (a != null){ //se ele não for o primeiro recebe uma conta
+
+            this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
+
+            this.conta.gerenteId = this.gerente.id;
+
+            this.adminService.atualizarConta(this.conta).subscribe({
+              next: (response) => {
+                alert('Conta atualizada com sucesso com o novo gerente.');
+                console.log(response);
+                this.usuario.email = this.gerente.email;
+                this.usuario.nome = this.gerente.nome;
+                this.usuario.type = "GERENTE";
+                this.usuario.senha = this.gerarSenha(10);
+                this.adminService.inserirAutenticacao(this.usuario).subscribe({
+                  next: (response) => {
+                    console.log("autentificação criada com sucesso, senha gerente:" + response.senha);
+                    alert("autentificação criada com sucesso" + response.senha);
+                    this.router.navigate(['/home-admin']);
+                  },
+                  error: (error) => {
+                    alert("erro ao criar autentificação, fale com admin!" + error)
+                  }
+                })
+              },
+              error: (error) => {
+                alert('Erro ao atualizar conta')
+                console.error('Erro ao vincular conta ao novo gerente:', error);
+                this.router.navigate(['/home-admin']);
+              }
+            });
+
+          }else{ //se ele for o primeiro a existir
+
+            this.usuario.email = this.gerente.email;
+            this.usuario.nome = this.gerente.nome;
+            this.usuario.type = "GERENTE";
+            this.usuario.senha = this.gerarSenha(10);
+
+            this.adminService.inserirAutenticacao(this.usuario).subscribe({
+              next: (response) => {
+                console.log("autentificação criada com sucesso" + response.senha);
+                alert("autentificação criada com sucesso, senha gerente:" + response.senha);
+                this.router.navigate(['/home-admin']);
+              }
+            });
+
+          }   
         },
         error: (error) => {
           alert('Erro ao adicionar gerente ou buscar contas: Tente novamente!')

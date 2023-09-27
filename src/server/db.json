@@ -1,8 +1,6 @@
 {
-  "contas": [
-  ],
-  "movimentacoes": [
-  ],
+  "contas": [],
+  "movimentacoes": [],
   "auth": [
     {
       "nome": "Serjão Lanches",
@@ -12,8 +10,7 @@
       "id": 1
     }
   ],
-  "clientes": [
-  ],
+  "clientes": [],
   "gerentes": [
   ],
   "admins": [
