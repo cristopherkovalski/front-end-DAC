@@ -77,6 +77,8 @@ export class AdminService {
     return this.http.post(this.usuarioUrl, usuario);
   }
 
+  
+
   getContasPorGerente(gerenteId: number): Observable<Conta[]> {
     const url = `${this.contaUrl}/?gerenteId=${gerenteId}`;
     return this.http.get<Conta[]>(url);

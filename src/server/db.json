@@ -1,5 +1,14 @@
 {
-  "contas": [],
+  "contas": [
+    {
+      "id_cliente": 1,
+      "gerenteId": null,
+      "saldo": 0,
+      "limite": 8330,
+      "situacao": "PENDENTE",
+      "id": 1
+    }
+  ],
   "movimentacoes": [],
   "auth": [
     {
@@ -8,10 +17,49 @@
       "email": "admin@admin.com",
       "type": "ADMIN",
       "id": 1
+    },
+    {
+      "nome": "gabr",
+      "senha": "5lzIVDlCy4",
+      "email": "gerente@gerente.com",
+      "type": "GERENTE",
+      "id": 2
+    },
+    {
+      "nome": "teste",
+      "senha": null,
+      "email": "cliente@cliente.com",
+      "type": "CLIENTE",
+      "id": 3
     }
   ],
-  "clientes": [],
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "teste",
+      "email": "cliente@cliente.com",
+      "cpf": "10865823308",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Florindo Lindes",
+        "numero": "44",
+        "complemento": "casa",
+        "cep": "83330270",
+        "cidade": "Pinhais",
+        "estado": "PR"
+      },
+      "telefone": "76222222222",
+      "salario": 16660
+    }
+  ],
   "gerentes": [
+    {
+      "nome": "gabr",
+      "email": "gerente@gerente.com",
+      "cpf": "55593166951",
+      "telefone": "99999999999",
+      "id": 1
+    }
   ],
   "admins": [
     {
