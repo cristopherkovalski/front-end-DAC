@@ -31,7 +31,8 @@
               </div>
             </form>
             <div>
-              <div *ngIf="message">
+
+              <div class="mt-2 alert alert-danger" role="alert" *ngIf="message">
                 {{message}}
               </div>
               <p>Não tem uma conta no nosso banco? <a [routerLink]="['/registrar']">Registre-se</a> é gratis...ou não vai saber</p>

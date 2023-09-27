@@ -8,6 +8,7 @@ import { ClienteService } from '../services/cliente.service';
 import { TelefoneFormatDirective } from 'src/app/shared/directives/telefone-format.directive';
 import { CepFormatDirective } from 'src/app/shared/directives/cep-format.directive';
 import { CpfFormatDirective } from 'src/app/shared/directives/cpf-format.directive';
+import { Usuario } from 'src/app/shared/models/usuario.model';
 
 
 const LS_CHAVE: string = "ususarioLogado";
@@ -92,8 +93,10 @@ ngAfterViewInit(): void {
       this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
       this.cliente.telefone = this.removeMascara(this.cliente.telefone);
       this.clienteService.atualizarCliente(this.cliente).subscribe(
-        (mensagem) => {
-          alert(mensagem);
+        (retorno) => {
+          // alert(mensagem);
+          this.login.usuarioLogado = new Usuario(retorno.id_user, retorno.nome, retorno.senha, retorno.email, retorno.type);
+          alert("Dados atualizados com sucesso");
           this.router.navigate(['/home-cliente']);
         },
         (error) => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { Endereco } from 'src/app/shared/models/endereco.model';
-import { Observable, of, map, catchError, throwError, tap, forkJoin } from 'rxjs';
+import { Observable, of, map, catchError, throwError, tap, forkJoin, switchMap } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { LoginService } from 'src/app/auth/services/login.service';
@@ -14,6 +14,8 @@ const url_conta = "http://localhost:3000/contas/";
 const apiUrl = "http://localhost:3000/clientes"
 
 const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
+
+const auth = "http://localhost:3000/auth";
 
 
 // http://localhost:3000/movimentacoes?conta_id=1&_sort=dataHora
@@ -58,13 +60,31 @@ export class ClienteService {
 
   
 
-  public atualizarCliente(cliente: Cliente): Observable<string> {
+  public atualizarCliente(cliente: Cliente): Observable<any> {
     const url = `${apiUrl}/${cliente.id}`; 
-    return this.http.patch<Cliente>(url, cliente)
-      .pipe(
-        map(() => 'Cliente atualizado com sucesso'), 
-        catchError(() => 'Erro ao atualizar o cliente') 
-      );
+    // return this.http.patch<Cliente>(url, cliente)
+    //   .pipe(
+    //     map(() => 'Cliente atualizado com sucesso'), 
+    //     catchError(() => 'Erro ao atualizar o cliente') 
+    //   );
+
+
+    return this.http.patch<Cliente>(url, cliente).pipe(
+      switchMap((cliente: Cliente) => {
+        return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
+      }),
+      switchMap((aut:any) => {
+        console.log(aut)
+        let aux = aut[0];
+        let a =  {
+          "nome": cliente.nome,
+          "email": cliente.email,
+        }
+        return this.http.patch(auth + "/" + aux.id, a, this.httpOptions);
+      })
+    );
+
+    
   }
 
   public getAccontByClientId(id:number):Observable<Conta>{

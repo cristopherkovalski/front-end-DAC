@@ -243,7 +243,7 @@ export class ExtratoComponent implements OnInit {
       return "table-danger";
     }
 
-    if(movimentacao.type === "DEPOSITO" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.conta_destiny != null) ){
+    if(movimentacao.type === "DEPOSITO" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.conta_destiny == null) ){
       return "table-primary";
     }
 

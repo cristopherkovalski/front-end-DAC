@@ -104,7 +104,7 @@ export class GerenteService {
         return this.http.put(contas + conta.id, conta, this.httpOptions);
       }),
       switchMap(() => {
-        return this.http.get(auth + "/?id_user=" + cliente.id, this.httpOptions);
+        return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
       }), 
       switchMap((auth:any) => {
         let aux = auth[0];
