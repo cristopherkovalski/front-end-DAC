@@ -25,6 +25,8 @@ export class CadastroComponent {
   cpfValido: boolean = false;
   isCepSet: boolean = false;
 
+  auth!:{};
+
   constructor(private cepService: CepService, private cadastroService: CadastroService, private router: Router) {
 
   }
@@ -120,7 +122,7 @@ export class CadastroComponent {
 
 
   cadastrarCliente(): void {
-    if (this.formCadastrar.form.valid && this.cpfValido && this.cliente.salario > 0) {
+    if (this.formCadastrar.form.valid && this.cpfValido && this.cliente.salario >= 0) {
       this.cliente.cpf = this.removeMascara(this.cliente.cpf);
       this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
       this.cliente.telefone = this.removeMascara(this.cliente.telefone);
@@ -140,8 +142,12 @@ export class CadastroComponent {
               this.conta.situacao = "PENDENTE";
               this.cadastroService.insereConta(this.conta).subscribe({
                 next: (contaResponse) => {
-                  alert('Cliente e conta criados com sucesso.');
-                  this.router.navigate(['/']);
+                  this.cadastroService.insereAuth({ "nome": this.cliente.nome, "senha" : null, "email": this.cliente.email, "type" : "CLIENTE"}).subscribe({
+                    next: (responsse) =>{
+                      alert('Cliente e conta criados com sucesso.');
+                      this.router.navigate(['/']);
+                    }
+                  })
                 },
                 error: (contaError) => {
                   alert('Erro ao criar a conta.');

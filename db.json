@@ -1,19 +1,573 @@
 {
-  "posts": [
+  "contas": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "id_cliente": 1,
+      "gerenteId": 4,
+      "saldo": 794.2799999999988,
+      "limite": 1000,
+      "situacao": "APROVADO",
+      "observacao": null
+    },
+    {
+      "id": 2,
+      "id_cliente": 2,
+      "gerenteId": 4,
+      "saldo": 1046,
+      "limite": 0,
+      "situacao": "APROVADO",
+      "observacao": null
+    },
+    {
+      "id": 3,
+      "id_cliente": 3,
+      "gerenteId": 4,
+      "saldo": 188,
+      "limite": 1000,
+      "situacao": "RECUSADO",
+      "observacao": "sim"
+    },
+    {
+      "id": 4,
+      "id_cliente": 4,
+      "gerenteId": 2,
+      "saldo": -1000,
+      "limite": 1000,
+      "situacao": "APROVADO",
+      "observacao": null
+    },
+    {
+      "id": 5,
+      "id_cliente": 5,
+      "gerenteId": 4,
+      "saldo": -5000,
+      "limite": 1000,
+      "situacao": "RECUSADO",
+      "observacao": "porque eu quis ué"
+    },
+    {
+      "id": 6,
+      "id_cliente": 6,
+      "gerenteId": 4,
+      "saldo": 2000,
+      "limite": 1000,
+      "situacao": "RECUSADO",
+      "observacao": "porque eu quis ué"
+    },
+    {
+      "id_cliente": 7,
+      "gerenteId": 4,
+      "saldo": 0,
+      "limite": 2500,
+      "situacao": "RECUSADO",
+      "id": 7,
+      "observacao": "tava moscando"
+    },
+    {
+      "id_cliente": 8,
+      "gerenteId": 8,
+      "saldo": 0,
+      "limite": 0,
+      "situacao": "PENDENTE",
+      "id": 8
+    },
+    {
+      "id_cliente": 9,
+      "gerenteId": 2,
+      "saldo": 0,
+      "limite": 0,
+      "situacao": "PENDENTE",
+      "id": 9
+    },
+    {
+      "id": 10,
+      "id_cliente": 10,
+      "gerenteId": 4,
+      "saldo": 0,
+      "limite": 0,
+      "situacao": "RECUSADO",
+      "observacao": "teste"
+    },
+    {
+      "id_cliente": 11,
+      "gerenteId": 4,
+      "saldo": 0,
+      "limite": 1110,
+      "situacao": "APROVADO",
+      "id": 11
+    },
+    {
+      "id_cliente": 12,
+      "gerenteId": 4,
+      "saldo": 0,
+      "limite": 0,
+      "situacao": "RECUSADO",
+      "id": 12,
+      "observacao": "é pq quis né"
+    },
+    {
+      "id_cliente": 13,
+      "gerenteId": 4,
+      "saldo": 0,
+      "limite": 0,
+      "situacao": "PENDENTE",
+      "id": 13
     }
   ],
-  "comments": [
+  "movimentacoes": [
+    {
+      "dataHora": "2023-09-26T16:21:48.406Z",
+      "type": "TRANSFERENCIA",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": 2,
+      "saldo_final": 791.7799999999988,
+      "id": 1
+    },
+    {
+      "dataHora": "2023-09-26T16:21:48.406Z",
+      "type": "TRANSFERENCIA",
+      "value": 10,
+      "conta_id": 2,
+      "conta_destiny": null,
+      "saldo_final": 1040,
+      "id": 2
+    },
+    {
+      "dataHora": "2023-09-26T17:33:11.095Z",
+      "type": "DEPOSITO",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "saldo_final": 801.7799999999988,
+      "id": 3
+    },
+    {
+      "dataHora": "2023-09-26T17:33:18.404Z",
+      "type": "DEPOSITO",
+      "value": 15,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "saldo_final": 816.7799999999988,
+      "id": 4
+    },
+    {
+      "dataHora": "2023-09-26T17:33:32.155Z",
+      "type": "SAQUE",
+      "value": 7.5,
+      "conta_id": 809.2799999999988,
+      "conta_destiny": null,
+      "saldo_final": 1,
+      "id": 5
+    },
+    {
+      "dataHora": "2023-09-26T17:33:43.711Z",
+      "type": "TRANSFERENCIA",
+      "value": 6,
+      "conta_id": 1,
+      "conta_destiny": 2,
+      "saldo_final": 803.2799999999988,
+      "id": 6
+    },
+    {
+      "dataHora": "2023-09-26T17:33:43.711Z",
+      "type": "TRANSFERENCIA",
+      "value": 6,
+      "conta_id": 2,
+      "conta_destiny": null,
+      "saldo_final": 1046,
+      "id": 7
+    },
+    {
+      "dataHora": "2023-09-28T18:29:25.932Z",
+      "type": "DEPOSITO",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "saldo_final": 804.2799999999988,
+      "id": 8
+    },
+    {
+      "dataHora": "2023-09-26T18:45:05.567Z",
+      "type": "SAQUE",
+      "value": 10,
+      "conta_id": 1,
+      "conta_destiny": null,
+      "saldo_final": 794.2799999999988,
+      "id": 9
+    }
+  ],
+  "auth": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "nome": "cleitin",
+      "email": "cliente@cliente.com",
+      "senha": "1234",
+      "type": "CLIENTE"
+    },
+    {
+      "id": 2,
+      "nome": "joao",
+      "email": "cliente2@cliente.com",
+      "senha": "1234",
+      "type": "CLIENTE"
+    },
+    {
+      "id": 3,
+      "nome": "ademir",
+      "email": "admin@admin.com",
+      "senha": "admin",
+      "type": "ADMIN"
+    },
+    {
+      "id": 4,
+      "nome": "glauber",
+      "email": "gerente@gerente.com",
+      "senha": "1234",
+      "type": "GERENTE"
+    },
+    {
+      "id": 7,
+      "nome": "cristopherburro",
+      "email": "crist@gmail.com",
+      "senha": "1234",
+      "type": "GERENTE"
+    },
+    {
+      "nome": "GabrielOInteligente",
+      "senha": "x4CtR564u8yw",
+      "email": "gaib@QI.com",
+      "type": "GERENTE",
+      "id": 8
+    },
+    {
+      "nome": "GabrielOInteligente",
+      "senha": "x4CtR564u8yw",
+      "email": "gaib@QI.com",
+      "type": "GERENTE",
+      "id": 9
+    },
+    {
+      "nome": "Serjão Lanches",
+      "senha": "1234",
+      "email": "admin@admin.com",
+      "type": "ADMIN",
+      "id": 10
+    },
+    {
+      "nome": "vinicius",
+      "senha": "4655",
+      "email": "pato@pato.com",
+      "type": "CLIENTE",
+      "id": 11
+    },
+    {
+      "nome": "paot",
+      "senha": null,
+      "email": "paot@paot.com",
+      "type": "CLIENTE",
+      "id": 12
+    },
+    {
+      "nome": "asd",
+      "senha": null,
+      "email": "asd@asd.com",
+      "type": "CLIENTE",
+      "id": 13
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "cleitin",
+      "email": "cliente@cliente.com",
+      "cpf": "72726892183",
+      "endereco": {
+        "tipo": "Avenida",
+        "logradouro": "Principal",
+        "numero": "1234",
+        "complemento": "casebre",
+        "cep": "81280340",
+        "cidade": "Cidade c",
+        "estado": "Parana"
+      },
+      "telefone": "41998843331",
+      "salario": 4500
+    },
+    {
+      "id": 2,
+      "nome": "joao",
+      "email": "cliente2@cliente.com",
+      "cpf": "03214864807",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Secundaria",
+        "numero": "450",
+        "complemento": "casa",
+        "cep": "82280380",
+        "cidade": "Cidade B",
+        "estado": "Parana"
+      },
+      "telefone": "41999123456",
+      "salario": 3000
+    },
+    {
+      "id": 3,
+      "nome": "teste",
+      "email": "teste@gmail.com",
+      "cpf": "09161477974",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Frederico Carlos Bobbins",
+        "numero": "111",
+        "complemento": "casa",
+        "cep": "81240530",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444444",
+      "salario": 5000,
+      "situacao": "PENDENTE"
+    },
+    {
+      "id": 4,
+      "nome": "teste2",
+      "email": "teste2@gmail.com",
+      "cpf": "38185469598",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Lello Marchine",
+        "numero": "500",
+        "complemento": "prédio",
+        "cep": "81240420",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444444",
+      "salario": 50000,
+      "situacao": "PENDENTE"
+    },
+    {
+      "id": 5,
+      "nome": "teste3",
+      "email": "teste3@gmail.com",
+      "cpf": "38185469578",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Lello Marchinu",
+        "numero": "700",
+        "complemento": "prédio",
+        "cep": "81240421",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444444",
+      "salario": 50000,
+      "situacao": "PENDENTE"
+    },
+    {
+      "id": 6,
+      "nome": "teste4",
+      "email": "teste4@gmail.com",
+      "cpf": "38185469577",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Lello Marchinu",
+        "numero": "800",
+        "complemento": "prédio1",
+        "cep": "81240421",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "44444444433",
+      "salario": 4000,
+      "situacao": "PENDENTE"
+    },
+    {
+      "id": 7,
+      "nome": "Teste8000",
+      "email": "teste800@gmail.com",
+      "cpf": "69663783800",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Alex Skorobohaty",
+        "numero": "1111",
+        "complemento": "2222",
+        "cep": "81230200",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "41202020200",
+      "salario": 5000
+    },
+    {
+      "id": 8,
+      "nome": "euduvido",
+      "email": "eu@gmail.com",
+      "cpf": "56453654645",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Delegado Leopoldo Belczak",
+        "numero": "321",
+        "complemento": "casa",
+        "cep": "82800220",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "76222222222",
+      "salario": 1000
+    },
+    {
+      "id": 9,
+      "nome": "teste",
+      "email": "piada@piada.com",
+      "cpf": "10568513924",
+      "endereco": {
+        "tipo": "casa",
+        "logradouro": "do caralho",
+        "numero": "6969",
+        "complemento": "casa",
+        "cep": "00000000",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "76222222222",
+      "salario": -1232130
+    },
+    {
+      "id": 10,
+      "nome": "Jeanderson",
+      "email": "jean@derson.com",
+      "cpf": "72726892183",
+      "endereco": {
+        "tipo": "Avenida",
+        "logradouro": "Principal",
+        "numero": "1234",
+        "complemento": "casebre",
+        "cep": "81280340",
+        "cidade": "Cidade c",
+        "estado": "Parana"
+      },
+      "telefone": "41997675541",
+      "salario": 2050
+    },
+    {
+      "id": 11,
+      "nome": "vinicius",
+      "email": "pato@pato.com",
+      "cpf": "12928342931",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Ana Alzira Pereira",
+        "numero": "163",
+        "complemento": "",
+        "cep": "81925020",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "41998843331",
+      "salario": 2220
+    },
+    {
+      "id": 12,
+      "nome": "paot",
+      "email": "paot@paot.com",
+      "cpf": "02769186060",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Ana Alzira Pereira",
+        "numero": "163",
+        "complemento": "",
+        "cep": "81925020",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "41998844331",
+      "salario": 1110
+    },
+    {
+      "id": 13,
+      "nome": "asd",
+      "email": "asd@asd.com",
+      "cpf": "45433226069",
+      "endereco": {
+        "tipo": "Rua",
+        "logradouro": "Ana Alzira Pereira",
+        "numero": "163",
+        "complemento": "",
+        "cep": "81925020",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "telefone": "41998843331",
+      "salario": 0
+    }
+  ],
+  "gerentes": [
+    {
+      "id": 1,
+      "nome": "gerente1",
+      "email": "gerente@gerente",
+      "cpf": "00000000000",
+      "telefone": "41999180417"
+    },
+    {
+      "id": 2,
+      "nome": "gerente2",
+      "email": "gerente@gerente2",
+      "cpf": "00000000000",
+      "telefone": "41999180417"
+    },
+    {
+      "id": 3,
+      "nome": "gerente3",
+      "cpf": "00000000000",
+      "email": "gerente@gerente",
+      "telefone": "41999180417"
+    },
+    {
+      "nome": "aloha",
+      "email": "testegmail2.com",
+      "cpf": "00000000000",
+      "telefone": "11111111111",
+      "id": 6
+    },
+    {
+      "nome": "aaa",
+      "email": "aaaawewaeaw@aeaew",
+      "cpf": "091.614.779-74",
+      "telefone": "(41) 20214-1111",
+      "id": 5
+    },
+    {
+      "id": 4,
+      "nome": "gluber marmitas",
+      "email": "gerente@gerente",
+      "cpf": "091.614.779-74",
+      "telefone": "41999180417"
+    },
+    {
+      "nome": "cristopherburro",
+      "email": "crist@gmail.com",
+      "cpf": "10568513924",
+      "telefone": "41988147209",
+      "id": 7
+    },
+    {
+      "nome": "GabrielOInteligente",
+      "email": "gaib@QI.com",
+      "cpf": "10835832201",
+      "telefone": "11111111111",
+      "id": 8
+    }
+  ],
+  "admins": [
+    {
+      "id": 1,
+      "nome": "Serjão Lanches",
+      "email": "admin@admin.com",
+      "cpf": "14721479018",
+      "telefone": "41996563224"
+    }
+  ]
 }

@@ -102,8 +102,14 @@ export class GerenteService {
         return this.http.put(contas + cliente.id, JSON.stringify(conta), this.httpOptions);
       }),
       switchMap(() => {
-        return this.http.get(auth + cliente.id, this.httpOptions);
+        let a ={"senha": this.generateRandomPassword().toString()}
+        return this.http.patch(auth + cliente.id, a , this.httpOptions);
       })
+      // switchMap(() => {
+      //   return this.http.get(auth + cliente.id, this.httpOptions);
+      // }),
+      
+
              
     );
   }
@@ -116,7 +122,6 @@ export class GerenteService {
         return this.http.put(contas + cliente.id, JSON.stringify(conta), this.httpOptions);
       })
     )
-
 
   }
 

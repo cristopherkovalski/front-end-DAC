@@ -11,6 +11,7 @@ import { Conta } from 'src/app/shared/models/conta.model';
 export class CadastroService {
   private apiUrl = "http://localhost:3000/clientes";
   private contaUrl = "http://localhost:3000/contas";
+  private authUrl = "http://localhost:3000/auth";
 
  
   constructor(private http: HttpClient) { }
@@ -35,6 +36,15 @@ export class CadastroService {
     );
   }
 
+  insereAuth(auth:any): Observable<any>{
+    return this.http.post(this.authUrl, auth).pipe(
+      catchError((error) => {
+        // Aqui você pode tratar o erro da forma que desejar
+        console.error('Ocorreu um erro na solicitação HTTP:', error);
+        return throwError(error); // Reenvia o erro para quem chamou a função
+      })
+    )
+  }
   getContasList(): Observable<Conta[]> {
     return this.http.get<Conta[]>(this.contaUrl);
   }
