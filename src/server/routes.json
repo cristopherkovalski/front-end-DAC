@@ -1,6 +1,7 @@
 {
-    "/contas/:id/movimentacoes": "/movimentacoes?conta_id=:id",
-    "/contas/:id/movimentacoes/destiny": "/movimentacoes?conta_destiny=:id",
+    "/contas/:id/movimentacoes": "/movimentacoes?conta_id=:id&type=DEPOSITO&type=SAQUE",
+    "/contas/:id/movimentacoes/transferencias": "/movimentacoes?conta_id=:id&recebido=false",
+    "/contas/:id/movimentacoes/transferencias/destiny": "/movimentacoes?conta_destiny=:id&recebido=true",
     "/contas/conta/:id_cliente": "/contas/conta?id_cliente=:id_cliente",
     "/gerentes/:id/contas/analise/":  "/contas?situacao=PENDENTE&gerenteId=:id"
 }

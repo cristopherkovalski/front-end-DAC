@@ -15,6 +15,9 @@ const apiUrl = "http://localhost:3000/clientes"
 
 const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
 
+const url_movimentacao_basica = "http://localhost:3000/contas/:id/movimentacoes/transferencias"
+const url_movimentacao_destiny = "http://localhost:3000/contas/:id/movimentacoes/transferencias/destiny"
+
 const auth = "http://localhost:3000/auth";
 
 
@@ -156,8 +159,9 @@ export class ClienteService {
       const atualizacaoOrigem = this.http.patch<any>(url_conta + contaOrigem.id, JSON.stringify(dataOrigem), this.httpOptions);
       const atualizacaoDestino = this.http.patch<any>(url_conta + contaDestino.id, JSON.stringify(dataDestino), this.httpOptions);
 
-      const registroTransacaoOrigem = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoOrigem, contaOrigem.id, contaDestino.id);
-      const registroTransacaoDestino = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoDestino, contaDestino.id, null);
+      const registroTransacaoOrigem = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoOrigem, contaOrigem.id, contaDestino.id, false);
+
+      const registroTransacaoDestino = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoDestino, contaOrigem.id, contaDestino.id ,true);
 
       return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacaoOrigem, registroTransacaoDestino]);
     } else {
@@ -167,21 +171,21 @@ export class ClienteService {
      
 
 
-  registrarTransacao(tipo: string, valor: number, contaOrigem?: any, contaDestino?: any) {
+  // registrarTransacao(tipo: string, valor: number, contaOrigem?: any, contaDestino?: any) {
    
-    const transacao = {
-      dataHora: new Date().toJSON(), // Adicione esta linha para incluir a data e hora atual
-      type: tipo,
-      value: valor,
-      conta_id: contaOrigem,
-      conta_destiny: contaDestino
-    };
+  //   const transacao = {
+  //     dataHora: new Date().toJSON(), // Adicione esta linha para incluir a data e hora atual
+  //     type: tipo,
+  //     value: valor,
+  //     conta_id: contaOrigem,
+  //     conta_destiny: contaDestino,
+  //   };
   
-    this.movimentacao.push(transacao);
-  }
+  //   this.movimentacao.push(transacao);
+  // }
   
    // isso aqui vai morrer jaja, 
-  registrarTransacaoJson(tipo: string, valor: number, saldo:number, contaOrigem?: any, contaDestino?: any):Observable<any>{
+  registrarTransacaoJson(tipo: string, valor: number, saldo:number, contaOrigem?: any, contaDestino?: any , rec?:boolean):Observable<any>{
     let url = url_movimentacao.replace(':id', contaOrigem.toString());
     const transacao = {
       dataHora: new Date().toJSON(), // Adicione esta linha para incluir a data e hora atual
@@ -189,14 +193,28 @@ export class ClienteService {
       value: valor,
       conta_id: contaOrigem,
       conta_destiny: contaDestino ? contaDestino : null,
-      saldo_final: saldo
+      saldo_final: saldo,
+      recebido: rec
     };
     return this.http.post(url, JSON.stringify(transacao), this.httpOptions);
   }
 
   // isso aqui vai morrer jaja, 
   getMovimentacoesPorIdConta(conta: any):Observable<any>{
-    return this.http.get(url_movimentacao.replace(':id', conta.toString()) , this.httpOptions);
+
+    let url = url_movimentacao.replace(':id', conta.toString())
+    let url_trans = url_movimentacao_basica.replace(':id', conta.toString())
+    let url_destiny = url_movimentacao_destiny.replace(':id', conta.toString())
+
+    // console.log(url)
+    // return this.http.get(url_movimentacao.replace(':id', conta.toString()) , this.httpOptions);
+    const Basic = this.http.get<any>(url, this.httpOptions);
+    const Origem = this.http.get<any>(url_trans, this.httpOptions);
+    const Destiny = this.http.get<any>(url_destiny, this.httpOptions);
+
+    return forkJoin([Basic, Origem, Destiny ]);
+
+
   }
 
   getMovimentacoesPorIdContaDestiny(conta:any):Observable<any>{

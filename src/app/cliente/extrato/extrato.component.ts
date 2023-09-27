@@ -202,16 +202,24 @@ export class ExtratoComponent implements OnInit {
 
     this.clienteService.getMovimentacoesPorIdConta(this.conta.id).subscribe(
       (result)=>{
-        result.forEach((movi:any) =>{
-          moviFiltradas.push(movi)
-          moviFiltradas.sort(this.comparaDatas)
-        })
+        if(result){
+          // console.log(result)
+          result.forEach((movi:any) =>{
+            // console.log(movi)
+            movi.forEach((m:any) =>{
+              moviFiltradas.push(m)
+              moviFiltradas.sort(this.comparaDatas)
+            })
+          })
+        }
+        
       },
       (error) => {
         console.error('Erro:', error);
       },
       () => {
         this.movimentacoes = this.filtrarMovimentacoes(moviFiltradas);
+        console.log(this.movimentacoes)
         this.saldosConsolidados = this.calculaSaldoConsolidado(this.filtrarMovimentacoes(moviFiltradas.sort(this.comparaDatasOrdernado)));
         
       }
@@ -239,11 +247,11 @@ export class ExtratoComponent implements OnInit {
   validaEntradaSaida(movimentacao:any):string{
     //'table-danger' : 'table-primary'
 
-    if(movimentacao.type === "SAQUE" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.conta_destiny != null) ){
+    if(movimentacao.type === "SAQUE" || (movimentacao.type === "TRANSFERENCIA" && !movimentacao.recebido) ){
       return "table-danger";
     }
 
-    if(movimentacao.type === "DEPOSITO" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.conta_destiny == null) ){
+    if(movimentacao.type === "DEPOSITO" || (movimentacao.type === "TRANSFERENCIA" && movimentacao.recebido) ){
       return "table-primary";
     }
 
