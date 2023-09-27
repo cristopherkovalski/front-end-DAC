@@ -53,11 +53,9 @@ export class InserirGerenteComponent {
           console.log('Contas buscadas com sucesso:', contas);
           this.contas = contas;
 
-          let a = this.getGerenteComMaisContas(this.contas);
+          this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
 
-          if (a != null){ //se ele não for o primeiro recebe uma conta
-
-            this.conta = this.encontrarContaGerenteComMaiorId(this.contas, this.getGerenteComMaisContas(this.contas)!)!;
+          if (this.conta != null){ //se ele não for o primeiro recebe uma conta
 
             this.conta.gerenteId = this.gerente.id;
 
@@ -72,7 +70,7 @@ export class InserirGerenteComponent {
                 this.adminService.inserirAutenticacao(this.usuario).subscribe({
                   next: (response) => {
                     console.log("autentificação criada com sucesso, senha gerente:" + response.senha);
-                    alert("autentificação criada com sucesso" + response.senha);
+                    alert("autentificação criada com sucesso, senha gerente:" + response.senha);
                     this.router.navigate(['/home-admin']);
                   },
                   error: (error) => {
@@ -89,6 +87,7 @@ export class InserirGerenteComponent {
 
           }else{ //se ele for o primeiro a existir
 
+            this.usuario.id_user = this.gerente.id;
             this.usuario.email = this.gerente.email;
             this.usuario.nome = this.gerente.nome;
             this.usuario.type = "GERENTE";
@@ -96,7 +95,7 @@ export class InserirGerenteComponent {
 
             this.adminService.inserirAutenticacao(this.usuario).subscribe({
               next: (response) => {
-                console.log("autentificação criada com sucesso" + response.senha);
+                console.log("autentificação criada com sucesso, senha gerente:" + response.senha);
                 alert("autentificação criada com sucesso, senha gerente:" + response.senha);
                 this.router.navigate(['/home-admin']);
               }
@@ -192,8 +191,22 @@ export class InserirGerenteComponent {
       }
     }
 
+    if (contasPorGerente.size === 1 ) { //se só tiver outro gerente não roubar a conta dele kkkk
+      let a:boolean = false;
+      contasPorGerente.forEach((numeroDeContas, gerenteId) => {
+        if(numeroDeContas == 1){
+          a = true;
+        }
+      })
+
+      if(a)
+        return null;
+    }
+    
+
     let gerenteComMaisContasId: number | null = null;
     let maiorNumeroDeContas = 0;
+
     contasPorGerente.forEach((numeroDeContas, gerenteId) => {
       if (numeroDeContas > maiorNumeroDeContas) {
         maiorNumeroDeContas = numeroDeContas;
