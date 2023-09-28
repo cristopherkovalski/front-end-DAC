@@ -124,8 +124,22 @@ export class GerenteService {
       switchMap((conta:Conta) =>{
         conta.situacao = "RECUSADO";
         conta.observacao = motivo;
-        return this.http.put(contas + conta.id, JSON.stringify(conta), this.httpOptions);
+
+        // return this.http.put(contas + conta.id, JSON.stringify(conta), this.httpOptions);
+        return this.http.delete(contas + conta.id,this.httpOptions)
+      }),
+      switchMap(() => {
+        return this.http.delete("http://localhost:3000/clientes/" + cliente.id, this.httpOptions)
+      }),
+      switchMap(() => {
+        return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
+      }),
+      switchMap((auth:any) => {
+        let aux = auth[0];
+        let url = "http://localhost:3000/auth/" + aux.id
+        return this.http.delete(url, this.httpOptions);
       })
+      
     )
 
   }
