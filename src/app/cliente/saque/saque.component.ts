@@ -24,7 +24,7 @@ export class SaqueComponent implements OnInit {
 
   ngOnInit(): void {
     this.cliente = this.clienteService.getUsuarioLogado();
-    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+    this.clienteService.getAccontByClientId(this.cliente.id_user).subscribe(
       conta => {
         if (conta) {
           this.conta = conta; 
@@ -49,7 +49,7 @@ export class SaqueComponent implements OnInit {
     this.clienteService.sacar(+this.valorSaque, this.conta).subscribe({
       next: (response) => {
         alert('Saque realizado com sucesso!');
-        this.conta = response;
+        this.conta.saldo = response.saldo;
       },
       error: (e) => alert(e)
     })

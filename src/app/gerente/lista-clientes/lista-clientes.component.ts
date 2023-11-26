@@ -43,11 +43,11 @@ export class ListaClientesComponent implements OnInit {
         } else {
           data.forEach((cliente) => {
             this.clienteService.getAccontByClientId(cliente.id).subscribe((conta) => {
-              this.contas.push(conta);
-              if (conta.gerenteId == this.gerente.id) {
-                this.clientes.push(cliente);
-                this.clientesFiltrados = this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
-              }
+                this.contas.push(conta);
+                if (conta.gerenteId == this.gerente.id) {
+                  this.clientes.push(cliente);
+                  this.clientesFiltrados = this.clientes.sort((a, b) => a.nome.localeCompare(b.nome));
+                }
             });
           });
         }

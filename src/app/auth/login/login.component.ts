@@ -46,15 +46,20 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(this.formLogin.form.valid){
-      this.loginService.logar(this.auth).subscribe((user) =>{
-        if(user){
-          let u = new Usuario(user.id_user, user.nome, user.senha, user.email, user.type);
+      this.loginService.logar(this.auth).subscribe((data) =>{
+        if(data){
+          console.log(data);
+          let token = data.token;
+          let user = data.data;
+          let u = new Usuario(user.id, user.nome, user.senha, user.email, user.tipoUser, user.usuario);
           this.loginService.usuarioLogado = u;
-          if(user.type == "CLIENTE"){
+          this.loginService.token = token;
+          
+          if(u.type == "CLIENTE"){
             this.router.navigate(["/home-cliente"]);
-          }else if(user.type == "GERENTE"){
+          }else if(u.type == "GERENTE"){
             this.router.navigate(["/home-gerente"]) 
-          }else if(user.type == "ADMIN"){
+          }else if(u.type == "ADMIN"){
             this.router.navigate(["/home-admin"]);
           }
         }else{

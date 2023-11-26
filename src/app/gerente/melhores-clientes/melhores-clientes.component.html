@@ -23,8 +23,8 @@
             <tr scope="row" *ngFor="let cliente of clientesFiltrados">
               <td>{{  cliente.cpf }}</td>            
               <td>{{ cliente.nome }}</td>
-              <td>{{ cliente.endereco.cidade }}</td>
-              <td>{{ cliente.endereco.estado }}</td>
+              <td>{{ cliente.cidade }}</td>
+              <td>{{ cliente.estado }}</td>
               <td>{{ buscaSaldoConta(cliente).saldo | currency:'BRL'}}</td>
               
             </tr>

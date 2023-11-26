@@ -8,8 +8,8 @@ import { Login } from 'src/app/shared/models/login.model';
 
 
 const LS_CHAVE: string = "usuarioLogado";
-const url = "http://localhost:3000/auth"
-
+const url = "http://localhost:3000/login";
+const LS_TOKEN: string = 'token';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,6 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-
   public get usuarioLogado():Usuario{
     let user = localStorage[LS_CHAVE];
     return (user ? JSON.parse(localStorage[LS_CHAVE]) : null);
@@ -34,6 +33,14 @@ export class LoginService {
     localStorage[LS_CHAVE] = JSON.stringify(usuario);
   }
 
+  public get token(): any {
+    let token = localStorage[LS_TOKEN];
+    return token ? JSON.parse(localStorage[LS_TOKEN]) : null;
+  }
+
+  public set token(tk: any) {
+    localStorage[LS_TOKEN] = JSON.stringify(tk);
+  }
 
   login(login:Login):Observable<Usuario| null>{
     
@@ -48,16 +55,14 @@ export class LoginService {
     } 
   }
 
-  logar(login:Login):Observable<Usuario| null>{
+  logar(login:Login):Observable<any| null>{
     if (login && login.login && login.senha) {
-      const params = new HttpParams().set(
-        'email', login.login).set(
-        'senha', login.senha)
 
-      return this.http.get<Usuario>(url, {params: {email: login.login,senha: login.senha}})
+      let log = {user: login.login,  password:login.senha};
+      return this.http.post<any>(url, log)
         .pipe(
           map((data:any) =>{
-            return data[0]  //por algum motivo json_server retorna como uma lista
+            return data;  //por algum motivo json_server retorna como uma lista
           })
         )
     }else{

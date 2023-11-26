@@ -20,7 +20,7 @@ export class TransfComponent implements OnInit {
 
   ngOnInit(): void {
     this.cliente = this.clienteService.getUsuarioLogado();
-    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+    this.clienteService.getAccontByClientId(this.cliente.id_user).subscribe(
       conta => {
         if (conta) {
           this.conta = conta; 
@@ -41,7 +41,7 @@ export class TransfComponent implements OnInit {
             this.clienteService.transfere(valor, this.conta, contaDestino).subscribe(() => {
               alert('Transferência realizada com sucesso!');
               // Atualize as referências locais
-              this.conta = this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+              this.conta = this.clienteService.getAccontByClientId(this.cliente.id_user).subscribe(
                 conta => {
                   if (conta) {
                     this.conta = conta; 

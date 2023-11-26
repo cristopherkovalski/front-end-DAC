@@ -6,6 +6,6 @@ export class Usuario {
         public senha?: string,
         public email?: string,
         public type?: string,
-        public id_user?:number
+        public id_user?:number,
     ) {}
 }

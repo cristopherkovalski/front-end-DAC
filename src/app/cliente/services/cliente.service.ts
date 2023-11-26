@@ -9,9 +9,12 @@ import { Conta } from 'src/app/shared/models/conta.model';
 
 const LS_CHAVE: string = "usuarioLogado";
 
-const url_conta = "http://localhost:3000/contas/";
+const url_conta = "http://localhost:3000/conta";
 
-const apiUrl = "http://localhost:3000/clientes"
+const apiUrl = "http://localhost:3000/clientes";
+
+const sagaURL = "http://localhost:3000/saga";
+
 
 const url_movimentacao = "http://localhost:3000/contas/:id/movimentacoes";
 
@@ -37,14 +40,14 @@ export class ClienteService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      "Content-type": "application/json"
+      "Content-type": "application/json",
+      'x-access-token': this.loginService.token
     })
   }
 
   
   constructor(private http: HttpClient, private loginService: LoginService) {
-    
-    
+  
   }
 
 
@@ -56,45 +59,41 @@ export class ClienteService {
   
   
   public buscarCliente(id: number | undefined): Observable<Cliente> {
+
     const url = `${apiUrl}/${id}`; 
-    return this.http.get<Cliente>(url);
+
+    return this.http.get<Cliente>(url , this.httpOptions);
   }
 
 
   
 
-  public atualizarCliente(cliente: Cliente): Observable<any> {
-    const url = `${apiUrl}/${cliente.id}`; 
+  public atualizarCliente(cliente: any): Observable<any> {
+    const url = `${sagaURL}/clientes/${cliente.id}`; 
+
     // return this.http.patch<Cliente>(url, cliente)
     //   .pipe(
     //     map(() => 'Cliente atualizado com sucesso'), 
     //     catchError(() => 'Erro ao atualizar o cliente') 
     //   );
 
-
-    return this.http.patch<Cliente>(url, cliente).pipe(
-      switchMap((cliente: Cliente) => {
-        return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
-      }),
-      switchMap((aut:any) => {
-        console.log(aut)
-        let aux = aut[0];
-        let a =  {
-          "nome": cliente.nome,
-          "email": cliente.email,
-        }
-        return this.http.patch(auth + "/" + aux.id, a, this.httpOptions);
+    return this.http.put<Cliente>(url,cliente, this.httpOptions).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('Falha ao atualizar cliente. Por favor, tente novamente mais tarde.'));
       })
     );
+    
 
     
   }
 
-  public getAccontByClientId(id:number):Observable<Conta>{
-    const params = new HttpParams().set('id_cliente', id)
-    return this.http.get<Conta[]>(url_conta, {params}).pipe(
-        map((resposta: Conta[]) => {
-            return resposta[0]; // Retorna o primeiro objeto da resposta
+  public getAccontByClientId(id:any):Observable<Conta>{
+    const headers = new HttpHeaders({
+      'x-access-token': this.loginService.token
+    });
+    return this.http.get<Conta>(url_conta + "/" + id, { headers }).pipe(
+        map((resposta: Conta) => {
+            return resposta; // Retorna o primeiro objeto da resposta
         })
       );
   }
@@ -102,14 +101,11 @@ export class ClienteService {
   sacar(valor: number, conta:any):Observable<any> {
     if (valor > 0) {
       const data = {
-        saldo: conta.saldo - valor
+        valor: valor
       }
 
-      return this.http.patch<any>(url_conta + conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
+      return this.http.post<any>(url_conta +"/saque/"+ conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
               .pipe(
-                  tap((response) => {
-                    this.registrarTransacaoJson('SAQUE', valor, data.saldo,conta.id ).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
-                  }),
                   catchError((error) => {
                     return throwError(() => new Error('Falha ao sacar. Por favor, tente novamente mais tarde.'));
                   })
@@ -126,14 +122,12 @@ export class ClienteService {
     //essa logica vai mudar tbm, só vai fazer o deposito no back, aqui só trata o valor e pronto
     if (valor > 0) {
       const data = {
-        saldo: conta.saldo + valor
+        valor: valor
       }
 
-      return this.http.patch<any>(url_conta + conta.id, JSON.stringify(data),this.httpOptions)  //fazer model de conta dps, e transformar em post
+
+      return this.http.post<any>(url_conta +"/deposito/"+ conta.id, JSON.stringify(data), this.httpOptions)  //fazer model de conta dps, e transformar em post
               .pipe(
-                  tap((response) => {
-                    this.registrarTransacaoJson('DEPOSITO', valor, data.saldo, conta.id).subscribe((r) => console.log("registro feito")) // n vai precisa disso depois
-                  }),
                   catchError((error) => {
                     return throwError(() => new Error('Falha ao depositar. Por favor, tente novamente mais tarde.'));
                   })
@@ -146,24 +140,37 @@ export class ClienteService {
 
   transfere(valor: number, contaOrigem: any, contaDestino: any): Observable<any> {
     if (valor > 0 && valor <= contaOrigem.saldo) {
-      const saldoOrigem = contaOrigem.saldo - valor;
-      const dataOrigem = { saldo: saldoOrigem };
-      const saldoDestino = contaDestino.saldo + valor;
-      const dataDestino = { saldo: saldoDestino };
-      const transferencia = {
-        contaOrigem: contaOrigem.id,
-        contaDestino: contaDestino.id,
-        valor: valor
-      };
 
-      const atualizacaoOrigem = this.http.patch<any>(url_conta + contaOrigem.id, JSON.stringify(dataOrigem), this.httpOptions);
-      const atualizacaoDestino = this.http.patch<any>(url_conta + contaDestino.id, JSON.stringify(dataDestino), this.httpOptions);
+      let data ={
+        valor: valor,
+        id_cliente: contaDestino.id
+      }
+      // const saldoOrigem = contaOrigem.saldo - valor;
+      // const dataOrigem = { saldo: saldoOrigem };
+      // const saldoDestino = contaDestino.saldo + valor;
+      // const dataDestino = { saldo: saldoDestino };
+      // const transferencia = {
+      //   contaOrigem: contaOrigem.id,
+      //   contaDestino: contaDestino.id,
+      //   valor: valor
+      // };
 
-      const registroTransacaoOrigem = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoOrigem, contaOrigem.id, contaDestino.id, false);
+      return this.http.post<any>(url_conta +"/transferencia/"+ contaOrigem.id, JSON.stringify(data), this.httpOptions)  //fazer model de conta dps, e transformar em post
+              .pipe(
+                  catchError((error) => {
+                    return throwError(() => new Error('Falha ao realizar transferencia. Por favor, tente novamente mais tarde.'));
+                  })
+      );
+      // return this.this.post<any>(url_conta)
 
-      const registroTransacaoDestino = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoDestino, contaOrigem.id, contaDestino.id ,true);
+      // const atualizacaoOrigem = this.http.patch<any>(url_conta + contaOrigem.id, JSON.stringify(dataOrigem), this.httpOptions);
+      // const atualizacaoDestino = this.http.patch<any>(url_conta + contaDestino.id, JSON.stringify(dataDestino), this.httpOptions);
 
-      return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacaoOrigem, registroTransacaoDestino]);
+      // const registroTransacaoOrigem = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoOrigem, contaOrigem.id, contaDestino.id, false);
+
+      // const registroTransacaoDestino = this.registrarTransacaoJson('TRANSFERENCIA', valor, saldoDestino, contaOrigem.id, contaDestino.id ,true);
+
+      // return forkJoin([atualizacaoOrigem, atualizacaoDestino, registroTransacaoOrigem, registroTransacaoDestino]);
     } else {
       return of(null); 
     }

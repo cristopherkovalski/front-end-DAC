@@ -40,7 +40,7 @@
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="cep">CEP</label>
                                         <input class="form-control" type="text" id="cep" name="cep"
-                                            [(ngModel)]="cliente.endereco.cep" placeholder="99999-999" maxlength="9"
+                                            [(ngModel)]="cliente.cep" placeholder="99999-999" maxlength="9"
                                             appCepFormat required>
                                         <button class="btn btn-primary mt-2" type="button"
                                             (click)="buscarEndereco()">Buscar
@@ -51,36 +51,36 @@
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="enderecoTipo">Tipo de Endereço:</label>
                                         <input class="form-control" type="text" id="enderecoTipo" name="enderecoTipo"
-                                            [(ngModel)]="cliente.endereco.tipo">
+                                            [(ngModel)]="cliente.tipo">
                                     </div>
 
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="logradouro">Logradouro:</label>
                                         <input class="form-control" type="text" id="logradouro" name="logradouro"
-                                            [(ngModel)]="cliente.endereco.logradouro">
+                                            [(ngModel)]="cliente.logradouro">
                                     </div>
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="numero">Número:</label>
                                         <input class="form-control" type="text" id="numero" name="numero" required
-                                            [(ngModel)]="cliente.endereco.numero">
+                                            [(ngModel)]="cliente.numero">
                                     </div>
 
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="complemento">Complemento:</label>
                                         <input class="form-control" type="text" id="complemento" name="complemento"
-                                            [(ngModel)]="cliente.endereco.complemento">
+                                            [(ngModel)]="cliente.complemento">
                                     </div>
 
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="cidade">Cidade:</label>
                                         <input class="form-control" type="text" id="cidade" name="cidade"
-                                            [(ngModel)]="cliente.endereco.cidade">
+                                            [(ngModel)]="cliente.cidade">
                                     </div>
 
                                     <div class="form-outline form-white mb-3">
                                         <label class="form-label" for="estado">Estado:</label>
                                         <input class="form-control" type="text" id="estado" name="estado"
-                                            [(ngModel)]="cliente.endereco.estado">
+                                            [(ngModel)]="cliente.estado">
                                     </div>
 
                                     <div class="form-outline form-white mb-3">

@@ -29,8 +29,8 @@
                 <a *ngIf="cliente.id" [routerLink]="['/detalhe-cliente', cliente.id]">{{ cliente.cpf }}</a>
               </td>
               <td>{{ cliente.nome }}</td>
-              <td>{{ cliente.endereco.cidade }}</td>
-              <td>{{ cliente.endereco.estado }}</td>
+              <td>{{ cliente.cidade }}</td>
+              <td>{{ cliente.estado }}</td>
               <td>{{ buscaSaldoConta(cliente).saldo | currency:'BRL'}}</td>
 
             </tr>

@@ -23,7 +23,7 @@ export class DepositaComponent implements OnInit {
 
   ngOnInit(): void {
     this.cliente = this.clienteService.getUsuarioLogado();
-    this.clienteService.getAccontByClientId(this.cliente.id).subscribe(
+    this.clienteService.getAccontByClientId(this.cliente.id_user).subscribe(
       conta => {
         if (conta) {
           this.conta = conta; 
@@ -40,7 +40,8 @@ export class DepositaComponent implements OnInit {
       this.clienteService.depositar(this.valorDeposito, this.conta).subscribe({
         next:(response) =>{
           alert('Depósito realizado com sucesso!');
-          this.conta = response;
+          console.log(response);
+          this.conta.saldo = response.saldo;
 
           // const options:any = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
           // const transacao = {
