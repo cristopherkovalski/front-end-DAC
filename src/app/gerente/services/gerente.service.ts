@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, concatMap, map, of, switchMap } from 'rxjs';
+import { Observable, catchError, concatMap, map, of, switchMap, throwError } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { ClienteService } from 'src/app/cliente/services/cliente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
@@ -16,17 +16,20 @@ import { Usuario } from 'src/app/shared/models/usuario.model';
 
 const acconts_waiting = "http://localhost:3000/gerentes/:id/contas/analise/";
 
+
 // /gerentes/:id/contas/analise
 
 const clientes = "http://localhost:3000/clientes";
 
-const contas = "http://localhost:3000/contas/";
+const contas = "http://localhost:3000/conta/";
 
 
 const contasPorCliente = "http://localhost:3000/contas/conta:id_cliente";
 
 const auth = "http://localhost:3000/auth";
 const url_conta = "http://localhost:3000/contas/";
+
+const saga = "http://localhost:3000/saga";
 
 const LS_CHAVE: string = "usuarioLogado";
 
@@ -39,7 +42,8 @@ export class GerenteService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      "Content-type": "application/json"
+      "Content-type": "application/json",
+      'x-access-token': this.loginService.token
     })
   }
 
@@ -78,9 +82,11 @@ export class GerenteService {
 
   getContasAprovacao(id_gerente:number):Observable<Conta[] | null>{
     
-    let url = acconts_waiting.replace(':id', id_gerente.toString());
+    let url = contas + "gerente/" + id_gerente;
+
+    // let url = acconts_waiting.replace(':id', id_gerente.toString());
   
-    return this.http.get<Conta[]>(url).pipe(
+    return this.http.get<Conta[]>(url, this.httpOptions).pipe(
       map((resposta: Conta[]) => {
         if (resposta && resposta.length > 0) {
           return resposta; // Retorna o primeiro objeto da resposta
@@ -97,50 +103,74 @@ export class GerenteService {
   //verificar se faz saga(acho q n precisa) ou mensageria normal(acho q faz mais sentido)
   
   aprovarCliente(cliente:Cliente):Observable<any>{ //só retorna a senha do cara por hora
+    let url = saga + "/clientes/aprovacao/"+cliente.id;
+
     return this.clienteService.getAccontByClientId(cliente.id).pipe(
       switchMap((conta: Conta) => {
         conta.situacao = "APROVADO";
         console.log(conta);
-        return this.http.put(contas + conta.id, conta, this.httpOptions);
-      }),
-      switchMap(() => {
-        return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
-      }), 
-      switchMap((auth:any) => {
-        let aux = auth[0];
-        let a ={"senha": this.generateRandomPassword().toString()}
-        let url = "http://localhost:3000/auth/" + aux.id
-        console.log("Resultado da segunda chamada:", aux);
-        return this.http.patch(url, a, this.httpOptions);
+        return this.http.put(url, conta, this.httpOptions);
       })
+    )
+
+
+    // return this.clienteService.getAccontByClientId(cliente.id).pipe(
+    //   switchMap((conta: Conta) => {
+    //     conta.situacao = "APROVADO";
+    //     console.log(conta);
+    //     return this.http.put(contas + conta.id, conta, this.httpOptions);
+    //   }),
+    //   switchMap(() => {
+    //     return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
+    //   }), 
+    //   switchMap((auth:any) => {
+    //     let aux = auth[0];
+    //     let a ={"senha": this.generateRandomPassword().toString()}
+    //     let url = "http://localhost:3000/auth/" + aux.id
+    //     console.log("Resultado da segunda chamada:", aux);
+    //     return this.http.patch(url, a, this.httpOptions);
+    //   })
       // switchMap(() => {
       //   return this.http.get(auth + cliente.id, this.httpOptions);
       // }),       
-    );
+    // );
+
   }
 
   reprovarCliente(cliente:Cliente, motivo:string):Observable<any>{ //só retorna a senha do cara por hora
-    return this.clienteService.getAccontByClientId(cliente.id).pipe(
-      switchMap((conta:Conta) =>{
-        conta.situacao = "RECUSADO";
-        conta.observacao = motivo;
 
-        // return this.http.put(contas + conta.id, JSON.stringify(conta), this.httpOptions);
-        return this.http.delete(contas + conta.id,this.httpOptions)
-      }),
-      switchMap(() => {
-        return this.http.delete("http://localhost:3000/clientes/" + cliente.id, this.httpOptions)
-      }),
-      switchMap(() => {
-        return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
-      }),
-      switchMap((auth:any) => {
-        let aux = auth[0];
-        let url = "http://localhost:3000/auth/" + aux.id
-        return this.http.delete(url, this.httpOptions);
+    let url = saga + "/clientes/reprovacao/"+cliente.id;
+    
+    return this.clienteService.getAccontByClientId(cliente.id).pipe(
+      switchMap((conta: Conta) => {
+        conta.situacao = "INATIVA";
+        conta.observacao = motivo;
+        return this.http.put(url, conta, this.httpOptions);
       })
-      
     )
+
+
+    // return this.clienteService.getAccontByClientId(cliente.id).pipe(
+    //   switchMap((conta:Conta) =>{
+    //     conta.situacao = "RECUSADO";
+    //     conta.observacao = motivo;
+
+    //     // return this.http.put(contas + conta.id, JSON.stringify(conta), this.httpOptions);
+    //     return this.http.delete(contas + conta.id,this.httpOptions)
+    //   }),
+    //   switchMap(() => {
+    //     return this.http.delete("http://localhost:3000/clientes/" + cliente.id, this.httpOptions)
+    //   }),
+    //   switchMap(() => {
+    //     return this.http.get(auth + "/?id_user=" + cliente.id + "&type=CLIENTE", this.httpOptions);
+    //   }),
+    //   switchMap((auth:any) => {
+    //     let aux = auth[0];
+    //     let url = "http://localhost:3000/auth/" + aux.id
+    //     return this.http.delete(url, this.httpOptions);
+    //   })
+      
+    // )
 
   }
 

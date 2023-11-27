@@ -19,21 +19,20 @@ export class HomeGerenteComponent implements OnInit{
 
 
   ngOnInit(): void {
-    console.log(this.clientes)
+    
     this.gerente = this.gerenteService.gerenteLogado();
-
+    console.log(this.gerente);
       //não gosto disso mas é o q tá tendo
     this.buscaClientesAnalise();
   }
 
 
   buscaClientesAnalise(){
-    this.gerenteService.getContasAprovacao(this.gerente.id!).subscribe(contas =>{
+    this.gerenteService.getContasAprovacao(this.gerente.id_user!).subscribe(contas =>{
       if (contas){
         this.clientes = [];
         contas.forEach(conta => {
           this.gerenteService.getClientesById(conta.id_cliente!).subscribe(cliente =>{
-            console.log(cliente)
             this.clientes.push(cliente)
           })
         });
@@ -47,14 +46,7 @@ export class HomeGerenteComponent implements OnInit{
     if(confirm("Deseja Aprovar esse cliente?")){
       
       this.gerenteService.aprovarCliente(cliente).subscribe(response =>{
-        if(response){
-          alert("Senha do cliente:" + response.senha);
-
-          this.buscaClientesAnalise();
-        }else{
-          alert("Algo deu errado tente novamente mais tarde");
-        }
-        
+      
       })
     }
   };
@@ -67,11 +59,6 @@ export class HomeGerenteComponent implements OnInit{
       let motivo = prompt("Por qual motivo está recusando esse cliente?");
       if (motivo){
         this.gerenteService.reprovarCliente(cliente, motivo).subscribe(response =>{
-          if(response){
-            alert("Conta recusada!");
-            this.buscaClientesAnalise();
-          } else
-            alert("Algo deu errado tente novamente mais tarde");
         })
       }else{
         alert("Sem motivo sem recusa");
