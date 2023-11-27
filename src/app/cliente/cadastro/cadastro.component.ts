@@ -35,7 +35,8 @@ export class CadastroComponent {
   }
 
   ngOnInit(): void {
-    this.setGerentesList();}
+    // this.setGerentesList();
+  }
   
   resetarValidacaoCPF(){
     if(this.cpfValido === true)
@@ -55,21 +56,21 @@ export class CadastroComponent {
   }
 
   buscarEndereco(): void {
-    this.cepService.consultarCep(this.removeMascara(this.cliente.endereco.cep)).subscribe(data => {
+    this.cepService.consultarCep(this.removeMascara(this.cliente.cep)).subscribe(data => {
       if (data.erro) {
         alert("CEP Inválido");
       } else {
         this.isCepSet = true;
-        this.cliente.endereco.cidade = data.localidade;
-        this.cliente.endereco.estado = data.uf;
-        this.cliente.endereco.logradouro = data.logradouro;
+        this.cliente.cidade = data.localidade;
+        this.cliente.estado = data.uf;
+        this.cliente.logradouro = data.logradouro;
         const partesLogradouro = data.logradouro.split(' ');
         if (partesLogradouro.length > 1) {
-          this.cliente.endereco.tipo = partesLogradouro[0];
-          this.cliente.endereco.logradouro = partesLogradouro.slice(1).join(' ');
+          this.cliente.tipo = partesLogradouro[0];
+          this.cliente.logradouro = partesLogradouro.slice(1).join(' ');
         } else {
-          this.cliente.endereco.tipo = '';
-          this.cliente.endereco.logradouro = data.logradouro;
+          this.cliente.tipo = '';
+          this.cliente.logradouro = data.logradouro;
         }
       }
     },
@@ -85,17 +86,12 @@ export class CadastroComponent {
 
     if (cpfclean.length == 11){
       if (this.cadastroService.isValidCPF(cpfclean)) {
-        this.cadastroService.checkCpf(cpfclean).subscribe((cpfExists) => {
-          if (cpfExists) {
-            this.cpfValido = false;
-            this.cliente.cpf = '';
-            this.mensagemCPF = "CPF já cadastrado! Insira um novo CPF.";
-          } else {
-            this.cpfValido = true;
-            this.mensagemCPF = "CPF Ok!";
-          }
-        });
+    
+        this.cpfValido = true;
+        this.mensagemCPF = "CPF Ok!";
+    
       } else {
+
         this.cpfValido = false;
         this.cliente.cpf = '';
         this.mensagemCPF = "CPF inválido! Insira um novo CPF.";
@@ -147,49 +143,109 @@ export class CadastroComponent {
   cadastrarCliente(): void {
     if (this.formCadastrar.form.valid && this.cpfValido && this.cliente.salario >= 0) {
       this.cliente.cpf = this.removeMascara(this.cliente.cpf);
-      this.cliente.endereco.cep = this.removeMascara(this.cliente.endereco.cep);
+      this.cliente.cep = this.removeMascara(this.cliente.cep);
       this.cliente.telefone = this.removeMascara(this.cliente.telefone);
-      this.cadastroService.getContasList().subscribe({
-        next: (contasResponse) => {
-          this.contas = contasResponse;
-          this.cadastroService.insereCliente(this.cliente).subscribe({
-            next: (clienteResponse) => {
-              this.conta.id_cliente = clienteResponse.id;
-              this.gerente = this.encontrarGerenteComMenosContas(this.contas!)!;
-              this.conta.gerenteId = this.gerente.id;
-              console.log(this.conta.gerenteId);
-              if (this.cliente.salario >= 2000) {
-                this.conta.limite = this.cliente.salario / 2;
-              } else {
-                this.conta.limite = 0;
-              }
-              this.conta.saldo = 0;
-              this.conta.situacao = "PENDENTE";
-              this.cadastroService.insereConta(this.conta).subscribe({
-                next: (contaResponse) => {
-                  this.cadastroService.insereAuth({"id_user": clienteResponse.id,"nome": this.cliente.nome, "senha" : null, "email": this.cliente.email, "type" : "CLIENTE"}).subscribe({
-                    next: (responsse) =>{
-                      alert('Cliente e conta criados com sucesso.');
-                      this.router.navigate(['/']);
-                    }
-                  })
-                },
-                error: (contaError) => {
-                  alert('Erro ao criar a conta.');
-                  console.error('Erro ao criar a conta:', contaError);
-                }
-              });
-            },
-            error: (clienteError) => {
-              alert('Erro ao criar o cliente.');
-              console.error('Erro ao criar o cliente:', clienteError);
-            },
-          });
+
+
+      class AutocadastroDTO{
+        constructor(
+        public id_cliente: number = 0,
+        public id_gerente: number = 0,
+        public saldo: number = 0,
+        public limite: number = 0,
+        public situacao: string = '',
+        public observacao: string = '',
+        public email: string = '',
+        public nome: string = '',
+        public senha: string = '',
+        public cpf: string = '',
+        public tipo: string = '',
+        public logradouro: string = '',
+        public numero: string = '',
+        public complemento: string = '',
+        public cep: string = '',
+        public cidade: string = '',
+        public estado: string = '',
+        public telefone: string = '',
+        public salario: number = 0,
+        ) {}
+          
+      }
+
+      let limite;
+      if (this.cliente.salario >= 2000) {
+        this.conta.limite = this.cliente.salario / 2;
+        limite =  this.cliente.salario / 2;
+      } else {
+        this.conta.limite = 0;
+        limite= 0;
+      }
+
+      let autocadastroDTO:AutocadastroDTO = new AutocadastroDTO(0, 0, 0, limite,
+        "PENDENTE", "",this.cliente.email, this.cliente.nome, "",this.cliente.cpf, "CLIENTE",
+        this.cliente.logradouro, this.cliente.numero,this.cliente.complemento,
+        this.cliente.cep, this.cliente.cidade, this.cliente.estado, this.cliente.telefone, this.cliente.salario);
+
+      this.cadastroService.insereCliente(autocadastroDTO).subscribe({
+        next: (clienteResponse) => {
+          alert('Cadastro efetuado com sucesso, aguarde email para confirmação de conta');
+          this.router.navigate(['/']);
         },
-        error: (error) => {
-          alert("erro geral, contate admin!");
+        error: (contaError) => {
+          alert('Erro ao criar a conta.');
+          console.error('Erro ao criar a conta:', contaError);
         }
       });
+
+
+
+
+
+
+
+
+
+      // this.cadastroService.getContasList().subscribe({
+      //   next: (contasResponse) => {
+      //     this.contas = contasResponse;
+      //     this.cadastroService.insereCliente(this.cliente).subscribe({
+      //       next: (clienteResponse) => {
+      //         this.conta.id_cliente = clienteResponse.id;
+      //         this.gerente = this.encontrarGerenteComMenosContas(this.contas!)!;
+      //         this.conta.gerenteId = this.gerente.id;
+      //         console.log(this.conta.gerenteId);
+      //         if (this.cliente.salario >= 2000) {
+      //           this.conta.limite = this.cliente.salario / 2;
+      //         } else {
+      //           this.conta.limite = 0;
+      //         }
+      //         this.conta.saldo = 0;
+      //         this.conta.situacao = "PENDENTE";
+      //         this.cadastroService.insereConta(this.conta).subscribe({
+      //           next: (contaResponse) => {
+      //             this.cadastroService.insereAuth({"id_user": clienteResponse.id,"nome": this.cliente.nome, "senha" : null, "email": this.cliente.email, "type" : "CLIENTE"}).subscribe({
+      //               next: (responsse) =>{
+      //                 alert('Cliente e conta criados com sucesso.');
+      //                 this.router.navigate(['/']);
+      //               }
+      //             })
+      //           },
+      //           error: (contaError) => {
+      //             alert('Erro ao criar a conta.');
+      //             console.error('Erro ao criar a conta:', contaError);
+      //           }
+      //         });
+      //       },
+      //       error: (clienteError) => {
+      //         alert('Erro ao criar o cliente.');
+      //         console.error('Erro ao criar o cliente:', clienteError);
+      //       },
+      //     });
+      //   },
+      //   error: (error) => {
+      //     alert("erro geral, contate admin!");
+      //   }
+      // });
       // this.cliente.situacao = "PENDENTE";
 
       this.router.navigate(['/']);

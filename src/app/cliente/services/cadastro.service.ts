@@ -14,12 +14,13 @@ export class CadastroService {
   private contaUrl = "http://localhost:3000/contas";
   private authUrl = "http://localhost:3000/auth";
   private gerenteUrl = "http://localhost:3000/gerentes";
+  private sagaUrl = "http://localhost:3000/saga";
 
  
   constructor(private http: HttpClient) { }
 
-  insereCliente(cliente: Cliente): Observable<any>  {
-    return this.http.post(this.apiUrl, cliente).pipe(
+  insereCliente(cliente: any): Observable<any>  {
+    return this.http.post(this.sagaUrl + "/registrar", cliente).pipe(
       catchError((error) => {
         // Aqui você pode tratar o erro da forma que desejar
         console.error('Ocorreu um erro na solicitação HTTP:', error);

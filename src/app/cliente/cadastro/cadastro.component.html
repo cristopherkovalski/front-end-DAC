@@ -37,7 +37,7 @@
                         
                         <div class="form-outline form-white mb-3">
                             <label class="form-label" for="cep">CEP</label>
-                            <input class="form-control" type="text" id="cep" name="cep" [(ngModel)]="cliente.endereco.cep" placeholder="99999-999"
+                            <input class="form-control" type="text" id="cep" name="cep" [(ngModel)]="cliente.cep" placeholder="99999-999"
                             maxlength="9" appCepFormat required>
                             <button class="btn btn-primary mt-2" type="button" (click)="buscarEndereco()">Buscar CEP</button>
                         </div>
@@ -46,32 +46,32 @@
                             <div class="form-outline form-white mb-3">
                                 <label class="form-label" for="enderecoTipo">Tipo de Endereço:</label>
                                 <input class="form-control" type="text" id="enderecoTipo" name="enderecoTipo" 
-                                    [(ngModel)]="cliente.endereco.tipo" [disabled]="!isCepSet">
+                                    [(ngModel)]="cliente.tipo" [disabled]="!isCepSet">
                             </div>
 
                             <div class="form-outline form-white mb-3">
                                 <label class="form-label" for="logradouro">Logradouro:</label>
                                 <input class="form-control" type="text" id="logradouro" name="logradouro" 
-                                    [(ngModel)]="cliente.endereco.logradouro" [disabled]="!isCepSet">
+                                    [(ngModel)]="cliente.logradouro" [disabled]="!isCepSet">
                             </div>
                             <div class="form-outline form-white mb-3">
                                 <label class="form-label" for="numero">Número:</label>
-                                <input class="form-control" type="text" id="numero" name="numero" required [(ngModel)]="cliente.endereco.numero" [disabled]="!isCepSet">
+                                <input class="form-control" type="text" id="numero" name="numero" required [(ngModel)]="cliente.numero" [disabled]="!isCepSet">
                             </div>
 
                             <div class="form-outline form-white mb-3">
                                 <label class="form-label" for="complemento">Complemento:</label>
-                                <input class="form-control" type="text" id="complemento" name="complemento" [(ngModel)]="cliente.endereco.complemento" [disabled]="!isCepSet">
+                                <input class="form-control" type="text" id="complemento" name="complemento" [(ngModel)]="cliente.complemento" [disabled]="!isCepSet">
                             </div>
 
                             <div class="form-outline form-white mb-3">
                                 <label class="form-label" for="cidade">Cidade:</label>
-                                <input class="form-control" type="text" id="cidade" name="cidade"  [(ngModel)]="cliente.endereco.cidade" [disabled]="!isCepSet">
+                                <input class="form-control" type="text" id="cidade" name="cidade"  [(ngModel)]="cliente.cidade" [disabled]="!isCepSet">
                             </div>
 
                             <div class="form-outline form-white mb-3">
                                 <label class="form-label" for="estado">Estado:</label>
-                                <input class="form-control" type="text" id="estado" name="estado" [(ngModel)]="cliente.endereco.estado" [disabled]="!isCepSet">
+                                <input class="form-control" type="text" id="estado" name="estado" [(ngModel)]="cliente.estado" [disabled]="!isCepSet">
                             </div>
 
                             <div class="form-outline form-white mb-3">
